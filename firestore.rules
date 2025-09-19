@@ -1,0 +1,136 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isManager() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+    
+    function hasPermission(permission) {
+      return isAuthenticated() && 
+        permission in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.permissions;
+    }
+    
+    // User collection rules
+    match /users/{userId} {
+      // Users can read their own data
+      allow read: if isAuthenticated() && isOwner(userId);
+      // Only admins can create/update/delete users
+      allow create: if isAdmin();
+      allow update: if isAdmin() || (isOwner(userId) && 
+        !('role' in resource.data.diff(request.resource.data).affectedKeys()) &&
+        !('permissions' in resource.data.diff(request.resource.data).affectedKeys()));
+      allow delete: if isAdmin();
+    }
+    
+    // User profiles collection rules
+    match /userProfiles/{profileId} {
+      // Users can read their own profile
+      allow read: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      // Users can create/update their own profile
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      // Only admins can delete profiles
+      allow delete: if isAdmin();
+    }
+    
+    // Cigars collection rules
+    match /cigars/{cigarId} {
+      // All authenticated users can read cigars
+      allow read: if isAuthenticated();
+      // Only managers and admins can create/update/delete
+      allow create, update, delete: if isManager();
+    }
+    
+    // Customers collection rules
+    match /customers/{customerId} {
+      // All authenticated users can read customers
+      allow read: if isAuthenticated();
+      // Only managers and admins can create/update/delete
+      allow create, update, delete: if isManager();
+    }
+    
+    // Events collection rules
+    match /events/{eventId} {
+      // All authenticated users can read events
+      allow read: if isAuthenticated();
+      // Only managers and admins can create/update/delete
+      allow create, update, delete: if isManager();
+    }
+    
+    // Sales collection rules
+    match /sales/{saleId} {
+      // All authenticated users can read sales
+      allow read: if isAuthenticated();
+      // Only managers and admins can create/update/delete
+      allow create, update, delete: if isManager();
+    }
+    
+    // Referrals collection rules
+    match /referrals/{referralId} {
+      // Users can read their own referrals
+      allow read: if isAuthenticated() && 
+        (resource.data.referrerId == request.auth.uid || isManager());
+      // Users can create referrals for themselves
+      allow create: if isAuthenticated() && 
+        request.resource.data.referrerId == request.auth.uid;
+      // Only managers and admins can update/delete
+      allow update, delete: if isManager();
+    }
+    
+    // Points transactions collection rules
+    match /pointsTransactions/{transactionId} {
+      // Users can read their own transactions
+      allow read: if isAuthenticated() && 
+        (resource.data.customerId == request.auth.uid || isManager());
+      // Only managers and admins can create/update/delete
+      allow create, update, delete: if isManager();
+    }
+    
+    // Gift orders collection rules
+    match /giftOrders/{orderId} {
+      // Users can read their own orders
+      allow read: if isAuthenticated() && 
+        (resource.data.customerId == request.auth.uid || isManager());
+      // Users can create orders for themselves
+      allow create: if isAuthenticated() && 
+        request.resource.data.customerId == request.auth.uid;
+      // Only managers and admins can update/delete
+      allow update, delete: if isManager();
+    }
+    
+    // System settings collection rules
+    match /systemSettings/{settingId} {
+      // All authenticated users can read public settings
+      allow read: if isAuthenticated() && resource.data.isPublic == true;
+      // Only admins can read private settings
+      allow read: if isAuthenticated() && isAdmin();
+      // Only admins can create/update/delete settings
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Default deny rule for any other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

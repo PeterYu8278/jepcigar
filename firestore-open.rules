@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 临时开放规则 - 仅用于开发测试
+    // ⚠️ 警告：这些规则在生产环境中不安全！
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
