@@ -46,8 +46,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 核心React库、React Router、Hooks、移动端组件、状态管理和QR码库一起打包，确保它们使用同一个React实例
-          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode')) {
+          // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库和事件模块一起打包，确保它们使用同一个React实例
+          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore')) {
             return 'vendor-react-core';
           }
           
@@ -56,9 +56,9 @@ export default defineConfig({
             return 'vendor-antd';
           }
           
-          // Firebase相关
-          if (id.includes('firebase')) {
-            return 'vendor-firebase';
+          // Firebase和存储相关（包括IndexedDB、localStorage等）
+          if (id.includes('firebase') || id.includes('localStorage') || id.includes('indexedDB') || id.includes('sessionStorage')) {
+            return 'vendor-storage';
           }
           
           // 图表库
@@ -93,10 +93,6 @@ export default defineConfig({
             return 'vendor-validation';
           }
           
-          // 事件模块
-          if (id.includes('Event/') || id.includes('eventStore')) {
-            return 'module-event';
-          }
           
           // 客户模块
           if (id.includes('Customer/') || id.includes('customerStore')) {
@@ -209,7 +205,8 @@ export default defineConfig({
       'firebase/auth', 
       'firebase/firestore', 
       'firebase/storage', 
-      'firebase/analytics'
+      'firebase/analytics',
+      'dayjs'
     ]
   }
 })
