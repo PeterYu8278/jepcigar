@@ -144,30 +144,36 @@ export const preloadUserModules = async () => {
 
 // 智能预加载 - 基于用户行为
 export const smartPreload = (currentRoute: string) => {
-  const preloadMap: Record<string, string[]> = {
-    '/dashboard': [
-      '@/pages/Analytics/AnalyticsPage',
-      '@/pages/Customer/CustomerPage'
-    ],
-    '/customers': [
-      '@/pages/Event/EventPage',
-      '@/pages/Analytics/AnalyticsPage'
-    ],
-    '/events': [
-      '@/pages/Customer/CustomerPage',
-      '@/pages/Analytics/AnalyticsPage'
-    ],
-    '/inventory': [
-      '@/pages/Analytics/AnalyticsPage',
-      '@/pages/Customer/CustomerPage'
-    ]
-  };
+  // 使用具体的import语句而不是变量，让Vite能够正确分析
+  const preloadPromises: Promise<any>[] = [];
   
-  const modulesToPreload = preloadMap[currentRoute] || [];
+  switch (currentRoute) {
+    case '/dashboard':
+      preloadPromises.push(
+        /* @vite-ignore */ import('@/pages/Analytics/AnalyticsPage').catch(() => {}),
+        /* @vite-ignore */ import('@/pages/Customer/CustomerPage').catch(() => {})
+      );
+      break;
+    case '/customers':
+      preloadPromises.push(
+        /* @vite-ignore */ import('@/pages/Event/EventPage').catch(() => {}),
+        /* @vite-ignore */ import('@/pages/Analytics/AnalyticsPage').catch(() => {})
+      );
+      break;
+    case '/events':
+      preloadPromises.push(
+        /* @vite-ignore */ import('@/pages/Customer/CustomerPage').catch(() => {}),
+        /* @vite-ignore */ import('@/pages/Analytics/AnalyticsPage').catch(() => {})
+      );
+      break;
+    case '/inventory':
+      preloadPromises.push(
+        /* @vite-ignore */ import('@/pages/Analytics/AnalyticsPage').catch(() => {}),
+        /* @vite-ignore */ import('@/pages/Customer/CustomerPage').catch(() => {})
+      );
+      break;
+  }
   
-  modulesToPreload.forEach(modulePath => {
-    import(modulePath).catch(() => {
-      // 忽略预加载错误
-    });
-  });
+  // 异步执行预加载，不阻塞主线程
+  Promise.all(preloadPromises);
 };

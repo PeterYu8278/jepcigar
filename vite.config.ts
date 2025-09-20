@@ -46,8 +46,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库和事件模块一起打包，确保它们使用同一个React实例
-          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore')) {
+          // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块和通用组件一起打包，确保它们使用同一个React实例
+          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/')) {
             return 'vendor-react-core';
           }
           
@@ -142,12 +142,6 @@ export default defineConfig({
           // 认证模块
           if (id.includes('Auth/') || id.includes('authStore')) {
             return 'module-auth';
-          }
-          
-          
-          // 通用组件
-          if (id.includes('Common/') || id.includes('Layout/')) {
-            return 'components-common';
           }
           
           // PWA相关
