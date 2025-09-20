@@ -246,36 +246,104 @@ export default defineConfig({
           }
           
           // 通用工具库（更细分的匹配）
+          if (id.includes('node_modules') && id.includes('util-') && !id.includes('util.js')) {
+            return 'vendor-utils-util-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-util')) {
+            return 'vendor-utils-util-suffix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('util.js')) {
+            return 'vendor-utils-util-js';
+          }
+          
           if (id.includes('node_modules') && id.includes('util')) {
-            return 'vendor-utils-util';
+            return 'vendor-utils-util-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('helper-')) {
+            return 'vendor-utils-helper-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-helper')) {
+            return 'vendor-utils-helper-suffix';
           }
           
           if (id.includes('node_modules') && id.includes('helper')) {
-            return 'vendor-utils-helper';
+            return 'vendor-utils-helper-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('common-')) {
+            return 'vendor-utils-common-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-common')) {
+            return 'vendor-utils-common-suffix';
           }
           
           if (id.includes('node_modules') && id.includes('common')) {
-            return 'vendor-utils-common';
+            return 'vendor-utils-common-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('shared-')) {
+            return 'vendor-utils-shared-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-shared')) {
+            return 'vendor-utils-shared-suffix';
           }
           
           if (id.includes('node_modules') && id.includes('shared')) {
-            return 'vendor-utils-shared';
+            return 'vendor-utils-shared-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('core-')) {
+            return 'vendor-utils-core-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-core')) {
+            return 'vendor-utils-core-suffix';
           }
           
           if (id.includes('node_modules') && id.includes('core')) {
-            return 'vendor-utils-core';
+            return 'vendor-utils-core-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('base-')) {
+            return 'vendor-utils-base-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-base')) {
+            return 'vendor-utils-base-suffix';
           }
           
           if (id.includes('node_modules') && id.includes('base')) {
-            return 'vendor-utils-base';
+            return 'vendor-utils-base-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('lib-')) {
+            return 'vendor-utils-lib-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-lib')) {
+            return 'vendor-utils-lib-suffix';
           }
           
           if (id.includes('node_modules') && id.includes('lib')) {
-            return 'vendor-utils-lib';
+            return 'vendor-utils-lib-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('utils-')) {
+            return 'vendor-utils-utils-prefix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('-utils')) {
+            return 'vendor-utils-utils-suffix';
           }
           
           if (id.includes('node_modules') && id.includes('utils')) {
-            return 'vendor-utils-utils';
+            return 'vendor-utils-utils-core';
           }
           
           // 其他第三方库按更细的字母分组
