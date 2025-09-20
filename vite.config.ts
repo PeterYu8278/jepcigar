@@ -46,14 +46,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 核心React库
-          if (id.includes('react') && !id.includes('react-router')) {
+          // 核心React库和React Router一起打包，确保它们使用同一个React实例
+          if (id.includes('react')) {
             return 'vendor-react-core';
-          }
-          
-          // React Router
-          if (id.includes('react-router')) {
-            return 'vendor-react-router';
           }
           
           // Ant Design UI库
@@ -213,6 +208,17 @@ export default defineConfig({
     assetsInlineLimit: 4096
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'antd', 'firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage', 'firebase/analytics']
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      'react-router',
+      'antd', 
+      'firebase/app', 
+      'firebase/auth', 
+      'firebase/firestore', 
+      'firebase/storage', 
+      'firebase/analytics'
+    ]
   }
 })
