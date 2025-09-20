@@ -82,62 +82,87 @@ export default defineConfig({
             return 'vendor-charts';
           }
           
-          // 工具库（更细分的分组）
-          if (id.includes('lodash')) {
-            return 'vendor-utils-lodash';
-          }
-          
-          if (id.includes('date-fns')) {
-            return 'vendor-utils-date';
-          }
-          
-          if (id.includes('uuid')) {
-            return 'vendor-utils-uuid';
-          }
-          
-          // 日期处理库
-          if (id.includes('dayjs')) {
-            return 'vendor-utils-dayjs';
-          }
-          
-          // 动画库
-          if (id.includes('framer-motion')) {
-            return 'vendor-animation';
-          }
-          
-          // 图标库
-          if (id.includes('lucide-react')) {
-            return 'vendor-icons';
-          }
-          
-          // 查询库
-          if (id.includes('@tanstack/react-query')) {
-            return 'vendor-query';
-          }
-          
-          // 窗口管理库
-          if (id.includes('react-window')) {
-            return 'vendor-window';
-          }
-          
-          // PDF处理库
-          if (id.includes('react-pdf')) {
-            return 'vendor-react-pdf';
-          }
-          
-          // Hookform解析器
-          if (id.includes('@hookform/resolvers')) {
-            return 'vendor-hookform-resolvers';
-          }
-          
-          // React QR Code
-          if (id.includes('react-qr-code')) {
-            return 'vendor-react-qr-code';
-          }
           
           // React Window Infinite Loader
           if (id.includes('react-window-infinite-loader')) {
             return 'vendor-window-infinite';
+          }
+          
+          // 更多特定库的分离
+          if (id.includes('html5-qrcode')) {
+            return 'vendor-html5-qrcode';
+          }
+          
+          if (id.includes('html2canvas')) {
+            return 'vendor-html2canvas';
+          }
+          
+          if (id.includes('jspdf')) {
+            return 'vendor-jspdf';
+          }
+          
+          if (id.includes('chart.js')) {
+            return 'vendor-chartjs';
+          }
+          
+          if (id.includes('react-chartjs-2')) {
+            return 'vendor-react-chartjs';
+          }
+          
+          if (id.includes('framer-motion')) {
+            return 'vendor-framer-motion';
+          }
+          
+          if (id.includes('lucide-react')) {
+            return 'vendor-lucide';
+          }
+          
+          if (id.includes('qrcode')) {
+            return 'vendor-qrcode';
+          }
+          
+          if (id.includes('react-qr-code')) {
+            return 'vendor-react-qr-code';
+          }
+          
+          if (id.includes('react-pdf')) {
+            return 'vendor-react-pdf';
+          }
+          
+          if (id.includes('react-window')) {
+            return 'vendor-react-window';
+          }
+          
+          if (id.includes('react-hook-form')) {
+            return 'vendor-react-hook-form';
+          }
+          
+          if (id.includes('@hookform/resolvers')) {
+            return 'vendor-hookform-resolvers';
+          }
+          
+          if (id.includes('zod')) {
+            return 'vendor-zod';
+          }
+          
+          if (id.includes('@tanstack/react-query')) {
+            return 'vendor-tanstack-query';
+          }
+          
+          if (id.includes('date-fns')) {
+            return 'vendor-date-fns';
+          }
+          
+          if (id.includes('dayjs')) {
+            return 'vendor-dayjs';
+          }
+          
+          if (id.includes('lodash')) {
+            return 'vendor-lodash';
+          }
+          
+          if (id.includes('uuid')) {
+            return 'vendor-uuid';
           }
           
           // 客户模块
@@ -220,9 +245,40 @@ export default defineConfig({
             return 'vendor-minify';
           }
           
-          // 如果都不匹配，使用默认的chunk命名
+          // 通用工具库（更广泛的匹配）
+          if (id.includes('node_modules') && (
+            id.includes('util') || 
+            id.includes('helper') || 
+            id.includes('common') || 
+            id.includes('shared') ||
+            id.includes('core') ||
+            id.includes('base') ||
+            id.includes('lib') ||
+            id.includes('utils')
+          )) {
+            return 'vendor-utils-general';
+          }
+          
+          // 其他第三方库按字母顺序分组
+          if (id.includes('node_modules') && id.match(/[a-f]/)) {
+            return 'vendor-third-party-a-f';
+          }
+          
+          if (id.includes('node_modules') && id.match(/[g-m]/)) {
+            return 'vendor-third-party-g-m';
+          }
+          
+          if (id.includes('node_modules') && id.match(/[n-s]/)) {
+            return 'vendor-third-party-n-s';
+          }
+          
+          if (id.includes('node_modules') && id.match(/[t-z]/)) {
+            return 'vendor-third-party-t-z';
+          }
+          
+          // 如果都不匹配，强制分组到特定chunk
           if (id.includes('node_modules')) {
-            return 'vendor-misc';
+            return 'vendor-remaining';
           }
         },
         // 优化 chunk 文件名
