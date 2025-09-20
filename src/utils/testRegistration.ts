@@ -95,6 +95,6 @@ export const setupRegistrationTests = () => {
   
 
 
-  console.log('- testDuplicateRegistration() - 测试重复注册');
-  console.log('- testRegistrationErrors() - 测试各种错误场景');
+    // console.log('- testDuplicateRegistration() - 测试重复注册');
+    // console.log('- testRegistrationErrors() - 测试各种错误场景');
 };

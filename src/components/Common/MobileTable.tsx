@@ -94,7 +94,7 @@ function MobileTable<T extends Record<string, any>>({
           onClose={() => setDrawerVisible(false)}
           open={drawerVisible}
           height="80%"
-          bodyStyle={{ padding: 0 }}
+          styles={{ body: { padding: 0 } }}
         >
           {selectedRecord && (
             <div className="p-4">

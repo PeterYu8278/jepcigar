@@ -195,8 +195,8 @@ class PerformanceService {
     if ('PerformanceObserver' in window) {
       const longTaskObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (entry.duration > 50) { // 长任务阈值50ms
-            console.warn('[PerformanceService] Long task detected:', entry.duration + 'ms');
+          if (entry.duration > 100) { // 提高长任务阈值到100ms，减少噪音
+            // console.warn('[PerformanceService] Long task detected:', entry.duration + 'ms');
             this.reportMetric('longTask', entry.duration);
           }
         }

@@ -50,11 +50,11 @@ export const testEnvironmentConfig = () => {
   };
 };
 
-// 在开发环境中自动运行测试
-if (import.meta.env.DEV) {
-  // 延迟执行，确保DOM加载完成
-  setTimeout(() => {
-    console.log('🔍 自动环境配置测试:');
-    testEnvironmentConfig();
-  }, 1000);
-}
+// 在开发环境中自动运行测试（仅在需要时启用）
+// if (import.meta.env.DEV) {
+//   // 延迟执行，确保DOM加载完成
+//   setTimeout(() => {
+//     console.log('🔍 自动环境配置测试:');
+//     testEnvironmentConfig();
+//   }, 1000);
+// }

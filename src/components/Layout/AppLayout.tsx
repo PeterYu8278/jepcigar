@@ -346,7 +346,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           onClose={() => setMobileMenuVisible(false)}
           open={mobileMenuVisible}
           width={280}
-          bodyStyle={{ padding: 0 }}
+          styles={{ body: { padding: 0 } }}
         >
           <Menu
             mode="inline"
