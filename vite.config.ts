@@ -66,10 +66,6 @@ export default defineConfig({
             return 'vendor-pdf';
           }
           
-          // 动画库
-          if (id.includes('framer-motion') || id.includes('react-spring')) {
-            return 'vendor-animation';
-          }
           
           // 表单处理
           if (id.includes('react-hook-form') || id.includes('@hookform')) {
@@ -97,6 +93,36 @@ export default defineConfig({
           
           if (id.includes('uuid')) {
             return 'vendor-utils-uuid';
+          }
+          
+          // 日期处理库
+          if (id.includes('dayjs')) {
+            return 'vendor-utils-dayjs';
+          }
+          
+          // 动画库
+          if (id.includes('framer-motion')) {
+            return 'vendor-animation';
+          }
+          
+          // 图标库
+          if (id.includes('lucide-react')) {
+            return 'vendor-icons';
+          }
+          
+          // 查询库
+          if (id.includes('@tanstack/react-query')) {
+            return 'vendor-query';
+          }
+          
+          // 窗口管理库
+          if (id.includes('react-window')) {
+            return 'vendor-window';
+          }
+          
+          // PDF处理库
+          if (id.includes('react-pdf')) {
+            return 'vendor-react-pdf';
           }
           
           // 客户模块
