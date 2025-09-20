@@ -61,13 +61,6 @@ export default defineConfig({
             return 'vendor-charts';
           }
           
-          // 工具库
-          if (id.includes('date-fns') || id.includes('lodash') || id.includes('uuid')) {
-            return 'vendor-utils-core';
-          }
-          
-          
-          
           // PDF和图片处理
           if (id.includes('jspdf') || id.includes('html2canvas')) {
             return 'vendor-pdf';
@@ -88,6 +81,23 @@ export default defineConfig({
             return 'vendor-validation';
           }
           
+          // 图表库
+          if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+            return 'vendor-charts';
+          }
+          
+          // 工具库（更细分的分组）
+          if (id.includes('lodash')) {
+            return 'vendor-utils-lodash';
+          }
+          
+          if (id.includes('date-fns')) {
+            return 'vendor-utils-date';
+          }
+          
+          if (id.includes('uuid')) {
+            return 'vendor-utils-uuid';
+          }
           
           // 客户模块
           if (id.includes('Customer/') || id.includes('customerStore')) {
