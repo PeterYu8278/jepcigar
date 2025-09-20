@@ -125,6 +125,21 @@ export default defineConfig({
             return 'vendor-react-pdf';
           }
           
+          // Hookform解析器
+          if (id.includes('@hookform/resolvers')) {
+            return 'vendor-hookform-resolvers';
+          }
+          
+          // React QR Code
+          if (id.includes('react-qr-code')) {
+            return 'vendor-react-qr-code';
+          }
+          
+          // React Window Infinite Loader
+          if (id.includes('react-window-infinite-loader')) {
+            return 'vendor-window-infinite';
+          }
+          
           // 客户模块
           if (id.includes('Customer/') || id.includes('customerStore')) {
             return 'module-customer';
@@ -173,6 +188,36 @@ export default defineConfig({
           // 认证模块
           if (id.includes('Auth/') || id.includes('authStore')) {
             return 'module-auth';
+          }
+          
+          // 测试库
+          if (id.includes('@testing-library') || id.includes('vitest')) {
+            return 'vendor-testing';
+          }
+          
+          // 开发工具库
+          if (id.includes('eslint') || id.includes('@typescript-eslint')) {
+            return 'vendor-linting';
+          }
+          
+          // 构建工具库
+          if (id.includes('vite') || id.includes('@vitejs')) {
+            return 'vendor-build';
+          }
+          
+          // CSS处理库
+          if (id.includes('tailwindcss') || id.includes('postcss') || id.includes('autoprefixer')) {
+            return 'vendor-css';
+          }
+          
+          // TypeScript相关
+          if (id.includes('typescript')) {
+            return 'vendor-typescript';
+          }
+          
+          // 压缩工具
+          if (id.includes('terser')) {
+            return 'vendor-minify';
           }
           
           // 如果都不匹配，使用默认的chunk命名
