@@ -96,7 +96,7 @@ export const deepClone = <T>(obj: T): T => {
  */
 export const generateQRCodeData = async (data: string): Promise<string> => {
   try {
-    // 动态导入 qrcode 库
+    // 使用静态导入 qrcode 库，确保与React核心chunk一起加载
     const QRCode = await import('qrcode');
     const qrCodeDataURL = await QRCode.toDataURL(data, {
       width: 256,
