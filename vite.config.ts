@@ -245,18 +245,37 @@ export default defineConfig({
             return 'vendor-minify';
           }
           
-          // 通用工具库（更广泛的匹配）
-          if (id.includes('node_modules') && (
-            id.includes('util') || 
-            id.includes('helper') || 
-            id.includes('common') || 
-            id.includes('shared') ||
-            id.includes('core') ||
-            id.includes('base') ||
-            id.includes('lib') ||
-            id.includes('utils')
-          )) {
-            return 'vendor-utils-general';
+          // 通用工具库（更细分的匹配）
+          if (id.includes('node_modules') && id.includes('util')) {
+            return 'vendor-utils-util';
+          }
+          
+          if (id.includes('node_modules') && id.includes('helper')) {
+            return 'vendor-utils-helper';
+          }
+          
+          if (id.includes('node_modules') && id.includes('common')) {
+            return 'vendor-utils-common';
+          }
+          
+          if (id.includes('node_modules') && id.includes('shared')) {
+            return 'vendor-utils-shared';
+          }
+          
+          if (id.includes('node_modules') && id.includes('core')) {
+            return 'vendor-utils-core';
+          }
+          
+          if (id.includes('node_modules') && id.includes('base')) {
+            return 'vendor-utils-base';
+          }
+          
+          if (id.includes('node_modules') && id.includes('lib')) {
+            return 'vendor-utils-lib';
+          }
+          
+          if (id.includes('node_modules') && id.includes('utils')) {
+            return 'vendor-utils-utils';
           }
           
           // 其他第三方库按字母顺序分组
