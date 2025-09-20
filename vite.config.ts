@@ -286,6 +286,18 @@ export default defineConfig({
             return 'vendor-utils-common-core';
           }
           
+          if (id.includes('node_modules') && id.includes('shared-') && id.includes('core-js')) {
+            return 'vendor-utils-shared-corejs';
+          }
+          
+          if (id.includes('node_modules') && id.includes('shared-') && id.includes('polyfill')) {
+            return 'vendor-utils-shared-polyfill';
+          }
+          
+          if (id.includes('node_modules') && id.includes('shared-') && id.includes('babel')) {
+            return 'vendor-utils-shared-babel';
+          }
+          
           if (id.includes('node_modules') && id.includes('shared-')) {
             return 'vendor-utils-shared-prefix';
           }
@@ -304,6 +316,26 @@ export default defineConfig({
           
           if (id.includes('node_modules') && id.includes('-core')) {
             return 'vendor-utils-core-suffix';
+          }
+          
+          if (id.includes('node_modules') && id.includes('core-js/') && id.includes('modules')) {
+            return 'vendor-utils-corejs-modules';
+          }
+          
+          if (id.includes('node_modules') && id.includes('core-js/') && id.includes('internals')) {
+            return 'vendor-utils-corejs-internals';
+          }
+          
+          if (id.includes('node_modules') && id.includes('core-js/') && id.includes('features')) {
+            return 'vendor-utils-corejs-features';
+          }
+          
+          if (id.includes('node_modules') && id.includes('core-js/')) {
+            return 'vendor-utils-corejs';
+          }
+          
+          if (id.includes('node_modules') && id.includes('core-js')) {
+            return 'vendor-utils-core-corejs';
           }
           
           if (id.includes('node_modules') && id.includes('core')) {
