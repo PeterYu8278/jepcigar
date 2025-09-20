@@ -46,8 +46,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 核心React库和React Router一起打包，确保它们使用同一个React实例
-          if (id.includes('react')) {
+          // 核心React库、React Router、Hooks和移动端组件一起打包，确保它们使用同一个React实例
+          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile')) {
             return 'vendor-react-core';
           }
           
@@ -156,10 +156,6 @@ export default defineConfig({
             return 'module-auth';
           }
           
-          // 移动端组件
-          if (id.includes('Mobile') || id.includes('mobile')) {
-            return 'components-mobile';
-          }
           
           // 通用组件
           if (id.includes('Common/') || id.includes('Layout/')) {
