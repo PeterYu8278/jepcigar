@@ -46,14 +46,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件和PWA功能一起打包，确保它们使用同一个React实例
-          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload')) {
+          // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能和Ant Design一起打包，确保它们使用同一个React实例
+          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd')) {
             return 'vendor-react-core';
-          }
-          
-          // Ant Design UI库
-          if (id.includes('antd')) {
-            return 'vendor-antd';
           }
           
           // Firebase和存储相关（包括IndexedDB、localStorage等）
