@@ -46,8 +46,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 核心React库、React Router、Hooks和移动端组件一起打包，确保它们使用同一个React实例
-          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile')) {
+          // 核心React库、React Router、Hooks、移动端组件和状态管理一起打包，确保它们使用同一个React实例
+          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores')) {
             return 'vendor-react-core';
           }
           
@@ -71,10 +71,6 @@ export default defineConfig({
             return 'vendor-utils-core';
           }
           
-          // 状态管理
-          if (id.includes('zustand')) {
-            return 'vendor-state';
-          }
           
           // QR码相关
           if (id.includes('qrcode') || id.includes('html5-qrcode')) {
@@ -209,6 +205,7 @@ export default defineConfig({
       'react-dom', 
       'react-router-dom',
       'react-router',
+      'zustand',
       'antd', 
       'firebase/app', 
       'firebase/auth', 
