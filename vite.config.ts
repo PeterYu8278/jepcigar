@@ -278,21 +278,37 @@ export default defineConfig({
             return 'vendor-utils-utils';
           }
           
-          // 其他第三方库按字母顺序分组
-          if (id.includes('node_modules') && id.match(/[a-f]/)) {
-            return 'vendor-third-party-a-f';
+          // 其他第三方库按更细的字母分组
+          if (id.includes('node_modules') && id.match(/[a-c]/)) {
+            return 'vendor-third-party-a-c';
           }
           
-          if (id.includes('node_modules') && id.match(/[g-m]/)) {
-            return 'vendor-third-party-g-m';
+          if (id.includes('node_modules') && id.match(/[d-f]/)) {
+            return 'vendor-third-party-d-f';
           }
           
-          if (id.includes('node_modules') && id.match(/[n-s]/)) {
-            return 'vendor-third-party-n-s';
+          if (id.includes('node_modules') && id.match(/[g-i]/)) {
+            return 'vendor-third-party-g-i';
           }
           
-          if (id.includes('node_modules') && id.match(/[t-z]/)) {
-            return 'vendor-third-party-t-z';
+          if (id.includes('node_modules') && id.match(/[j-m]/)) {
+            return 'vendor-third-party-j-m';
+          }
+          
+          if (id.includes('node_modules') && id.match(/[n-p]/)) {
+            return 'vendor-third-party-n-p';
+          }
+          
+          if (id.includes('node_modules') && id.match(/[q-s]/)) {
+            return 'vendor-third-party-q-s';
+          }
+          
+          if (id.includes('node_modules') && id.match(/[t-v]/)) {
+            return 'vendor-third-party-t-v';
+          }
+          
+          if (id.includes('node_modules') && id.match(/[w-z]/)) {
+            return 'vendor-third-party-w-z';
           }
           
           // 如果都不匹配，强制分组到特定chunk

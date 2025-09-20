@@ -12,6 +12,18 @@ export interface EnvironmentConfig {
 }
 
 /**
+ * 安全地获取环境变量
+ */
+function safeGetEnvVar(key: string, fallback: string = ''): string {
+  try {
+    return import.meta.env[key] || fallback;
+  } catch (error) {
+    console.warn(`Failed to access environment variable ${key}:`, error);
+    return fallback;
+  }
+}
+
+/**
  * 获取环境配置
  */
 export const getEnvironmentConfig = (): EnvironmentConfig => {
@@ -19,9 +31,9 @@ export const getEnvironmentConfig = (): EnvironmentConfig => {
   const isDevelopment = import.meta.env.DEV;
   const isProduction = import.meta.env.PROD;
   
-  // 从环境变量获取配置
-  const envBaseUrl = import.meta.env.VITE_APP_BASE_URL;
-  const envApiUrl = import.meta.env.VITE_APP_API_URL;
+  // 从环境变量获取配置（安全访问）
+  const envBaseUrl = safeGetEnvVar('VITE_APP_BASE_URL');
+  const envApiUrl = safeGetEnvVar('VITE_APP_API_URL');
   
   // 获取当前域名
   const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';

@@ -37,6 +37,10 @@ import { checkFirebaseConfiguration, displayFirebaseStatus } from '@/utils/fireb
 import { setupTestEnvironment } from '@/utils/createTestUsers';
 import { setupRegistrationTests } from '@/utils/testRegistration';
 import { preloadCriticalModules, preloadUserModules } from '@/utils/dynamicImports';
+import { initializeErrorHandling } from '@/utils/errorHandler';
+import { initializeGlobalAccess } from '@/utils/safeGlobalAccess';
+import { initializeEnvValidation } from '@/utils/envValidator';
+import { initializeBrowserAPIs } from '@/utils/safeBrowserAPIs';
 import '@/utils/createTestDigitalCard';
 import '@/utils/testEnvironment';
 
@@ -50,6 +54,22 @@ const App: React.FC = () => {
 
   // Initialize app on mount
   useEffect(() => {
+    // Initialize global error handling first
+    initializeErrorHandling();
+    
+    // Initialize global access safety
+    initializeGlobalAccess();
+    
+    // Initialize environment validation
+    const envResult = initializeEnvValidation();
+    if (!envResult.isValid) {
+      console.error('Environment validation failed:', envResult.errors);
+    }
+    
+    // Initialize browser API safety checks
+    const apiResults = initializeBrowserAPIs();
+    console.log('Browser API availability:', apiResults);
+    
     // Check Firebase configuration
     const checkConfig = async () => {
       const results = await checkFirebaseConfiguration();

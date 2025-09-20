@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
 import { Spin } from 'antd';
+// import { createSafeLazyComponent } from '@/utils/safeDynamicImport';
+import ErrorBoundary from '@/components/Common/ErrorBoundary';
 
 // 加载组件
 const LoadingComponent = () => (
@@ -8,12 +10,14 @@ const LoadingComponent = () => (
   </div>
 );
 
-// 高阶组件：为懒加载组件添加 Suspense
+// 高阶组件：为懒加载组件添加 Suspense 和错误边界
 const withSuspense = (Component: React.LazyExoticComponent<any>) => {
   return (props: any) => (
-    <Suspense fallback={<LoadingComponent />}>
-      <Component {...props} />
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingComponent />}>
+        <Component {...props} />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 
