@@ -31,6 +31,8 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false, // 生产环境关闭 sourcemap 减小体积
     minify: 'terser',
+    // PWA 相关配置
+    copyPublicDir: true,
     terserOptions: {
       compress: {
         drop_console: true, // 移除 console.log
@@ -43,59 +45,141 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          // React 核心库
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+        manualChunks: (id) => {
+          // 核心React库
+          if (id.includes('react') && !id.includes('react-router')) {
+            return 'vendor-react-core';
+          }
           
-          // Ant Design UI 库
-          'vendor-antd': ['antd'],
+          // React Router
+          if (id.includes('react-router')) {
+            return 'vendor-react-router';
+          }
           
-          // Firebase 相关
-          'vendor-firebase': [
-            'firebase/app',
-            'firebase/auth', 
-            'firebase/firestore',
-            'firebase/storage',
-            'firebase/analytics'
-          ],
+          // Ant Design UI库
+          if (id.includes('antd')) {
+            return 'vendor-antd';
+          }
+          
+          // Firebase相关
+          if (id.includes('firebase')) {
+            return 'vendor-firebase';
+          }
           
           // 图表库
-          'vendor-charts': ['chart.js', 'react-chartjs-2'],
+          if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+            return 'vendor-charts';
+          }
           
           // 工具库
-          'vendor-utils': [
-            'date-fns',
-            'lodash',
-            'zustand',
-            'qrcode',
-            'html5-qrcode',
-            'uuid'
-          ],
+          if (id.includes('date-fns') || id.includes('lodash') || id.includes('uuid')) {
+            return 'vendor-utils-core';
+          }
           
-          // 按功能模块分割 - 只包含存在的模块
-          'event-module': [
-            './src/pages/Event/EventPage',
-            './src/components/Event/EventForm',
-            './src/components/Event/EventList',
-            './src/components/Event/EventParticipants',
-            './src/components/Event/EventRegistrationForm',
-            './src/components/Event/QRCodeGenerator',
-            './src/components/Event/QRCodeScanner',
-            './src/stores/eventStore'
-          ],
-          'customer-module': [
-            './src/pages/Customer/CustomerPage',
-            './src/stores/customerStore'
-          ],
-          'inventory-module': [
-            './src/pages/Inventory/InventoryPage'
-          ],
-          'analytics-module': [
-            './src/pages/Analytics/AnalyticsPage'
-          ],
-          'gamification-module': [
-            './src/pages/Gamification/GamificationPage'
-          ]
+          // 状态管理
+          if (id.includes('zustand')) {
+            return 'vendor-state';
+          }
+          
+          // QR码相关
+          if (id.includes('qrcode') || id.includes('html5-qrcode')) {
+            return 'vendor-qr';
+          }
+          
+          // PDF和图片处理
+          if (id.includes('jspdf') || id.includes('html2canvas')) {
+            return 'vendor-pdf';
+          }
+          
+          // 动画库
+          if (id.includes('framer-motion') || id.includes('react-spring')) {
+            return 'vendor-animation';
+          }
+          
+          // 表单处理
+          if (id.includes('react-hook-form') || id.includes('@hookform')) {
+            return 'vendor-forms';
+          }
+          
+          // 数据验证
+          if (id.includes('zod')) {
+            return 'vendor-validation';
+          }
+          
+          // 事件模块
+          if (id.includes('Event/') || id.includes('eventStore')) {
+            return 'module-event';
+          }
+          
+          // 客户模块
+          if (id.includes('Customer/') || id.includes('customerStore')) {
+            return 'module-customer';
+          }
+          
+          // 库存模块
+          if (id.includes('Inventory/') || id.includes('inventoryStore')) {
+            return 'module-inventory';
+          }
+          
+          // 分析模块
+          if (id.includes('Analytics/')) {
+            return 'module-analytics';
+          }
+          
+          // 游戏化模块
+          if (id.includes('Gamification/')) {
+            return 'module-gamification';
+          }
+          
+          // 礼品模块
+          if (id.includes('Gifting/')) {
+            return 'module-gifting';
+          }
+          
+          // 学院模块
+          if (id.includes('Academy/')) {
+            return 'module-academy';
+          }
+          
+          // 推荐模块
+          if (id.includes('AIRecommendations/')) {
+            return 'module-recommendations';
+          }
+          
+          // 设置模块
+          if (id.includes('Settings/')) {
+            return 'module-settings';
+          }
+          
+          // 仪表板模块
+          if (id.includes('Dashboard/')) {
+            return 'module-dashboard';
+          }
+          
+          // 认证模块
+          if (id.includes('Auth/') || id.includes('authStore')) {
+            return 'module-auth';
+          }
+          
+          // 移动端组件
+          if (id.includes('Mobile') || id.includes('mobile')) {
+            return 'components-mobile';
+          }
+          
+          // 通用组件
+          if (id.includes('Common/') || id.includes('Layout/')) {
+            return 'components-common';
+          }
+          
+          // PWA相关
+          if (id.includes('pwa') || id.includes('notification') || id.includes('fileDownload')) {
+            return 'features-pwa';
+          }
+          
+          // 如果都不匹配，使用默认的chunk命名
+          if (id.includes('node_modules')) {
+            return 'vendor-misc';
+          }
         },
         // 优化 chunk 文件名
         chunkFileNames: (chunkInfo) => {

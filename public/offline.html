@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>离线模式 - JEP Cigar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #8B4513 0%, #DAA520 50%, #F5E6D3 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 400px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+
+    .cigar-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #8B4513 0%, #DAA520 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      color: white;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #2C1810;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .status {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      color: #856404;
+    }
+
+    .features {
+      text-align: left;
+      margin-bottom: 30px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .feature-icon {
+      width: 20px;
+      height: 20px;
+      background: #f16d1f;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      font-size: 12px;
+      color: white;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f16d1f 0%, #e25115 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(241, 109, 31, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(241, 109, 31, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.8);
+      color: #666;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-1px);
+    }
+
+    .network-status {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #dc3545;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .network-status.online {
+      background: #28a745;
+    }
+
+    .network-status.show {
+      opacity: 1;
+    }
+
+    .loading {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #f16d1f;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        margin: 10px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .cigar-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="network-status" id="networkStatus">离线</div>
+  
+  <div class="container">
+    <div class="cigar-icon">🚬</div>
+    
+    <h1>离线模式</h1>
+    <p class="subtitle">您当前处于离线状态，但部分功能仍可使用</p>
+    
+    <div class="status">
+      <strong>网络连接已断开</strong><br>
+      请检查您的网络连接，或使用离线功能
+    </div>
+    
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <span>查看已缓存的客户信息</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <span>浏览本地库存数据</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <span>离线录入新数据</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <span>网络恢复后自动同步</span>
+      </div>
+    </div>
+    
+    <div class="buttons">
+      <button class="btn btn-primary" onclick="retryConnection()">
+        重新连接
+      </button>
+      <button class="btn btn-secondary" onclick="goOffline()">
+        继续离线使用
+      </button>
+    </div>
+    
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p style="margin-top: 10px; font-size: 14px; color: #666;">正在重新连接...</p>
+    </div>
+  </div>
+
+  <script>
+    // 网络状态检测
+    const networkStatus = document.getElementById('networkStatus');
+    const loading = document.getElementById('loading');
+    
+    function updateNetworkStatus() {
+      if (navigator.onLine) {
+        networkStatus.textContent = '在线';
+        networkStatus.classList.add('online');
+        networkStatus.classList.add('show');
+        
+        setTimeout(() => {
+          networkStatus.classList.remove('show');
+        }, 3000);
+      } else {
+        networkStatus.textContent = '离线';
+        networkStatus.classList.remove('online');
+        networkStatus.classList.add('show');
+      }
+    }
+    
+    // 监听网络状态变化
+    window.addEventListener('online', () => {
+      updateNetworkStatus();
+      // 网络恢复时自动重试连接
+      setTimeout(retryConnection, 1000);
+    });
+    
+    window.addEventListener('offline', updateNetworkStatus);
+    
+    // 重试连接
+    function retryConnection() {
+      loading.classList.add('show');
+      
+      // 模拟连接检查
+      fetch('/api/health', { 
+        method: 'HEAD',
+        cache: 'no-cache'
+      })
+      .then(response => {
+        if (response.ok) {
+          // 连接成功，跳转到主页
+          window.location.href = '/';
+        } else {
+          throw new Error('Server not responding');
+        }
+      })
+      .catch(error => {
+        console.log('Connection failed:', error);
+        loading.classList.remove('show');
+        
+        // 显示错误消息
+        const status = document.querySelector('.status');
+        status.innerHTML = `
+          <strong>连接失败</strong><br>
+          服务器暂时不可用，请稍后重试
+        `;
+        status.style.background = '#f8d7da';
+        status.style.borderColor = '#f5c6cb';
+        status.style.color = '#721c24';
+        
+        setTimeout(() => {
+          status.innerHTML = `
+            <strong>网络连接已断开</strong><br>
+            请检查您的网络连接，或使用离线功能
+          `;
+          status.style.background = '#fff3cd';
+          status.style.borderColor = '#ffeaa7';
+          status.style.color = '#856404';
+        }, 3000);
+      });
+    }
+    
+    // 继续离线使用
+    function goOffline() {
+      // 尝试加载缓存的页面
+      window.location.href = '/';
+    }
+    
+    // 初始化网络状态
+    updateNetworkStatus();
+    
+    // 定期检查网络状态
+    setInterval(updateNetworkStatus, 5000);
+  </script>
+</body>
+</html>

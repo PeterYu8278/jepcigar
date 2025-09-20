@@ -1,0 +1,26 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cigarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#DAA520;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5E6D3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景圆形 -->
+  <circle cx="256" cy="256" r="254" fill="url(#cigarGradient)" stroke="#8B4513" stroke-width="4"/>
+  
+  <!-- 雪茄图标 -->
+  <rect x="153.6" y="179.2" width="204.8" height="153.6" rx="25.6" fill="#8B4513"/>
+  
+  <!-- 烟雾效果 -->
+  <path d="M 332.8 222.72 Q 378.88 153.6 368.64 51.2" 
+        stroke="#F5E6D3" stroke-width="16" fill="none" opacity="0.7"/>
+  <path d="M 332.8 256 Q 378.88 238.08 368.64 179.2" 
+        stroke="#F5E6D3" stroke-width="16" fill="none" opacity="0.5"/>
+  <path d="M 332.8 289.28 Q 378.88 307.2 368.64 238.08" 
+        stroke="#F5E6D3" stroke-width="16" fill="none" opacity="0.3"/>
+  
+  <!-- 品牌文字 -->
+  <text x="256" y="378.88" text-anchor="middle" font-family="serif" font-size="61.44" font-weight="bold" fill="#8B4513">JEP</text>
+</svg>

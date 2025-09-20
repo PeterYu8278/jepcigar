@@ -27,6 +27,9 @@ import {
   NotFoundPage
 } from '@/components/LazyComponents';
 
+// PWA Test Page (非懒加载，因为测试页面需要快速访问)
+import PWATestPage from '@/pages/Test/PWATestPage';
+
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';
 import { checkFirebaseConfiguration, displayFirebaseStatus } from '@/utils/firebaseCheck';
@@ -165,6 +168,8 @@ const App: React.FC = () => {
                     
                     {/* Test Pages */}
                     <Route path="/test/digital-card" element={<DigitalCardTestPage />} />
+                    <Route path="/test/pwa" element={<PWATestPage />} />
+                    <Route path="/pwa-test" element={<PWATestPage />} />
                     
                     {/* 404 */}
                     <Route path="*" element={<NotFoundPage />} />

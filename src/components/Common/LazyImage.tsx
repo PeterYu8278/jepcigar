@@ -1,108 +1,167 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Skeleton } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Image, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import LazyLoader from './LazyLoader';
 
 interface LazyImageProps {
   src: string;
   alt: string;
+  placeholder?: string;
+  fallback?: string;
+  width?: number | string;
+  height?: number | string;
   className?: string;
   style?: React.CSSProperties;
-  placeholder?: React.ReactNode;
-  errorPlaceholder?: React.ReactNode;
   threshold?: number;
   rootMargin?: string;
   onLoad?: () => void;
   onError?: () => void;
+  preview?: boolean;
+  loading?: 'lazy' | 'eager';
 }
 
 const LazyImage: React.FC<LazyImageProps> = ({
   src,
   alt,
+  placeholder,
+  fallback,
+  width,
+  height,
   className = '',
   style = {},
-  placeholder,
-  errorPlaceholder,
   threshold = 0.1,
   rootMargin = '50px',
   onLoad,
-  onError
+  onError,
+  preview = true,
+  loading = 'lazy',
 }) => {
+  const [imageSrc, setImageSrc] = useState<string>(placeholder || '');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-  const imgRef = useRef<HTMLDivElement>(null);
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
+  // 预加载图片
+  const preloadImage = (src: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const img = document.createElement('img');
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+      img.src = src;
+    });
+  };
+
+  // 处理图片加载
+  const handleImageLoad = async () => {
+    if (!src || isLoaded) return;
+
+    try {
+      setIsLoading(true);
+      setHasError(false);
+      
+      await preloadImage(src);
+      setImageSrc(src);
+      setIsLoaded(true);
+      onLoad?.();
+    } catch (error) {
+      console.error('Image load error:', error);
+      setHasError(true);
+      if (fallback && fallback !== src) {
+        try {
+          await preloadImage(fallback);
+          setImageSrc(fallback);
+        } catch (fallbackError) {
+          console.error('Fallback image load error:', fallbackError);
         }
-      },
-      {
-        threshold,
-        rootMargin
       }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
+      onError?.();
+    } finally {
+      setIsLoading(false);
     }
-
-    return () => observer.disconnect();
-  }, [threshold, rootMargin]);
-
-  const handleLoad = () => {
-    setIsLoaded(true);
-    onLoad?.();
   };
 
-  const handleError = () => {
-    setIsError(true);
-    onError?.();
-  };
+  // 当组件挂载时开始加载
+  useEffect(() => {
+    if (src && !isLoaded && !isLoading && loading === 'lazy') {
+      handleImageLoad();
+    }
+  }, [src, isLoaded, isLoading, loading]);
 
-  const defaultPlaceholder = (
-    <Skeleton.Image
-      active
-      style={{ width: '100%', height: '100%' }}
-    />
+  // 加载指示器
+  const loadingIndicator = (
+    <div 
+      className="flex items-center justify-center bg-gray-100"
+      style={{ width, height }}
+    >
+      <Spin 
+        indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} 
+        size="large"
+      />
+    </div>
   );
 
-  const defaultErrorPlaceholder = (
+  // 错误占位符
+  const errorPlaceholder = (
     <div 
-      className="flex items-center justify-center bg-gray-100 text-gray-400"
-      style={{ minHeight: '200px' }}
+      className="flex items-center justify-center bg-gray-200 text-gray-500"
+      style={{ width, height }}
     >
       <div className="text-center">
         <div className="text-2xl mb-2">📷</div>
-        <div>图片加载失败</div>
+        <div className="text-sm">图片加载失败</div>
       </div>
     </div>
   );
 
+  // 如果使用eager加载，直接渲染图片
+  if (loading === 'eager') {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        style={style}
+        preview={preview}
+        fallback={fallback}
+        onLoad={onLoad}
+        onError={onError}
+        placeholder={loadingIndicator}
+      />
+    );
+  }
+
   return (
-    <div ref={imgRef} className={className} style={style}>
-      {!isInView ? (
-        placeholder || defaultPlaceholder
-      ) : isError ? (
-        errorPlaceholder || defaultErrorPlaceholder
-      ) : (
-        <img
-          src={src}
-          alt={alt}
-          onLoad={handleLoad}
-          onError={handleError}
-          style={{
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 0.3s ease-in-out',
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover'
-          }}
-        />
-      )}
-    </div>
+    <LazyLoader
+      threshold={threshold}
+      rootMargin={rootMargin}
+      fallback={loadingIndicator}
+      className={className}
+      style={style}
+    >
+      <div
+        style={{ width, height }}
+        className="lazy-image-container"
+      >
+        {hasError ? (
+          errorPlaceholder
+        ) : (
+          <Image
+            src={imageSrc}
+            alt={alt}
+            width={width}
+            height={height}
+            preview={preview}
+            fallback={fallback}
+            onLoad={onLoad}
+            onError={onError}
+            placeholder={loadingIndicator}
+            className="w-full h-full object-cover"
+          />
+        )}
+      </div>
+    </LazyLoader>
   );
 };
 

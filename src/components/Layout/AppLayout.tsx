@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Avatar, Dropdown, Button, Badge, Space, Typography } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, Button, Badge, Space, Typography, Drawer } from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -21,6 +21,8 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
 import { useCustomerStore } from '@/stores/customerStore';
+import useMobile from '@/hooks/useMobile';
+import MobileNavigation from './MobileNavigation';
 
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography;
@@ -31,10 +33,12 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuthStore();
   const { referrals } = useCustomerStore();
+  const { isMobile } = useMobile();
 
   // Menu items configuration
   const menuItems = [
@@ -271,6 +275,93 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     return openKeys;
   };
 
+  // 移动端渲染
+  if (isMobile) {
+    return (
+      <Layout className="min-h-screen">
+        <Header className="app-header px-4 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button
+              type="text"
+              icon={<MenuUnfoldOutlined />}
+              onClick={() => setMobileMenuVisible(true)}
+              className="text-white hover:bg-white/20"
+              size="large"
+            />
+            
+            <div className="flex items-center space-x-2 text-white">
+              <CrownOutlined className="text-lg" />
+              <span className="text-lg font-bold">JEP Cigar</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <Badge count={referrals.length} size="small">
+              <Button 
+                type="text" 
+                icon={<ShareAltOutlined />} 
+                className="text-white hover:bg-white/20"
+                onClick={() => navigate('/referrals')}
+              />
+            </Badge>
+            
+            <Badge count={3} size="small">
+              <Button 
+                type="text" 
+                icon={<BellOutlined />} 
+                className="text-white hover:bg-white/20"
+              />
+            </Badge>
+            
+            <Dropdown
+              menu={{ 
+                items: userMenuItems, 
+                onClick: handleUserMenuClick 
+              }}
+              placement="bottomRight"
+              trigger={['click']}
+            >
+              <div className="flex items-center space-x-2 cursor-pointer hover:bg-white/10 rounded-lg px-2 py-1 transition-colors">
+                <Avatar 
+                  src={user?.avatar} 
+                  icon={<UserOutlined />}
+                  className="bg-primary-500"
+                />
+              </div>
+            </Dropdown>
+          </div>
+        </Header>
+        
+        <Content className="app-content main-scroll" style={{ paddingBottom: '80px' }}>
+          <div className="max-w-full">
+            {children}
+          </div>
+        </Content>
+        
+        <MobileNavigation />
+        
+        <Drawer
+          title="菜单"
+          placement="left"
+          onClose={() => setMobileMenuVisible(false)}
+          open={mobileMenuVisible}
+          width={280}
+          bodyStyle={{ padding: 0 }}
+        >
+          <Menu
+            mode="inline"
+            selectedKeys={getSelectedKeys()}
+            defaultOpenKeys={getOpenKeys()}
+            items={menuItems}
+            onClick={handleMenuClick}
+            className="border-r-0"
+          />
+        </Drawer>
+      </Layout>
+    );
+  }
+
+  // 桌面端渲染
   return (
     <Layout className="min-h-screen">
       <Sider 
