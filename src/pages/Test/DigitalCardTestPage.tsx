@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, Space, Typography, message, List, Tag } from 'antd';
 import { QrcodeOutlined, PlusOutlined, EyeOutlined } from '@ant-design/icons';
 import { createTestCustomerWithDigitalCard, generateDigitalCardForExistingCustomer, listCustomersWithDigitalCards } from '@/utils/createTestDigitalCard';
+import { generateCardUrl } from '@/config/environment';
 
 const { Title, Text } = Typography;
 
@@ -12,9 +13,9 @@ const DigitalCardTestPage: React.FC = () => {
   const handleCreateTestCustomer = async () => {
     try {
       setLoading(true);
-      const result = await createTestCustomerWithDigitalCard();
+      await createTestCustomerWithDigitalCard();
       message.success('测试客户创建成功！');
-      console.log('创建结果:', result);
+
       await handleLoadCustomers();
     } catch (error) {
       message.error('创建测试客户失败');
@@ -41,9 +42,9 @@ const DigitalCardTestPage: React.FC = () => {
   const handleGenerateCard = async (customerId: string) => {
     try {
       setLoading(true);
-      const result = await generateDigitalCardForExistingCustomer(customerId);
+      await generateDigitalCardForExistingCustomer(customerId);
       message.success('数字名片生成成功！');
-      console.log('生成结果:', result);
+
       await handleLoadCustomers();
     } catch (error) {
       message.error('生成数字名片失败');
@@ -54,7 +55,7 @@ const DigitalCardTestPage: React.FC = () => {
   };
 
   const handleViewCard = (customerId: string) => {
-    const cardUrl = `${window.location.origin}/card/${customerId}`;
+    const cardUrl = generateCardUrl(customerId);
     window.open(cardUrl, '_blank');
   };
 

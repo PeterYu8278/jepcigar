@@ -90,7 +90,7 @@ const PWATestPanel: React.FC<PWATestPanelProps> = ({ visible = true, onClose }) 
     try {
       await pwaService.requestNotificationPermission();
       // 这里可以触发一个测试通知
-      console.log('通知权限请求完成');
+
     } catch (error) {
       console.error('通知测试失败:', error);
     }
@@ -267,14 +267,14 @@ const PWATestPanel: React.FC<PWATestPanelProps> = ({ visible = true, onClose }) 
             测试通知
           </Button>
           <Button onClick={() => {
-            const metrics = performanceService.getMetrics();
-            console.log('性能指标:', metrics);
+            performanceService.getMetrics();
+
           }}>
             查看性能
           </Button>
           <Button onClick={() => {
-            const budget = performanceService.checkPerformanceBudget();
-            console.log('性能预算检查:', budget);
+            performanceService.checkPerformanceBudget();
+
           }}>
             性能预算
           </Button>

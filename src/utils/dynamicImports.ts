@@ -123,7 +123,7 @@ export const preloadCriticalModules = async () => {
   ];
   
   await Promise.all(criticalModules);
-  console.log('🚀 Critical modules preloaded');
+
 };
 
 // 预加载用户可能访问的页面
@@ -137,7 +137,7 @@ export const preloadUserModules = async () => {
   // 延迟预加载，避免阻塞初始加载
   setTimeout(() => {
     Promise.all(userModules).then(() => {
-      console.log('👤 User modules preloaded');
+
     });
   }, 2000);
 };

@@ -74,7 +74,6 @@ const theme = {
 
 // 初始化性能监控
 performanceService.initialize().then(() => {
-  console.log('[PerformanceService] Initialized successfully');
 }).catch((error) => {
   console.error('[PerformanceService] Initialization failed:', error);
 });
@@ -83,14 +82,12 @@ performanceService.initialize().then(() => {
 if (import.meta.env.PROD) {
   pwaService.register().then((registration) => {
     if (registration) {
-      console.log('[PWA] Service Worker registered successfully');
       
       // 请求通知权限
       pwaService.requestNotificationPermission();
       
       // 检查是否已安装
       if (pwaService.isInstalled()) {
-        console.log('[PWA] App is installed');
       }
     }
   }).catch((error) => {

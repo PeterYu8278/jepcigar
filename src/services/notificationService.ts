@@ -51,7 +51,7 @@ class NotificationService {
         return false;
       }
 
-      console.log('[NotificationService] Initialized successfully');
+
       return true;
     } catch (error) {
       console.error('[NotificationService] Initialization failed:', error);
@@ -74,7 +74,7 @@ class NotificationService {
         default: permission === 'default',
       };
 
-      console.log('[NotificationService] Permission result:', result);
+
       return result;
     } catch (error) {
       console.error('[NotificationService] Permission request failed:', error);
@@ -120,7 +120,7 @@ class NotificationService {
       };
 
       await this.registration.showNotification(options.title, notificationOptions);
-      console.log('[NotificationService] Notification shown:', options.title);
+
       return true;
     } catch (error) {
       console.error('[NotificationService] Failed to show notification:', error);
@@ -266,7 +266,7 @@ class NotificationService {
     try {
       const notifications = await this.registration.getNotifications();
       notifications.forEach(notification => notification.close());
-      console.log('[NotificationService] All notifications closed');
+
     } catch (error) {
       console.error('[NotificationService] Failed to close notifications:', error);
     }
@@ -279,7 +279,7 @@ class NotificationService {
     try {
       const notifications = await this.registration.getNotifications({ tag });
       notifications.forEach(notification => notification.close());
-      console.log(`[NotificationService] Notifications with tag "${tag}" closed`);
+
     } catch (error) {
       console.error('[NotificationService] Failed to close notifications by tag:', error);
     }
@@ -302,7 +302,7 @@ class NotificationService {
     if (!this.registration) return;
 
     // 这个事件在Service Worker中处理，这里只是提供接口
-    console.log('[NotificationService] Notification click handler setup');
+
   }
 
   // 订阅推送通知（需要后端支持）
@@ -318,7 +318,7 @@ class NotificationService {
         applicationServerKey: vapidPublicKey,
       });
 
-      console.log('[NotificationService] Subscribed to push notifications');
+
       return subscription;
     } catch (error) {
       console.error('[NotificationService] Failed to subscribe to push notifications:', error);
@@ -336,7 +336,7 @@ class NotificationService {
       const subscription = await this.registration.pushManager.getSubscription();
       if (subscription) {
         await subscription.unsubscribe();
-        console.log('[NotificationService] Unsubscribed from push notifications');
+
         return true;
       }
       return false;

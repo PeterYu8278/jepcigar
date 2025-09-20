@@ -82,7 +82,7 @@ class PerformanceService {
       this.collectInitialMetrics();
       
       this.isInitialized = true;
-      console.log('[PerformanceService] Initialized successfully');
+
     } catch (error) {
       console.error('[PerformanceService] Initialization failed:', error);
     }
@@ -313,7 +313,7 @@ class PerformanceService {
   // 报告指标到服务器或分析服务
   private reportMetric(name: string, value: number): void {
     // 这里可以集成Google Analytics、自建分析服务等
-    console.log(`[PerformanceService] ${name}: ${value}`);
+
     
     // 示例：发送到自定义分析端点
     if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -327,13 +327,11 @@ class PerformanceService {
 
   // 报告初始指标
   private reportInitialMetrics(): void {
-    const initialMetrics = {
-      ...this.metrics,
-      ...this.userMetrics,
-      timestamp: Date.now(),
-    };
-
-    console.log('[PerformanceService] Initial metrics:', initialMetrics);
+    // const initialMetrics = {
+    //   ...this.metrics,
+    //   ...this.userMetrics,
+    //   timestamp: Date.now(),
+    // };
   }
 
   // 测量组件渲染时间
@@ -353,7 +351,7 @@ class PerformanceService {
   }
 
   // 测量路由切换时间
-  measureRouteChange(from: string, to: string, changeFn: () => void): void {
+  measureRouteChange(_from: string, _to: string, changeFn: () => void): void {
     const startTime = performance.now();
     changeFn();
     const endTime = performance.now();
@@ -362,7 +360,6 @@ class PerformanceService {
     this.metrics.routeChangeTime = changeTime;
     
     this.reportMetric('routeChange', changeTime);
-    console.log(`[PerformanceService] Route change: ${from} -> ${to} (${changeTime}ms)`);
   }
 
   // 获取当前性能指标

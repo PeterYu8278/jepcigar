@@ -61,22 +61,6 @@
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop-dashboard.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "JEP Cigar Business Dashboard"
-    },
-    {
-      "src": "/screenshots/mobile-dashboard.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "JEP Cigar Mobile Dashboard"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Dashboard",
@@ -85,9 +69,9 @@
       "url": "/dashboard",
       "icons": [
         {
-          "src": "/icons/shortcut-dashboard.png",
+          "src": "/icons/icon-96x96.svg",
           "sizes": "96x96",
-          "type": "image/png"
+          "type": "image/svg+xml"
         }
       ]
     },
@@ -98,9 +82,9 @@
       "url": "/customers",
       "icons": [
         {
-          "src": "/icons/shortcut-customers.png",
+          "src": "/icons/icon-96x96.svg",
           "sizes": "96x96",
-          "type": "image/png"
+          "type": "image/svg+xml"
         }
       ]
     },
@@ -111,9 +95,9 @@
       "url": "/inventory",
       "icons": [
         {
-          "src": "/icons/shortcut-inventory.png",
+          "src": "/icons/icon-96x96.svg",
           "sizes": "96x96",
-          "type": "image/png"
+          "type": "image/svg+xml"
         }
       ]
     },
@@ -124,9 +108,9 @@
       "url": "/events?scanner=true",
       "icons": [
         {
-          "src": "/icons/shortcut-scanner.png",
+          "src": "/icons/icon-96x96.svg",
           "sizes": "96x96",
-          "type": "image/png"
+          "type": "image/svg+xml"
         }
       ]
     }

@@ -121,7 +121,7 @@ const MobileQRScanner: React.FC<MobileQRScannerProps> = ({
           // 忽略常见的错误消息
           if (!errorMessage.includes('No MultiFormat Readers') && 
               !errorMessage.includes('NotFoundException')) {
-            console.log('QR Code scan error:', errorMessage);
+
           }
         }
       );

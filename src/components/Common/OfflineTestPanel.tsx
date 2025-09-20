@@ -88,7 +88,7 @@ const OfflineTestPanel: React.FC<OfflineTestPanelProps> = ({ visible = true, onC
     
     // 这里可以集成Chrome DevTools的Network Throttling
     // 或者使用Service Worker来模拟网络条件
-    console.log('模拟网络条件:', condition);
+
   };
 
   // 测试离线功能
@@ -254,7 +254,7 @@ const OfflineTestPanel: React.FC<OfflineTestPanelProps> = ({ visible = true, onC
       await Promise.all(
         cacheNames.map(cacheName => caches.delete(cacheName))
       );
-      console.log('缓存已清除');
+
     } catch (error) {
       console.error('清除缓存失败:', error);
     }
@@ -266,7 +266,7 @@ const OfflineTestPanel: React.FC<OfflineTestPanelProps> = ({ visible = true, onC
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
         await registration.update();
-        console.log('Service Worker已更新');
+
       }
     } catch (error) {
       console.error('更新Service Worker失败:', error);
@@ -399,7 +399,7 @@ const OfflineTestPanel: React.FC<OfflineTestPanelProps> = ({ visible = true, onC
               registration.then(reg => {
                 if (reg) {
                   reg.unregister();
-                  console.log('Service Worker已注销');
+
                 }
               });
             }}>

@@ -4,14 +4,14 @@ import { collection, addDoc, getDocs, doc, getDoc } from 'firebase/firestore';
 
 export const testFirestoreConnection = async () => {
   try {
-    console.log('Testing Firestore connection...');
+
     
     // Test reading from a collection
     const testCollection = collection(db, 'test');
-    const snapshot = await getDocs(testCollection);
+    await getDocs(testCollection);
     
-    console.log('✅ Firestore connection successful');
-    console.log(`Found ${snapshot.size} documents in test collection`);
+
+
     
     return true;
   } catch (error) {
@@ -22,7 +22,7 @@ export const testFirestoreConnection = async () => {
 
 export const createTestDocument = async () => {
   try {
-    console.log('Creating test document...');
+
     
     const testData = {
       message: 'Hello from Firestore!',
@@ -31,7 +31,7 @@ export const createTestDocument = async () => {
     };
     
     const docRef = await addDoc(collection(db, 'test'), testData);
-    console.log('✅ Test document created with ID:', docRef.id);
+
     
     return docRef.id;
   } catch (error) {
@@ -42,7 +42,7 @@ export const createTestDocument = async () => {
 
 export const readTestDocument = async (docId: string) => {
   try {
-    console.log('Reading test document...');
+
     
     const docRef = doc(db, 'test', docId);
     const docSnap = await getDoc(docRef);
@@ -51,7 +51,7 @@ export const readTestDocument = async (docId: string) => {
       console.log('✅ Test document read successfully:', docSnap.data());
       return docSnap.data();
     } else {
-      console.log('❌ Test document not found');
+
       return null;
     }
   } catch (error) {

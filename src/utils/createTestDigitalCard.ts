@@ -2,10 +2,11 @@
 import { CustomerService } from '@/services/firebaseService';
 import { Customer } from '@/types';
 import { generateQRCodeData } from './index';
+import { generateCardUrl } from '@/config/environment';
 
 export const createTestCustomerWithDigitalCard = async () => {
   try {
-    console.log('开始创建测试客户数据...');
+
     
     // 创建测试客户数据
     const testCustomerData: Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'> = {
@@ -34,10 +35,10 @@ export const createTestCustomerWithDigitalCard = async () => {
 
     // 创建客户
     const customerId = await CustomerService.create(CustomerService.COLLECTION, testCustomerData);
-    console.log('客户创建成功，ID:', customerId);
+
 
     // 生成数字名片
-    const cardUrl = `${window.location.origin}/card/${customerId}`;
+    const cardUrl = generateCardUrl(customerId);
     const qrCode = await generateQRCodeData(cardUrl);
 
     // 更新客户数据，添加数字名片信息
@@ -49,10 +50,10 @@ export const createTestCustomerWithDigitalCard = async () => {
       }
     } as Partial<Customer>);
 
-    console.log('数字名片生成成功！');
-    console.log('客户ID:', customerId);
-    console.log('名片链接:', cardUrl);
-    console.log('二维码已生成');
+
+
+
+
 
     return {
       customerId,
@@ -69,7 +70,7 @@ export const createTestCustomerWithDigitalCard = async () => {
 // 为现有客户生成数字名片
 export const generateDigitalCardForExistingCustomer = async (customerId: string) => {
   try {
-    console.log('为客户生成数字名片，ID:', customerId);
+
     
     // 获取客户信息
     const customer = await CustomerService.getById<Customer>(CustomerService.COLLECTION, customerId);
@@ -78,7 +79,7 @@ export const generateDigitalCardForExistingCustomer = async (customerId: string)
     }
 
     // 生成数字名片
-    const cardUrl = `${window.location.origin}/card/${customerId}`;
+    const cardUrl = generateCardUrl(customerId);
     const qrCode = await generateQRCodeData(cardUrl);
 
     // 更新客户数据
@@ -90,9 +91,9 @@ export const generateDigitalCardForExistingCustomer = async (customerId: string)
       }
     } as Partial<Customer>);
 
-    console.log('数字名片生成成功！');
-    console.log('客户:', customer.firstName + customer.lastName);
-    console.log('名片链接:', cardUrl);
+
+
+
 
     return {
       customerId,
@@ -112,15 +113,15 @@ export const listCustomersWithDigitalCards = async () => {
   try {
     const customers = await CustomerService.getAll(CustomerService.COLLECTION) as Customer[];
     
-    console.log('客户列表:');
+
     customers.forEach((customer, index) => {
       console.log(`${index + 1}. ${customer.firstName}${customer.lastName} (${customer.email})`);
-      console.log(`   ID: ${customer.id}`);
-      console.log(`   数字名片: ${customer.digitalCard?.isActive ? '已生成' : '未生成'}`);
+
+
       if (customer.digitalCard?.cardUrl) {
-        console.log(`   链接: ${customer.digitalCard.cardUrl}`);
+
       }
-      console.log('---');
+
     });
 
     return customers;

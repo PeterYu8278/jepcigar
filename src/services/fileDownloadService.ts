@@ -41,7 +41,7 @@ class FileDownloadService {
       document.body.removeChild(link);
       
       URL.revokeObjectURL(url);
-      console.log(`[FileDownloadService] Text file downloaded: ${filename}`);
+
     } catch (error) {
       console.error('[FileDownloadService] Failed to download text file:', error);
       throw error;
@@ -141,7 +141,7 @@ class FileDownloadService {
       }
 
       pdf.save(filename);
-      console.log(`[FileDownloadService] PDF file downloaded: ${filename}`);
+
     } catch (error) {
       console.error('[FileDownloadService] Failed to download PDF file:', error);
       throw error;
@@ -178,7 +178,7 @@ class FileDownloadService {
       link.click();
       document.body.removeChild(link);
 
-      console.log(`[FileDownloadService] Image file downloaded: ${filename}`);
+
     } catch (error) {
       console.error('[FileDownloadService] Failed to download image file:', error);
       throw error;
@@ -198,7 +198,7 @@ class FileDownloadService {
       document.body.removeChild(link);
       
       URL.revokeObjectURL(url);
-      console.log(`[FileDownloadService] Blob file downloaded: ${filename}`);
+
     } catch (error) {
       console.error('[FileDownloadService] Failed to download blob file:', error);
       throw error;
@@ -299,7 +299,7 @@ ${inventory.map(item => `
   async downloadMultipleFiles(): Promise<void> {
     try {
       // 这里需要集成JSZip库
-      console.log('[FileDownloadService] Batch download not implemented yet');
+
       throw new Error('Batch download requires JSZip library');
     } catch (error) {
       console.error('[FileDownloadService] Failed to download multiple files:', error);

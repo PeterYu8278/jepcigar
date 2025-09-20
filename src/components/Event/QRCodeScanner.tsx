@@ -110,7 +110,6 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
 
   const onScanSuccessHandler = async (decodedText: string) => {
     try {
-      console.log('QR Code scanned:', decodedText);
       
       // Parse QR code data
       let qrData;
@@ -150,7 +149,6 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
   const onScanFailureHandler = (error: string) => {
     // Ignore common non-error messages
     if (!error.includes('No QR code found') && !error.includes('NotFoundException')) {
-      console.log('Scan failure:', error);
     }
   };
 

@@ -29,6 +29,7 @@ import {
 
 // PWA Test Page (非懒加载，因为测试页面需要快速访问)
 import PWATestPage from '@/pages/Test/PWATestPage';
+import EnvironmentTestPage from '@/pages/Test/EnvironmentTestPage';
 
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';
@@ -37,6 +38,7 @@ import { setupTestEnvironment } from '@/utils/createTestUsers';
 import { setupRegistrationTests } from '@/utils/testRegistration';
 import { preloadCriticalModules, preloadUserModules } from '@/utils/dynamicImports';
 import '@/utils/createTestDigitalCard';
+import '@/utils/testEnvironment';
 
 // Styles
 import './App.css';
@@ -55,13 +57,6 @@ const App: React.FC = () => {
       
       // If Firebase is working, offer to create test users and setup testing tools
       if (results.auth && results.firestore) {
-        console.log('\n🛠️ Firebase is ready! Available development tools:');
-        console.log('window.createTestUsers() - 创建测试用户');
-        console.log('window.testDuplicateRegistration() - 测试重复注册');
-        console.log('window.testRegistrationErrors() - 测试注册错误');
-        console.log('window.createTestCustomerWithDigitalCard() - 创建带数字名片的测试客户');
-        console.log('window.generateDigitalCardForExistingCustomer(customerId) - 为现有客户生成数字名片');
-        console.log('window.listCustomersWithDigitalCards() - 列出所有客户及数字名片状态');
         
         // Make the functions available globally for development
         (window as any).createTestUsers = setupTestEnvironment;
@@ -169,6 +164,7 @@ const App: React.FC = () => {
                     {/* Test Pages */}
                     <Route path="/test/digital-card" element={<DigitalCardTestPage />} />
                     <Route path="/test/pwa" element={<PWATestPage />} />
+                    <Route path="/test/environment" element={<EnvironmentTestPage />} />
                     <Route path="/pwa-test" element={<PWATestPage />} />
                     
                     {/* 404 */}

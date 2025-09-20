@@ -38,7 +38,7 @@ export const testUsers: TestUser[] = [
 
 export const createTestUser = async (userData: TestUser): Promise<boolean> => {
   try {
-    console.log(`🔨 Creating test user: ${userData.email}`);
+
     
     // Create Firebase Auth user
     const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
@@ -95,11 +95,11 @@ export const createTestUser = async (userData: TestUser): Promise<boolean> => {
     
     await setDoc(doc(db, 'userProfiles', firebaseUser.uid), profileDoc);
     
-    console.log(`✅ Test user created successfully: ${userData.email}`);
+
     return true;
   } catch (error: any) {
     if (error.code === 'auth/email-already-in-use') {
-      console.log(`⚠️ User already exists: ${userData.email}`);
+
       return true; // Consider this as success since user exists
     }
     console.error(`❌ Failed to create test user ${userData.email}:`, error);
@@ -108,7 +108,7 @@ export const createTestUser = async (userData: TestUser): Promise<boolean> => {
 };
 
 export const createAllTestUsers = async (): Promise<{ success: number; failed: number }> => {
-  console.log('🚀 Starting test user creation process...');
+
   
   let success = 0;
   let failed = 0;
@@ -125,16 +125,16 @@ export const createAllTestUsers = async (): Promise<{ success: number; failed: n
     await new Promise(resolve => setTimeout(resolve, 500));
   }
   
-  console.log(`\n📊 Test user creation completed:`);
-  console.log(`✅ Successfully created/verified: ${success} users`);
-  console.log(`❌ Failed to create: ${failed} users`);
+
+
+
   
   return { success, failed };
 };
 
 export const verifyTestUser = async (email: string, password: string): Promise<boolean> => {
   try {
-    console.log(`🔍 Verifying test user: ${email}`);
+
     
     // Try to sign in
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -143,11 +143,11 @@ export const verifyTestUser = async (email: string, password: string): Promise<b
     const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
     
     if (userDoc.exists()) {
-      console.log(`✅ Test user verified: ${email}`);
+
       await signOut(auth); // Sign out after verification
       return true;
     } else {
-      console.log(`⚠️ User exists in Auth but not in Firestore: ${email}`);
+
       await signOut(auth);
       return false;
     }
@@ -158,7 +158,7 @@ export const verifyTestUser = async (email: string, password: string): Promise<b
 };
 
 export const verifyAllTestUsers = async (): Promise<{ verified: number; failed: number }> => {
-  console.log('🔍 Starting test user verification...');
+
   
   let verified = 0;
   let failed = 0;
@@ -172,16 +172,16 @@ export const verifyAllTestUsers = async (): Promise<{ verified: number; failed: 
     }
   }
   
-  console.log(`\n📊 Test user verification completed:`);
-  console.log(`✅ Verified: ${verified} users`);
-  console.log(`❌ Failed: ${failed} users`);
+
+
+
   
   return { verified, failed };
 };
 
 // Development helper function
 export const setupTestEnvironment = async () => {
-  console.log('🛠️ Setting up test environment...');
+
   
   // Create test users
   const createResult = await createAllTestUsers();
@@ -189,8 +189,8 @@ export const setupTestEnvironment = async () => {
   // Verify test users
   const verifyResult = await verifyAllTestUsers();
   
-  console.log('\n🎉 Test environment setup completed!');
-  console.log('You can now use the following test accounts:');
+
+
   testUsers.forEach(user => {
     console.log(`📧 ${user.email} (${user.role}) - Password: ${user.password}`);
   });

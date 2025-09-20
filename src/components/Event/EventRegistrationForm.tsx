@@ -116,14 +116,6 @@ const EventRegistrationForm: React.FC<EventRegistrationFormProps> = ({
 
       // If new customer, create customer first
       if (!isExistingCustomer) {
-        console.log('Creating new customer with data:', {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          phone: values.phone,
-          company: values.company,
-          title: values.title,
-        });
         
         const newCustomer = await CustomerService.create('customers', {
           firstName: values.firstName,
@@ -140,9 +132,7 @@ const EventRegistrationForm: React.FC<EventRegistrationFormProps> = ({
           tags: [],
         });
         customerId = newCustomer as string;
-        console.log('New customer created with ID:', customerId);
       } else {
-        console.log('Using existing customer ID:', customerId);
       }
 
       if (!customerId) {
@@ -151,7 +141,6 @@ const EventRegistrationForm: React.FC<EventRegistrationFormProps> = ({
       }
 
       // Register for event
-      console.log('Registering for event:', event?.id, 'with customer:', customerId);
       await registerForEvent(event?.id || '', customerId);
 
       message.success(mode === 'register' ? '报名成功！' : '邀请发送成功！');

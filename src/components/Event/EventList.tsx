@@ -577,8 +577,7 @@ const EventList: React.FC<EventListProps> = ({ onEventSelect, onShowParticipants
         visible={qrScannerVisible}
         onCancel={() => setQrScannerVisible(false)}
         event={selectedEvent}
-        onScanSuccess={(result) => {
-          console.log('Scan success:', result);
+        onScanSuccess={() => {
           // Refresh data after successful scan
           fetchAllEvents();
         }}

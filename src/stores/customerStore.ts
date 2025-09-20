@@ -5,6 +5,7 @@ import { Customer, CustomerLoyalty, Referral } from '@/types';
 import { CustomerService, ReferralService } from '@/services/firebaseService';
 import { where, orderBy } from 'firebase/firestore';
 import { LOYALTY_TIERS } from '@/config/constants';
+import { generateCardUrl } from '@/config/environment';
 
 interface CustomerState {
   customers: Customer[];
@@ -307,7 +308,7 @@ export const useCustomerStore = create<CustomerState & CustomerActions>()(
       set({ isLoading: true, error: null });
       try {
         // 生成名片URL
-        const cardUrl = `${window.location.origin}/card/${customerId}`;
+        const cardUrl = generateCardUrl(customerId);
         
         // 动态导入二维码生成工具
         const { generateQRCodeData } = await import('@/utils');

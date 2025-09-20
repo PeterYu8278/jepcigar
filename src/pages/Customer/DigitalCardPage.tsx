@@ -34,14 +34,14 @@ const DigitalCardPage: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      console.log('正在加载客户信息，ID:', customerId);
+
       
       const customerData = await CustomerService.getById<Customer>(
         CustomerService.COLLECTION, 
         customerId!
       );
       
-      console.log('客户数据:', customerData);
+
       
       if (!customerData) {
         setError('客户信息不存在');
@@ -67,7 +67,7 @@ const DigitalCardPage: React.FC = () => {
           url: customer.digitalCard.cardUrl
         });
       } catch (err) {
-        console.log('分享取消或失败');
+
       }
     } else {
       // 降级处理：复制链接到剪贴板

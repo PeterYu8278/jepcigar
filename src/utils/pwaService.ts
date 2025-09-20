@@ -32,7 +32,7 @@ class PWAService {
         scope: this.config.scope
       });
 
-      console.log('[PWA] Service Worker registered successfully:', this.registration);
+
 
       // 监听更新
       this.setupUpdateListeners();
@@ -71,7 +71,7 @@ class PWAService {
 
     // 监听控制器变化
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      console.log('[PWA] Service Worker controller changed');
+
       // 可以在这里重新加载页面或显示提示
       window.location.reload();
     });
@@ -122,34 +122,34 @@ class PWAService {
     
     switch (data.type) {
       case 'SW_READY':
-        console.log('[PWA] Service Worker is ready');
+
         break;
       case 'SW_OFFLINE':
-        console.log('[PWA] Application is offline');
+
         this.showOfflineNotification();
         break;
       case 'SW_ONLINE':
-        console.log('[PWA] Application is online');
+
         this.showOnlineNotification();
         break;
       case 'CACHE_UPDATED':
-        console.log('[PWA] Cache updated:', data.cacheName);
+
         break;
       default:
-        console.log('[PWA] Unknown message from SW:', data);
+
     }
   }
 
   // 显示离线通知
   private showOfflineNotification(): void {
     // 可以集成到现有的通知系统
-    console.log('[PWA] Showing offline notification');
+
   }
 
   // 显示在线通知
   private showOnlineNotification(): void {
     // 可以集成到现有的通知系统
-    console.log('[PWA] Showing online notification');
+
   }
 
   // 获取Service Worker版本信息
@@ -179,7 +179,7 @@ class PWAService {
       cacheNames.map(cacheName => caches.delete(cacheName))
     );
 
-    console.log('[PWA] All caches cleared');
+
   }
 
   // 获取缓存使用情况
@@ -208,7 +208,7 @@ class PWAService {
 
     try {
       await (this.registration as any).sync.register(tag);
-      console.log('[PWA] Background sync registered:', tag);
+
     } catch (error) {
       console.error('[PWA] Background sync registration failed:', error);
     }
@@ -223,7 +223,7 @@ class PWAService {
 
     if (Notification.permission === 'default') {
       const permission = await Notification.requestPermission();
-      console.log('[PWA] Notification permission:', permission);
+
       return permission;
     }
 
@@ -265,10 +265,10 @@ class PWAService {
     const { outcome } = await deferredPrompt.userChoice;
     
     if (outcome === 'accepted') {
-      console.log('[PWA] User accepted the install prompt');
+
       return true;
     } else {
-      console.log('[PWA] User dismissed the install prompt');
+
       return false;
     }
   }

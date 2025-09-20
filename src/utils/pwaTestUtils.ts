@@ -18,7 +18,7 @@ class PWATestUtils {
   async runAllTests(): Promise<PWATestResult[]> {
     this.testResults = [];
     
-    console.log('[PWATestUtils] Starting PWA tests...');
+
     
     // 基础功能测试
     await this.testManifest();
@@ -37,7 +37,7 @@ class PWATestUtils {
     // 缓存测试
     await this.testCacheStrategy();
     
-    console.log('[PWATestUtils] PWA tests completed');
+
     return this.testResults;
   }
 

@@ -92,7 +92,7 @@ const PointsMarketplacePage: React.FC = () => {
 
   const handleConfirmRedeem = () => {
     // TODO: Implement redemption logic
-    console.log('Redeeming item:', selectedItem);
+
     setIsRedeemModalVisible(false);
   };
 
