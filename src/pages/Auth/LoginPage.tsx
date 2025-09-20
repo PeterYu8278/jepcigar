@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
   const [loginForm] = Form.useForm();
   const [registerForm] = Form.useForm();
 
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = (location.state as any)?.from?.pathname || '/dashboard';
 
   // Handle login status messages
   useEffect(() => {
