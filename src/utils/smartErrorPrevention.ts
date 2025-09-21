@@ -78,6 +78,14 @@ class SmartErrorPrevention {
       category: 'routing',
       description: 'React Router初始化错误'
     });
+
+    // React DOM内部API错误
+    this.errorPatterns.set('react-dom-internals-error', {
+      pattern: /Cannot read properties of undefined \(reading '__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED'\)/,
+      severity: 'critical',
+      category: 'react-dom',
+      description: 'React DOM内部API访问错误'
+    });
   }
 
   /**
@@ -88,6 +96,14 @@ class SmartErrorPrevention {
     this.preventionStrategies.set('react-core-merge', {
       name: 'React核心库合并',
       description: '将React核心库合并到同一个chunk中',
+      implementation: 'vite.config.ts manualChunks',
+      effectiveness: 'high'
+    });
+
+    // React DOM合并策略
+    this.preventionStrategies.set('react-dom-merge', {
+      name: 'React DOM合并',
+      description: '将React DOM合并到React核心chunk中，确保使用同一个实例',
       implementation: 'vite.config.ts manualChunks',
       effectiveness: 'high'
     });
@@ -254,7 +270,16 @@ class SmartErrorPrevention {
    * 尝试自动修复
    */
   private attemptAutoFix(patternId: string): void {
-    const strategy = this.preventionStrategies.get(patternId);
+    let strategyId = patternId;
+    
+    // 根据错误模式映射到对应的策略
+    if (patternId === 'react-dom-internals-error') {
+      strategyId = 'react-dom-merge';
+    } else if (patternId === 'react-context-error' || patternId === 'react-forwardref-error') {
+      strategyId = 'react-core-merge';
+    }
+    
+    const strategy = this.preventionStrategies.get(strategyId);
     if (strategy) {
       console.info(`[SmartErrorPrevention] 尝试自动修复: ${strategy.name}`);
       // 这里可以实现具体的自动修复逻辑

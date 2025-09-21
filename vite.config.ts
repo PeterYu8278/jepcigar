@@ -46,14 +46,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 🎯 优化策略1: 核心React库 - 只包含最基础的React功能
-          if (id.includes('react') && !id.includes('react-dom') && !id.includes('react-router')) {
+          // 🎯 优化策略1: 核心React库 - 包含React和React DOM，确保它们使用同一个实例
+          if (id.includes('react') && !id.includes('react-router')) {
             return 'vendor-react-core';
-          }
-
-          // 🎯 优化策略2: React DOM - 分离DOM相关功能
-          if (id.includes('react-dom') || id.includes('react-reconciler')) {
-            return 'vendor-react-dom';
           }
 
           // 🎯 优化策略3: React Router - 路由功能独立
@@ -227,9 +222,12 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: [
-      // 核心React库
+      // 核心React库 - 确保React和React DOM使用同一个实例
       'react',
       'react-dom',
+      'react-dom/client',
+      'react-dom/server',
+      'react-reconciler',
       'react-router-dom',
       'react-router',
       
