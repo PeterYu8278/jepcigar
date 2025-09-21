@@ -27,9 +27,6 @@ import {
   NotFoundPage
 } from '@/components/LazyComponents';
 
-// Responsive Components
-import ResponsiveDashboard from '@/components/Dashboard/ResponsiveDashboard';
-
 // PWA Test Page (非懒加载，因为测试页面需要快速访问)
 import PWATestPage from '@/pages/Test/PWATestPage';
 import EnvironmentTestPage from '@/pages/Test/EnvironmentTestPage';
@@ -37,6 +34,7 @@ import CardUrlUpdatePage from '@/pages/Test/CardUrlUpdatePage';
 import QRCodeTestPage from '@/pages/Test/QRCodeTestPage';
 import MobileUITestPage from '@/pages/Test/MobileUITestPage';
 import MobileDashboardTestPage from '@/pages/Test/MobileDashboardTestPage';
+import ResponsiveDashboard from '@/components/Dashboard/ResponsiveDashboard';
 
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';

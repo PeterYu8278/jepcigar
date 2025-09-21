@@ -10,12 +10,12 @@ import useMobile from '@/hooks/useMobile';
 const ResponsiveDashboard: React.FC = () => {
   const { isMobile } = useMobile();
 
-  // 移动端使用优化的行显示布局
+  // 在移动设备上使用移动端优化的仪表盘
   if (isMobile) {
     return <MobileDashboardPage />;
   }
 
-  // 桌面端使用原有的网格布局
+  // 在桌面设备上使用标准仪表盘
   return <DashboardPage />;
 };
 
