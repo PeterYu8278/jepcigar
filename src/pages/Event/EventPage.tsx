@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Typography, Button, Tag, Row, Col, Tabs, Divider, message } from 'antd';
+import { Card, Typography, Button, Tag, Row, Col, Tabs, Divider, message, List } from 'antd';
 import { CalendarOutlined, PlusOutlined, QrcodeOutlined, UserOutlined, BarChartOutlined, MailOutlined, DownloadOutlined } from '@ant-design/icons';
 import { EventList, EventParticipants, EventRegistrationForm } from '@/components/LazyComponents';
 import { Event as EventType } from '@/types';
@@ -64,63 +64,90 @@ const EventPage: React.FC = () => {
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={8}>
           <Card title="即将举行的活动" className="hover-lift">
-            <div className="space-y-4">
-              {(showAllUpcoming ? upcomingEvents : upcomingEvents.slice(0, 2)).map((event) => {
-                const typeConfig = getEventTypeConfig(event.eventType);
-                return (
-                  <div key={event.id} className="p-4 bg-blue-50 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium">{event.title}</h4>
-                      <Tag color={typeConfig.color} icon={<span>{typeConfig.icon}</span>}>
-                        {typeConfig.label}
-                      </Tag>
-                    </div>
-                    <Text type="secondary">
-                      {new Date(event.startDate).toLocaleDateString('zh-CN', {
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </Text>
-                    <div className="mt-2 flex items-center space-x-2">
-                      <QrcodeOutlined />
-                      <Text type="secondary">签到二维码已生成</Text>
-                    </div>
-                    <div className="mt-2 text-sm text-gray-500">
-                      已报名: {event.currentAttendees}/{event.maxAttendees} 人
-                    </div>
-                  </div>
-                );
-              })}
-              {upcomingEvents.length === 0 && (
-                <div className="text-center py-8">
-                  <CalendarOutlined className="text-4xl text-gray-300 mb-4" />
-                  <Text type="secondary" className="block mb-4">
-                    暂无即将举行的活动
-                  </Text>
-                  <Button 
-                    type="primary" 
-                    icon={<PlusOutlined />}
-                    onClick={() => message.info('创建活动功能开发中')}
-                  >
-                    创建新活动
-                  </Button>
-                </div>
-              )}
-              
-              {/* 查看更多按钮 */}
-              {upcomingEvents.length > 2 && (
-                <div className="text-center pt-4 border-t border-gray-100">
-                  <Button 
-                    type="link" 
-                    onClick={() => setShowAllUpcoming(!showAllUpcoming)}
-                  >
-                    {showAllUpcoming ? '收起' : `查看更多 (${upcomingEvents.length - 2})`}
-                  </Button>
-                </div>
-              )}
-            </div>
+            {upcomingEvents.length === 0 ? (
+              <div className="text-center py-8">
+                <CalendarOutlined className="text-4xl text-gray-300 mb-4" />
+                <Text type="secondary" className="block mb-4">
+                  暂无即将举行的活动
+                </Text>
+                <Button 
+                  type="primary" 
+                  icon={<PlusOutlined />}
+                  onClick={() => message.info('创建活动功能开发中')}
+                >
+                  创建新活动
+                </Button>
+              </div>
+            ) : (
+              <List
+                dataSource={showAllUpcoming ? upcomingEvents : upcomingEvents.slice(0, 2)}
+                renderItem={(event) => {
+                  const typeConfig = getEventTypeConfig(event.eventType);
+                  return (
+                    <List.Item 
+                      key={event.id}
+                      className="!px-0 !py-3 hover:bg-gray-50 rounded-lg transition-colors"
+                      actions={[
+                        <Button 
+                          type="text" 
+                          size="small" 
+                          icon={<QrcodeOutlined />}
+                          title="查看二维码"
+                        />
+                      ]}
+                    >
+                      <List.Item.Meta
+                        title={
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-base">{event.title}</span>
+                            <Tag color={typeConfig.color} icon={<span>{typeConfig.icon}</span>}>
+                              {typeConfig.label}
+                            </Tag>
+                          </div>
+                        }
+                        description={
+                          <div className="space-y-1">
+                            <div className="flex items-center text-sm text-gray-600">
+                              <CalendarOutlined className="mr-1" />
+                              <span>
+                                {new Date(event.startDate).toLocaleDateString('zh-CN', {
+                                  month: 'long',
+                                  day: 'numeric',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between text-xs text-gray-500">
+                              <span className="flex items-center">
+                                <UserOutlined className="mr-1" />
+                                已报名: {event.currentAttendees}/{event.maxAttendees} 人
+                              </span>
+                              <span className="flex items-center text-green-600">
+                                <QrcodeOutlined className="mr-1" />
+                                二维码已生成
+                              </span>
+                            </div>
+                          </div>
+                        }
+                      />
+                    </List.Item>
+                  );
+                }}
+              />
+            )}
+            
+            {/* 查看更多按钮 */}
+            {upcomingEvents.length > 2 && (
+              <div className="text-center pt-4 border-t border-gray-100">
+                <Button 
+                  type="link" 
+                  onClick={() => setShowAllUpcoming(!showAllUpcoming)}
+                >
+                  {showAllUpcoming ? '收起' : `查看更多 (${upcomingEvents.length - 2})`}
+                </Button>
+              </div>
+            )}
           </Card>
         </Col>
 
