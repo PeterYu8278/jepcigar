@@ -162,14 +162,34 @@ export default defineConfig({
             const libName = id.split('node_modules/')[1]?.split('/')[0] || '';
             const firstChar = libName.charAt(0).toLowerCase();
             
-            // 将一些关键的第三方库合并到React核心chunk，确保正确的初始化顺序
-            if (id.includes('@emotion') || id.includes('emotion') || 
-                id.includes('@babel') || id.includes('babel') ||
-                id.includes('@types') || id.includes('typescript') ||
-                id.includes('@rollup') || id.includes('rollup') ||
-                id.includes('@vitejs') || id.includes('vite')) {
-              return 'vendor-react-core';
-            }
+             // 将关键的第三方库合并到React核心chunk，确保正确的初始化顺序
+             if (id.includes('@emotion') || id.includes('emotion') || 
+                 id.includes('@babel') || id.includes('babel') ||
+                 id.includes('@types') || id.includes('typescript') ||
+                 id.includes('@rollup') || id.includes('rollup') ||
+                 id.includes('@vitejs') || id.includes('vite') ||
+                 // 合并所有React生态相关的库
+                 id.includes('lucide-react') || id.includes('react-window') ||
+                 id.includes('react-window-infinite-loader') ||
+                 id.includes('zod') || id.includes('react-hook-form') ||
+                 id.includes('@hookform') || id.includes('@tanstack/react-query') ||
+                 id.includes('framer-motion') || id.includes('chart.js') ||
+                 id.includes('react-chartjs-2') || id.includes('lodash') ||
+                 id.includes('uuid') || id.includes('core-js') ||
+                 id.includes('__core-js_shared__') ||
+                 // 合并可能访问React内部API的库
+                 id.includes('scheduler') || id.includes('react-is') ||
+                 id.includes('prop-types') || id.includes('hoist-non-react-statics') ||
+                 id.includes('invariant') || id.includes('warning') ||
+                 id.includes('object-assign') || id.includes('loose-envify') ||
+                 id.includes('js-tokens') ||
+                 // 合并其他可能导致初始化问题的库
+                 id.includes('eslint') || id.includes('@typescript-eslint') ||
+                 id.includes('@testing-library') || id.includes('vitest') ||
+                 id.includes('postcss') || id.includes('tailwindcss') ||
+                 id.includes('autoprefixer') || id.includes('terser')) {
+               return 'vendor-react-core';
+             }
             
             if (firstChar >= 'a' && firstChar <= 'f') {
               return 'vendor-third-party-a-f';
@@ -286,27 +306,44 @@ export default defineConfig({
       'firebase/storage',
       'firebase/analytics',
       
-      // 其他
-      'lucide-react',
-      'react-window',
-      'react-window-infinite-loader',
-      
-      // 开发工具
-      '@testing-library/jest-dom',
-      '@testing-library/react',
-      '@typescript-eslint/eslint-plugin',
-      '@typescript-eslint/parser',
-      '@vitejs/plugin-react',
-      'autoprefixer',
-      'eslint',
-      'eslint-plugin-react-hooks',
-      'eslint-plugin-react-refresh',
-      'postcss',
-      'tailwindcss',
-      'terser',
-      'typescript',
-      'vite',
-      'vitest'
+       // 其他React生态库
+       'lucide-react',
+       'react-window',
+       'react-window-infinite-loader',
+       
+       // React内部相关库
+       'scheduler',
+       'scheduler/tracing',
+       'react-is',
+       'prop-types',
+       'create-react-context',
+       'hoist-non-react-statics',
+       'invariant',
+       'warning',
+       'object-assign',
+       'loose-envify',
+       'js-tokens',
+       
+       // Core-js相关
+       'core-js',
+       '__core-js_shared__',
+       
+       // 开发工具
+       '@testing-library/jest-dom',
+       '@testing-library/react',
+       '@typescript-eslint/eslint-plugin',
+       '@typescript-eslint/parser',
+       '@vitejs/plugin-react',
+       'autoprefixer',
+       'eslint',
+       'eslint-plugin-react-hooks',
+       'eslint-plugin-react-refresh',
+       'postcss',
+       'tailwindcss',
+       'terser',
+       'typescript',
+       'vite',
+       'vitest'
     ]
   }
 })
