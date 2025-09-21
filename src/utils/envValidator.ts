@@ -172,24 +172,27 @@ export function validateCriticalEnvVars(): EnvValidationResult {
     })
     .addRule({
       key: 'VITE_FIREBASE_API_KEY',
-      required: true,
+      required: false, // 改为非必需，因为配置是硬编码的
       type: 'string',
-      validator: (value) => value && value.length > 0,
-      errorMessage: 'VITE_FIREBASE_API_KEY is required'
+      defaultValue: '',
+      validator: (value) => !value || value.length > 0, // 允许为空
+      errorMessage: 'VITE_FIREBASE_API_KEY is invalid'
     })
     .addRule({
       key: 'VITE_FIREBASE_AUTH_DOMAIN',
-      required: true,
+      required: false, // 改为非必需，因为配置是硬编码的
       type: 'string',
-      validator: (value) => value && value.length > 0,
-      errorMessage: 'VITE_FIREBASE_AUTH_DOMAIN is required'
+      defaultValue: '',
+      validator: (value) => !value || value.length > 0, // 允许为空
+      errorMessage: 'VITE_FIREBASE_AUTH_DOMAIN is invalid'
     })
     .addRule({
       key: 'VITE_FIREBASE_PROJECT_ID',
-      required: true,
+      required: false, // 改为非必需，因为配置是硬编码的
       type: 'string',
-      validator: (value) => value && value.length > 0,
-      errorMessage: 'VITE_FIREBASE_PROJECT_ID is required'
+      defaultValue: '',
+      validator: (value) => !value || value.length > 0, // 允许为空
+      errorMessage: 'VITE_FIREBASE_PROJECT_ID is invalid'
     });
 
   return validator.validate();

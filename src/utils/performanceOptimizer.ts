@@ -215,7 +215,10 @@ class PerformanceOptimizer {
       const longTaskObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (entry.duration > 50) { // 50ms以上的任务
-            console.warn(`[PerformanceOptimizer] 检测到长任务: ${entry.duration}ms`);
+            // 只在开发环境且任务时间超过100ms时输出警告
+            if (import.meta.env.DEV && entry.duration > 100) {
+              console.warn(`[PerformanceOptimizer] 检测到长任务: ${entry.duration}ms`);
+            }
             this.recordMetric('long-task', entry.duration);
           }
         }

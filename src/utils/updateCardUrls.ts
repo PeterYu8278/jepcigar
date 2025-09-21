@@ -150,7 +150,11 @@ export async function getCustomersNeedingUpdate(): Promise<Customer[]> {
 if (import.meta.env.DEV) {
   // 延迟执行，确保DOM加载完成
   setTimeout(() => {
-    console.log('🔧 开发环境自动检查数字名片URL配置');
-    checkEnvironmentConfig();
+    // 只在需要时输出配置检查信息
+    const config = checkEnvironmentConfig();
+    if (!config.isValid) {
+      console.log('🔧 开发环境自动检查数字名片URL配置');
+      checkEnvironmentConfig();
+    }
   }, 2000);
 }

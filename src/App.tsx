@@ -68,18 +68,29 @@ const App: React.FC = () => {
            // Initialize environment validation
            const envResult = initializeEnvValidation();
            if (!envResult.isValid) {
-             console.error('Environment validation failed:', envResult.errors);
+             // 只在开发环境输出详细错误信息
+             if (import.meta.env.DEV) {
+               console.error('Environment validation failed:', envResult.errors);
+             } else {
+               console.warn('Environment validation issues detected');
+             }
            }
            
            // Initialize browser API safety checks
            const apiResults = initializeBrowserAPIs();
-           console.log('Browser API availability:', apiResults);
+           if (import.meta.env.DEV) {
+             console.log('Browser API availability:', apiResults);
+           }
            
            // Initialize smart error prevention system
-           console.log('Smart Error Prevention System initialized');
+           if (import.meta.env.DEV) {
+             console.log('Smart Error Prevention System initialized');
+           }
            
            // Initialize performance optimizer
-           console.log('Performance Optimizer initialized');
+           if (import.meta.env.DEV) {
+             console.log('Performance Optimizer initialized');
+           }
            
            // 获取性能报告（开发环境）
            if (import.meta.env.DEV) {
