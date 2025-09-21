@@ -5,8 +5,6 @@ import {
   DollarOutlined,
   ShoppingCartOutlined,
   CalendarOutlined,
-  TrendingUpOutlined,
-  TrendingDownOutlined,
   ReloadOutlined,
   EyeOutlined
 } from '@ant-design/icons';
@@ -20,6 +18,7 @@ import {
   MobileGrid,
   MobileLoading
 } from '@/components/Common/MobileComponents';
+import TrendIcon from '@/components/Common/TrendIcon';
 import useMobile from '@/hooks/useMobile';
 import { useCustomers } from '@/stores/customerStore';
 
@@ -91,9 +90,9 @@ const MobileDashboardPage: React.FC = () => {
 
   const getTrendIcon = (value: number, threshold: number = 0) => {
     if (value > threshold) {
-      return <TrendingUpOutlined className="text-green-500" />;
+      return <TrendIcon direction="up" />;
     }
-    return <TrendingDownOutlined className="text-red-500" />;
+    return <TrendIcon direction="down" />;
   };
 
   const getTrendColor = (value: number, threshold: number = 0) => {
