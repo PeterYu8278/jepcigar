@@ -46,10 +46,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能和Ant Design一起打包，确保它们使用同一个React实例
-          if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd')) {
-            return 'vendor-react-core';
-          }
+                // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能、Ant Design和core-js一起打包，确保它们使用同一个React实例和共享对象
+                if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd') || id.includes('core-js') || id.includes('__core-js_shared__')) {
+                  return 'vendor-react-core';
+                }
           
           // Firebase和存储相关（包括IndexedDB、localStorage等）
           if (id.includes('firebase') || id.includes('localStorage') || id.includes('indexedDB') || id.includes('sessionStorage')) {
@@ -286,17 +286,7 @@ export default defineConfig({
             return 'vendor-utils-common-core';
           }
           
-          if (id.includes('node_modules') && id.includes('shared-') && id.includes('core-js')) {
-            return 'vendor-utils-shared-corejs';
-          }
-          
-          if (id.includes('node_modules') && id.includes('shared-') && id.includes('polyfill')) {
-            return 'vendor-utils-shared-polyfill';
-          }
-          
-          if (id.includes('node_modules') && id.includes('shared-') && id.includes('babel')) {
-            return 'vendor-utils-shared-babel';
-          }
+          // core-js相关库已合并到React核心chunk，这里不再单独处理
           
           if (id.includes('node_modules') && id.includes('shared-')) {
             return 'vendor-utils-shared-prefix';
@@ -318,25 +308,7 @@ export default defineConfig({
             return 'vendor-utils-core-suffix';
           }
           
-          if (id.includes('node_modules') && id.includes('core-js/') && id.includes('modules')) {
-            return 'vendor-utils-corejs-modules';
-          }
-          
-          if (id.includes('node_modules') && id.includes('core-js/') && id.includes('internals')) {
-            return 'vendor-utils-corejs-internals';
-          }
-          
-          if (id.includes('node_modules') && id.includes('core-js/') && id.includes('features')) {
-            return 'vendor-utils-corejs-features';
-          }
-          
-          if (id.includes('node_modules') && id.includes('core-js/')) {
-            return 'vendor-utils-corejs';
-          }
-          
-          if (id.includes('node_modules') && id.includes('core-js')) {
-            return 'vendor-utils-core-corejs';
-          }
+          // core-js相关库已合并到React核心chunk，这里不再单独处理
           
           if (id.includes('node_modules') && id.includes('core')) {
             return 'vendor-utils-core-core';
