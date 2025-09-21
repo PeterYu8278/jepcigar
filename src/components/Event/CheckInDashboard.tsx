@@ -76,11 +76,6 @@ interface TopParticipants {
 const CheckInDashboard: React.FC<CheckInDashboardProps> = ({
   event,
 }) => {
-  // 如果event为null，返回null
-  if (!event) {
-    return null;
-  }
-
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState<CheckInStats>({
     total: 0,
@@ -322,6 +317,11 @@ const CheckInDashboard: React.FC<CheckInDashboardProps> = ({
       },
     },
   ];
+
+  // 如果event为null，返回null
+  if (!event) {
+    return null;
+  }
 
   return (
     <div className="space-y-4">

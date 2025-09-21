@@ -31,7 +31,8 @@ import {
   SwapOutlined,
   ImportOutlined,
   ExportOutlined,
-  FilterOutlined
+  FilterOutlined,
+  BarChartOutlined
 } from '@ant-design/icons';
 import { useInventoryStore } from '@/stores/inventoryStore';
 import { StockTransaction, TransactionType } from '@/types';
@@ -68,7 +69,7 @@ const StockTransactionsPage: React.FC = () => {
     });
   };
 
-  const handleDateRangeChange = (dates: [dayjs.Dayjs, dayjs.Dayjs] | null) => {
+  const handleDateRangeChange = (dates: any) => {
     setDateRange(dates);
     if (dates) {
       fetchStockTransactions({
@@ -154,7 +155,7 @@ const StockTransactionsPage: React.FC = () => {
         { text: '损耗报损', value: 'loss' },
         { text: '退货入库', value: 'return' },
       ],
-      onFilter: (value: string, record: StockTransaction) => record.type === value,
+      onFilter: (value: boolean | React.Key, record: StockTransaction) => record.type === value,
     },
     {
       title: '雪茄品牌',
@@ -301,7 +302,7 @@ const StockTransactionsPage: React.FC = () => {
       key: 'analytics',
       label: (
         <span>
-          <TrendingUpOutlined />
+          <BarChartOutlined />
           交易分析
         </span>
       ),

@@ -61,11 +61,6 @@ const BatchCheckIn: React.FC<BatchCheckInProps> = ({
   event,
   onBatchComplete,
 }) => {
-  // 如果event为null，返回null
-  if (!event) {
-    return null;
-  }
-
   const [participants, setParticipants] = useState<ParticipantWithDetails[]>([]);
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -337,6 +332,11 @@ const BatchCheckIn: React.FC<BatchCheckInProps> = ({
       render: (date) => dayjs(date).format('MM-DD HH:mm'),
     },
   ];
+
+  // 如果event为null，返回null
+  if (!event) {
+    return null;
+  }
 
   return (
     <Modal

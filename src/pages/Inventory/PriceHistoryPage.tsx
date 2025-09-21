@@ -73,7 +73,7 @@ const PriceHistoryPage: React.FC = () => {
     });
   };
 
-  const handleDateRangeChange = (dates: [dayjs.Dayjs, dayjs.Dayjs] | null) => {
+  const handleDateRangeChange = (dates: any) => {
     setDateRange(dates);
     fetchPriceHistory({
       dateRange: dates ? [dates[0].toDate(), dates[1].toDate()] : undefined,
