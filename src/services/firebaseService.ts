@@ -502,10 +502,12 @@ export class EventService extends FirebaseService {
   }
 
   static async getUpcomingEvents() {
+    // 使用Firestore Timestamp确保时区一致性
+    const { Timestamp } = await import('firebase/firestore');
     return this.getAll(
       this.COLLECTION,
       [
-        where('startDate', '>=', new Date()),
+        where('startDate', '>=', Timestamp.fromDate(new Date())),
         where('status', '==', 'published'),
         orderBy('startDate', 'asc')
       ]
