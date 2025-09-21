@@ -3,7 +3,7 @@ import { Route, Navigate } from 'react-router-dom';
 import { ConfigProvider, App as AntApp } from 'antd';
 
 // Components
-import AppLayout from '@/components/Layout/AppLayout';
+import ResponsiveAppLayout from '@/components/Layout/ResponsiveAppLayout';
 import ProtectedRoute from '@/components/Auth/ProtectedRoute';
 import { Routes } from '@/components/RoutesWithFutureFlags';
 
@@ -32,6 +32,7 @@ import PWATestPage from '@/pages/Test/PWATestPage';
 import EnvironmentTestPage from '@/pages/Test/EnvironmentTestPage';
 import CardUrlUpdatePage from '@/pages/Test/CardUrlUpdatePage';
 import QRCodeTestPage from '@/pages/Test/QRCodeTestPage';
+import MobileUITestPage from '@/pages/Test/MobileUITestPage';
 
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';
@@ -145,11 +146,11 @@ const App: React.FC = () => {
           <Route path="/card/:customerId" element={<DigitalCardPage />} />
           
           {/* Protected routes */}
-          <Route
-            path="/*"
-            element={
-              <ProtectedRoute>
-                <AppLayout>
+                <Route
+                  path="/*"
+                  element={
+                    <ProtectedRoute>
+                      <ResponsiveAppLayout>
                   <Routes>
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
                     <Route path="/dashboard" element={<DashboardPage />} />
@@ -205,15 +206,16 @@ const App: React.FC = () => {
                     <Route path="/test/environment" element={<EnvironmentTestPage />} />
                     <Route path="/test/card-url-update" element={<CardUrlUpdatePage />} />
                     <Route path="/test/qrcode" element={<QRCodeTestPage />} />
+                    <Route path="/test/mobile-ui" element={<MobileUITestPage />} />
                     <Route path="/pwa-test" element={<PWATestPage />} />
                     
                     {/* 404 */}
                     <Route path="*" element={<NotFoundPage />} />
                   </Routes>
-                </AppLayout>
-              </ProtectedRoute>
-            }
-          />
+                      </ResponsiveAppLayout>
+                    </ProtectedRoute>
+                  }
+                />
         </Routes>
       </ConfigProvider>
     </AntApp>
