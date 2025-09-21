@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Typography, Button, Tag, Row, Col, Tabs, Divider } from 'antd';
-import { CalendarOutlined, PlusOutlined, QrcodeOutlined, UserOutlined, BarChartOutlined, MailOutlined } from '@ant-design/icons';
+import { CalendarOutlined, PlusOutlined, QrcodeOutlined, UserOutlined, BarChartOutlined, MailOutlined, DownloadOutlined } from '@ant-design/icons';
 import { EventList, EventParticipants, EventRegistrationForm } from '@/components/LazyComponents';
 import { Event as EventType } from '@/types';
 import { useEventStore } from '@/stores/eventStore';
@@ -95,8 +95,8 @@ const EventPage: React.FC = () => {
         </Col>
 
         <Col xs={24} lg={8}>
-          <Card title="活动统计" className="hover-lift">
-            <div className="grid grid-cols-2 gap-4">
+          <Card title="" className="hover-lift">
+            <div className="grid grid-cols-4 gap-4">
               <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
                 <div className="text-2xl font-bold text-blue-600">12</div>
                 <div className="text-sm text-blue-600">本月活动</div>
@@ -119,18 +119,18 @@ const EventPage: React.FC = () => {
 
         <Col xs={24} lg={8}>
           <Card title="快速操作" className="hover-lift">
-            <div className="space-y-3">
-              <Button block icon={<PlusOutlined />}>
-                创建新活动
+            <div className="grid grid-cols-4 gap-4">
+              <Button icon={<PlusOutlined />} title="创建新活动">
+                创建
               </Button>
-              <Button block icon={<QrcodeOutlined />}>
-                生成签到码
+              <Button icon={<QrcodeOutlined />} title="生成签到码">
+                签到码
               </Button>
-              <Button block icon={<CalendarOutlined />}>
-                查看活动日历
+              <Button icon={<CalendarOutlined />} title="查看活动日历">
+                日历
               </Button>
-              <Button block>
-                导出参与报告
+              <Button icon={<DownloadOutlined />} title="导出参与报告">
+                导出
               </Button>
             </div>
           </Card>
