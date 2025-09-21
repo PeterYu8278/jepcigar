@@ -34,6 +34,13 @@ import CardUrlUpdatePage from '@/pages/Test/CardUrlUpdatePage';
 import QRCodeTestPage from '@/pages/Test/QRCodeTestPage';
 import MobileUITestPage from '@/pages/Test/MobileUITestPage';
 
+// 移动端专用页面
+import MobileDashboardPage from '@/pages/Dashboard/MobileDashboardPage';
+import MobileEventPage from '@/pages/Event/MobileEventPage';
+
+// 响应式页面组件
+import ResponsivePage from '@/components/Common/ResponsivePage';
+
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';
 import { checkFirebaseConfiguration, displayFirebaseStatus } from '@/utils/firebaseCheck';
@@ -152,8 +159,13 @@ const App: React.FC = () => {
                     <ProtectedRoute>
                       <ResponsiveAppLayout>
                   <Routes>
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    <Route path="/dashboard" element={<DashboardPage />} />
+                          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                          <Route path="/dashboard" element={
+                            <ResponsivePage 
+                              desktopComponent={DashboardPage}
+                              mobileComponent={MobileDashboardPage}
+                            />
+                          } />
                     
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
@@ -163,9 +175,14 @@ const App: React.FC = () => {
                     <Route path="/customers" element={<CustomerPage />} />
                     <Route path="/customers/:id" element={<CustomerPage />} />
                     
-                    {/* Events & Networking */}
-                    <Route path="/events" element={<EventPage />} />
-                    <Route path="/events/:id" element={<EventPage />} />
+                          {/* Events & Networking */}
+                          <Route path="/events" element={
+                            <ResponsivePage 
+                              desktopComponent={EventPage}
+                              mobileComponent={MobileEventPage}
+                            />
+                          } />
+                          <Route path="/events/:id" element={<EventPage />} />
                     
                     {/* Referral Program */}
                     <Route path="/referrals" element={<ReferralPage />} />
