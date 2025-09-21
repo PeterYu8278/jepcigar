@@ -399,7 +399,7 @@ const EventPage: React.FC = () => {
 
       {/* Feature Description */}
       <Card title="活动功能说明">
-        <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
           <div className="p-4 border border-gray-200 rounded-lg">
             <div className="flex items-center space-x-2 mb-2">
               <QrcodeOutlined className="text-blue-500" />
@@ -458,7 +458,7 @@ const EventPage: React.FC = () => {
       <BatchCheckIn
         visible={showBatchCheckIn}
         onCancel={() => setShowBatchCheckIn(false)}
-        event={selectedEvent!}
+        event={selectedEvent}
         onBatchComplete={() => {
           fetchUpcomingEvents();
         }}

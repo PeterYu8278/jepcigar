@@ -12,28 +12,23 @@ import {
   Col,
   Statistic,
   Tabs,
-  message,
   App,
   Tooltip,
   DatePicker,
-  Empty,
-  Spin
+  Empty
 } from 'antd';
 import {
   SearchOutlined,
-  TrendingUpOutlined,
-  TrendingDownOutlined,
+  CaretUpOutlined,
+  CaretDownOutlined,
   HistoryOutlined,
   BarChartOutlined,
-  LineChartOutlined,
-  DollarOutlined,
-  CalendarOutlined,
   FilterOutlined,
   ReloadOutlined
 } from '@ant-design/icons';
 import { Line, Column, Area } from '@ant-design/plots';
 import { useInventoryStore } from '@/stores/inventoryStore';
-import { PriceHistory, Cigar } from '@/types';
+import { PriceHistory } from '@/types';
 import dayjs from 'dayjs';
 
 const { Title, Text } = Typography;
@@ -41,14 +36,12 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const PriceHistoryPage: React.FC = () => {
-  const { message: messageApi } = App.useApp();
   const { 
     priceHistory, 
     cigars,
     isLoading, 
     fetchPriceHistory, 
     fetchCigars,
-    createPriceHistory 
   } = useInventoryStore();
   
   const [searchTerm, setSearchTerm] = useState('');
@@ -96,13 +89,13 @@ const PriceHistoryPage: React.FC = () => {
     if (change > 0) {
       return {
         color: '#cf1322',
-        icon: <TrendingUpOutlined />,
+        icon: <CaretUpOutlined />,
         text: `+¥${change.toFixed(2)} (+${changePercent.toFixed(1)}%)`
       };
     } else if (change < 0) {
       return {
         color: '#3f8600',
-        icon: <TrendingDownOutlined />,
+        icon: <CaretDownOutlined />,
         text: `¥${change.toFixed(2)} (${changePercent.toFixed(1)}%)`
       };
     } else {

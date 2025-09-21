@@ -16,11 +16,8 @@ import {
   Col,
   Statistic,
   Tabs,
-  message,
   App,
-  Tooltip,
-  Badge,
-  Divider
+  Tooltip
 } from 'antd';
 import {
   PlusOutlined,
@@ -28,8 +25,8 @@ import {
   EyeOutlined,
   EditOutlined,
   HistoryOutlined,
-  TrendingUpOutlined,
-  TrendingDownOutlined,
+  CaretUpOutlined,
+  CaretDownOutlined,
   StockOutlined,
   SwapOutlined,
   ImportOutlined,
@@ -121,8 +118,8 @@ const StockTransactionsPage: React.FC = () => {
       sale: { label: '销售出库', color: 'blue', icon: <ExportOutlined /> },
       transfer: { label: '库存调拨', color: 'orange', icon: <SwapOutlined /> },
       adjustment: { label: '库存调整', color: 'purple', icon: <EditOutlined /> },
-      loss: { label: '损耗报损', color: 'red', icon: <TrendingDownOutlined /> },
-      return: { label: '退货入库', color: 'cyan', icon: <TrendingUpOutlined /> }
+      loss: { label: '损耗报损', color: 'red', icon: <CaretDownOutlined /> },
+      return: { label: '退货入库', color: 'cyan', icon: <CaretUpOutlined /> }
     };
     return configs[type] || { label: type, color: 'default', icon: <StockOutlined /> };
   };
@@ -173,7 +170,7 @@ const StockTransactionsPage: React.FC = () => {
       title: '数量',
       dataIndex: 'quantity',
       key: 'quantity',
-      render: (quantity: number, record: StockTransaction) => (
+      render: (quantity: number) => (
         <Text strong={quantity > 0 ? true : false} type={quantity > 0 ? 'success' : 'danger'}>
           {quantity > 0 ? '+' : ''}{quantity}
         </Text>

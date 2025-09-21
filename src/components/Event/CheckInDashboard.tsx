@@ -39,7 +39,7 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 interface CheckInDashboardProps {
-  event: EventType;
+  event: EventType | null;
   onRefresh?: () => void;
 }
 
@@ -76,6 +76,11 @@ interface TopParticipants {
 const CheckInDashboard: React.FC<CheckInDashboardProps> = ({
   event,
 }) => {
+  // 如果event为null，返回null
+  if (!event) {
+    return null;
+  }
+
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState<CheckInStats>({
     total: 0,

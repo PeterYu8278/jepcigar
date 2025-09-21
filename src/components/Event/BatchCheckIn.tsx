@@ -36,7 +36,7 @@ const { Option } = Select;
 interface BatchCheckInProps {
   visible: boolean;
   onCancel: () => void;
-  event: EventType;
+  event: EventType | null;
   onBatchComplete?: (results: BatchResult[]) => void;
 }
 
@@ -61,6 +61,11 @@ const BatchCheckIn: React.FC<BatchCheckInProps> = ({
   event,
   onBatchComplete,
 }) => {
+  // 如果event为null，返回null
+  if (!event) {
+    return null;
+  }
+
   const [participants, setParticipants] = useState<ParticipantWithDetails[]>([]);
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
