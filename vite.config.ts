@@ -45,182 +45,100 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // 🎯 优化策略1: 核心React库 - 包含React和React DOM，确保它们使用同一个实例
-          if (id.includes('react') && !id.includes('react-router')) {
-            return 'vendor-react-core';
-          }
+               manualChunks: (id) => {
+                 // 🎯 超级核心策略: 将所有chunk合并到vendor-react-core
+                 // 这确保了所有模块使用同一个实例，完全消除初始化冲突
+                 
+                 // 合并所有React相关库
+                 if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略3: React Router - 路由功能独立
-          if (id.includes('react-router')) {
-            return 'vendor-react-router';
-          }
+                 // 合并所有状态管理
+                 if (id.includes('zustand') || id.includes('stores')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略4: 状态管理 - Zustand独立
-          if (id.includes('zustand') || id.includes('stores')) {
-            return 'vendor-state';
-          }
+                 // 合并所有UI库
+                 if (id.includes('antd')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略5: UI库 - Ant Design独立
-          if (id.includes('antd')) {
-            return 'vendor-ui';
-          }
+                 // 合并所有数据获取库
+                 if (id.includes('@tanstack/react-query') || id.includes('react-query')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略6: 数据获取 - React Query独立
-          if (id.includes('@tanstack/react-query') || id.includes('react-query')) {
-            return 'vendor-data';
-          }
+                 // 合并所有动画库
+                 if (id.includes('framer-motion')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略7: 动画库 - Framer Motion独立
-          if (id.includes('framer-motion')) {
-            return 'vendor-animation';
-          }
+                 // 合并所有表单处理库
+                 if (id.includes('react-hook-form') || id.includes('@hookform/resolvers')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略8: 表单处理 - React Hook Form独立
-          if (id.includes('react-hook-form') || id.includes('@hookform/resolvers')) {
-            return 'vendor-forms';
-          }
+                 // 合并所有图表库
+                 if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略9: 图表库 - Chart.js独立
-          if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
-            return 'vendor-charts';
-          }
+                 // 合并所有日期处理库
+                 if (id.includes('dayjs') || id.includes('date-fns')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略10: 日期处理 - 日期库独立
-          if (id.includes('dayjs') || id.includes('date-fns')) {
-            return 'vendor-dates';
-          }
+                 // 合并所有工具库
+                 if (id.includes('lodash') || id.includes('uuid')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略11: 工具库 - 按功能分组
-          if (id.includes('lodash') || id.includes('uuid')) {
-            return 'vendor-utils';
-          }
+                 // 合并所有二维码库
+                 if (id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('react-qr-code')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略12: 二维码库 - QR相关功能独立
-          if (id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('react-qr-code')) {
-            return 'vendor-qr';
-          }
+                 // 合并所有PDF处理库
+                 if (id.includes('react-pdf') || id.includes('jspdf') || id.includes('html2canvas')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略13: PDF处理 - PDF相关功能独立
-          if (id.includes('react-pdf') || id.includes('jspdf') || id.includes('html2canvas')) {
-            return 'vendor-pdf';
-          }
+                 // 合并所有Firebase和存储库
+                 if (id.includes('firebase') || id.includes('localStorage') || id.includes('indexedDB') || id.includes('sessionStorage')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略14: Firebase - 存储相关独立
-          if (id.includes('firebase') || id.includes('localStorage') || id.includes('indexedDB') || id.includes('sessionStorage')) {
-            return 'vendor-storage';
-          }
+                 // 合并所有第三方库
+                 if (id.includes('node_modules')) {
+                   return 'vendor-react-core';
+                 }
 
-          // 🎯 优化策略15: 业务模块 - 按功能分组
-          if (id.includes('Customer/') || id.includes('customerStore')) {
-            return 'module-customer';
-          }
+                 // 合并所有业务模块
+                 if (id.includes('Customer/') || id.includes('customerStore') ||
+                     id.includes('Inventory/') || id.includes('inventoryStore') ||
+                     id.includes('Event/') || id.includes('eventStore') ||
+                     id.includes('Analytics/') ||
+                     id.includes('Gamification/') ||
+                     id.includes('Gifting/') ||
+                     id.includes('Academy/') ||
+                     id.includes('AIRecommendations/') ||
+                     id.includes('Settings/') ||
+                     id.includes('Dashboard/') ||
+                     id.includes('Auth/') || id.includes('authStore')) {
+                   return 'vendor-react-core';
+                 }
 
-          if (id.includes('Inventory/') || id.includes('inventoryStore')) {
-            return 'module-inventory';
-          }
+                 // 合并所有应用代码
+                 if (id.includes('src/components') ||
+                     id.includes('src/utils') || id.includes('src/hooks') ||
+                     id.includes('src/services')) {
+                   return 'vendor-react-core';
+                 }
 
-          if (id.includes('Event/') || id.includes('eventStore')) {
-            return 'module-event';
-          }
-
-          if (id.includes('Analytics/')) {
-            return 'module-analytics';
-          }
-
-          if (id.includes('Gamification/')) {
-            return 'module-gamification';
-          }
-
-          if (id.includes('Gifting/')) {
-            return 'module-gifting';
-          }
-
-          if (id.includes('Academy/')) {
-            return 'module-academy';
-          }
-
-          if (id.includes('AIRecommendations/')) {
-            return 'module-recommendations';
-          }
-
-          if (id.includes('Settings/')) {
-            return 'module-settings';
-          }
-
-          if (id.includes('Dashboard/')) {
-            return 'module-dashboard';
-          }
-
-          if (id.includes('Auth/') || id.includes('authStore')) {
-            return 'module-auth';
-          }
-
-          // 🎯 优化策略16: 第三方库 - 按字母分组（减少chunk数量）
-          if (id.includes('node_modules')) {
-            // 按库名首字母分组，减少chunk数量
-            const libName = id.split('node_modules/')[1]?.split('/')[0] || '';
-            const firstChar = libName.charAt(0).toLowerCase();
-            
-             // 将关键的第三方库合并到React核心chunk，确保正确的初始化顺序
-             if (id.includes('@emotion') || id.includes('emotion') || 
-                 id.includes('@babel') || id.includes('babel') ||
-                 id.includes('@types') || id.includes('typescript') ||
-                 id.includes('@rollup') || id.includes('rollup') ||
-                 id.includes('@vitejs') || id.includes('vite') ||
-                 // 合并所有React生态相关的库
-                 id.includes('lucide-react') || id.includes('react-window') ||
-                 id.includes('react-window-infinite-loader') ||
-                 id.includes('zod') || id.includes('react-hook-form') ||
-                 id.includes('@hookform') || id.includes('@tanstack/react-query') ||
-                 id.includes('framer-motion') || id.includes('chart.js') ||
-                 id.includes('react-chartjs-2') || id.includes('lodash') ||
-                 id.includes('uuid') || id.includes('core-js') ||
-                 id.includes('__core-js_shared__') ||
-                 // 合并可能访问React内部API的库
-                 id.includes('scheduler') || id.includes('react-is') ||
-                 id.includes('prop-types') || id.includes('hoist-non-react-statics') ||
-                 id.includes('invariant') || id.includes('warning') ||
-                 id.includes('object-assign') || id.includes('loose-envify') ||
-                 id.includes('js-tokens') ||
-                 // 合并其他可能导致初始化问题的库
-                 id.includes('eslint') || id.includes('@typescript-eslint') ||
-                 id.includes('@testing-library') || id.includes('vitest') ||
-                 id.includes('postcss') || id.includes('tailwindcss') ||
-                 id.includes('autoprefixer') || id.includes('terser') ||
-                 // 合并vendor-third-party-n-s和t-z chunk中的所有库，解决version和createContext访问错误
-                 id.includes('node_modules') && (firstChar >= 'n' && firstChar <= 's') ||
-                 id.includes('node_modules') && (firstChar >= 't' && firstChar <= 'z')) {
-               return 'vendor-react-core';
-             }
-            
-            if (firstChar >= 'a' && firstChar <= 'f') {
-              return 'vendor-third-party-a-f';
-            } else if (firstChar >= 'g' && firstChar <= 'm') {
-              return 'vendor-third-party-g-m';
-            } else if (firstChar >= 'n' && firstChar <= 's') {
-              return 'vendor-third-party-n-s';
-            } else {
-              return 'vendor-third-party-t-z';
-            }
-          }
-
-          // 🎯 优化策略17: 应用代码 - 按功能分组
-          if (id.includes('src/components')) {
-            return 'app-components';
-          }
-
-          if (id.includes('src/utils') || id.includes('src/hooks')) {
-            return 'app-utils';
-          }
-
-          if (id.includes('src/services')) {
-            return 'app-services';
-          }
-
-          // 默认分组
-          return 'app-remaining';
-        },
+                 // 默认也合并到核心chunk
+                 return 'vendor-react-core';
+               },
         // 优化 chunk 文件名
         chunkFileNames: (chunkInfo) => {
           const facadeModuleId = chunkInfo.facadeModuleId
