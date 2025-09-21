@@ -227,8 +227,8 @@ export default defineConfig({
       'firebase/storage',
       'firebase/analytics',
       
-       // 其他React生态库
-       'lucide-react',
+             // 图标库 - 使用Ant Design图标系统
+             // 'lucide-react', // 已移除，使用Ant Design图标系统
        'react-window',
        'react-window-infinite-loader',
        
