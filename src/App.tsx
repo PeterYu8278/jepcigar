@@ -30,6 +30,8 @@ import {
 // PWA Test Page (非懒加载，因为测试页面需要快速访问)
 import PWATestPage from '@/pages/Test/PWATestPage';
 import EnvironmentTestPage from '@/pages/Test/EnvironmentTestPage';
+import CardUrlUpdatePage from '@/pages/Test/CardUrlUpdatePage';
+import QRCodeDebugPage from '@/pages/Test/QRCodeDebugPage';
 
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';
@@ -201,6 +203,8 @@ const App: React.FC = () => {
                     <Route path="/test/digital-card" element={<DigitalCardTestPage />} />
                     <Route path="/test/pwa" element={<PWATestPage />} />
                     <Route path="/test/environment" element={<EnvironmentTestPage />} />
+                    <Route path="/test/card-url-update" element={<CardUrlUpdatePage />} />
+                    <Route path="/test/qrcode-debug" element={<QRCodeDebugPage />} />
                     <Route path="/pwa-test" element={<PWATestPage />} />
                     
                     {/* 404 */}
