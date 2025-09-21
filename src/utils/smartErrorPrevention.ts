@@ -86,6 +86,14 @@ class SmartErrorPrevention {
       category: 'react-dom',
       description: 'React DOM内部API访问错误'
     });
+
+    // 类继承错误
+    this.errorPatterns.set('class-extends-error', {
+      pattern: /Class extends value undefined is not a constructor or null/,
+      severity: 'critical',
+      category: 'class-inheritance',
+      description: '类继承错误，父类未正确初始化'
+    });
   }
 
   /**
@@ -104,6 +112,14 @@ class SmartErrorPrevention {
     this.preventionStrategies.set('react-dom-merge', {
       name: 'React DOM合并',
       description: '将React DOM合并到React核心chunk中，确保使用同一个实例',
+      implementation: 'vite.config.ts manualChunks',
+      effectiveness: 'high'
+    });
+
+    // 第三方库合并策略
+    this.preventionStrategies.set('third-party-merge', {
+      name: '第三方库合并',
+      description: '将关键的第三方库合并到React核心chunk，确保正确的初始化顺序',
       implementation: 'vite.config.ts manualChunks',
       effectiveness: 'high'
     });
@@ -277,6 +293,8 @@ class SmartErrorPrevention {
       strategyId = 'react-dom-merge';
     } else if (patternId === 'react-context-error' || patternId === 'react-forwardref-error') {
       strategyId = 'react-core-merge';
+    } else if (patternId === 'class-extends-error') {
+      strategyId = 'third-party-merge';
     }
     
     const strategy = this.preventionStrategies.get(strategyId);

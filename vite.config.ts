@@ -162,6 +162,15 @@ export default defineConfig({
             const libName = id.split('node_modules/')[1]?.split('/')[0] || '';
             const firstChar = libName.charAt(0).toLowerCase();
             
+            // 将一些关键的第三方库合并到React核心chunk，确保正确的初始化顺序
+            if (id.includes('@emotion') || id.includes('emotion') || 
+                id.includes('@babel') || id.includes('babel') ||
+                id.includes('@types') || id.includes('typescript') ||
+                id.includes('@rollup') || id.includes('rollup') ||
+                id.includes('@vitejs') || id.includes('vite')) {
+              return 'vendor-react-core';
+            }
+            
             if (firstChar >= 'a' && firstChar <= 'f') {
               return 'vendor-third-party-a-f';
             } else if (firstChar >= 'g' && firstChar <= 'm') {
