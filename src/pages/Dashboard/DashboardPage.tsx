@@ -293,49 +293,41 @@ const DashboardPage: React.FC = () => {
       </div>
 
       {/* Statistics Cards */}
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="总客户数"
-              value={stats.totalCustomers}
-              prefix={<UserOutlined />}
-              valueStyle={{ color: '#1890ff' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="本月销售"
-              value={stats.totalSales}
-              prefix={<ShoppingCartOutlined />}
-              valueStyle={{ color: '#52c41a' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="本月收入"
-              value={stats.totalRevenue}
-              prefix="¥"
-              precision={0}
-              valueStyle={{ color: '#f16d1f' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="活跃活动"
-              value={stats.activeEvents}
-              prefix={<CalendarOutlined />}
-              valueStyle={{ color: '#722ed1' }}
-            />
-          </Card>
-        </Col>
-      </Row>
+      <div className="grid grid-cols-4 gap-4">
+        <Card className="hover-lift">
+          <Statistic
+            title="总客户数"
+            value={stats.totalCustomers}
+            prefix={<UserOutlined />}
+            valueStyle={{ color: '#1890ff' }}
+          />
+        </Card>
+        <Card className="hover-lift">
+          <Statistic
+            title="本月销售"
+            value={stats.totalSales}
+            prefix={<ShoppingCartOutlined />}
+            valueStyle={{ color: '#52c41a' }}
+          />
+        </Card>
+        <Card className="hover-lift">
+          <Statistic
+            title="本月收入"
+            value={stats.totalRevenue}
+            prefix="¥"
+            precision={0}
+            valueStyle={{ color: '#f16d1f' }}
+          />
+        </Card>
+        <Card className="hover-lift">
+          <Statistic
+            title="活跃活动"
+            value={stats.activeEvents}
+            prefix={<CalendarOutlined />}
+            valueStyle={{ color: '#722ed1' }}
+          />
+        </Card>
+      </div>
 
       {/* Charts Row */}
       <Row gutter={[16, 16]}>
