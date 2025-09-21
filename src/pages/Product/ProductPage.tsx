@@ -1,32 +1,30 @@
 import React, { useState } from 'react';
-import { Card, Typography, Tabs, Button, Space, Row, Col } from 'antd';
+import { Card, Typography, Tabs, Button, Space } from 'antd';
 import { 
   GiftOutlined, 
   ShoppingCartOutlined, 
   BookOutlined, 
   PlusOutlined,
-  StarOutlined,
-  TrophyOutlined
+  BulbOutlined
 } from '@ant-design/icons';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // Import the migrated components
 import GiftingPage from './GiftingPage';
 import PointsMarketplacePage from './PointsMarketplacePage';
 import AcademyPage from './AcademyPage';
+import AIRecommendationPage from './AIRecommendationPage';
 
 const { Title, Text } = Typography;
-const { TabPane } = Tabs;
 
 const ProductPage: React.FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('gifting');
 
   // Get the active tab from URL hash or default to gifting
   React.useEffect(() => {
     const hash = location.hash.replace('#', '');
-    if (hash && ['gifting', 'marketplace', 'academy'].includes(hash)) {
+    if (hash && ['gifting', 'marketplace', 'academy', 'ai-recommendation'].includes(hash)) {
       setActiveTab(hash);
     }
   }, [location.hash]);
@@ -45,6 +43,8 @@ const ProductPage: React.FC = () => {
         return <PointsMarketplacePage />;
       case 'academy':
         return <AcademyPage />;
+      case 'ai-recommendation':
+        return <AIRecommendationPage />;
       default:
         return <GiftingPage />;
     }
@@ -56,7 +56,7 @@ const ProductPage: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <Title level={2} className="mb-0">产品服务</Title>
-          <Text type="secondary">礼品定制、积分商城、雪茄学院一站式服务</Text>
+          <Text type="secondary">礼品定制、积分商城、雪茄学院、AI推荐一站式服务</Text>
         </div>
         <Space>
           <Button type="primary" icon={<PlusOutlined />}>
@@ -65,51 +65,7 @@ const ProductPage: React.FC = () => {
         </Space>
       </div>
 
-      {/* Overview Cards */}
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={8}>
-          <Card 
-            className="hover-lift cursor-pointer" 
-            onClick={() => handleTabChange('gifting')}
-          >
-            <div className="text-center">
-              <GiftOutlined className="text-4xl text-blue-500 mb-3" />
-              <Title level={4} className="mb-2">礼品定制</Title>
-              <Text type="secondary">
-                为特殊场合定制专属雪茄礼品，支持个性化包装和配送
-              </Text>
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={8}>
-          <Card 
-            className="hover-lift cursor-pointer" 
-            onClick={() => handleTabChange('marketplace')}
-          >
-            <div className="text-center">
-              <ShoppingCartOutlined className="text-4xl text-green-500 mb-3" />
-              <Title level={4} className="mb-2">积分商城</Title>
-              <Text type="secondary">
-                使用积分兑换精美礼品和专属体验，享受会员特权
-              </Text>
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={8}>
-          <Card 
-            className="hover-lift cursor-pointer" 
-            onClick={() => handleTabChange('academy')}
-          >
-            <div className="text-center">
-              <BookOutlined className="text-4xl text-purple-500 mb-3" />
-              <Title level={4} className="mb-2">雪茄学院</Title>
-              <Text type="secondary">
-                学习雪茄知识，获得徽章和会员升级，提升品鉴技能
-              </Text>
-            </div>
-          </Card>
-        </Col>
-      </Row>
+      
 
       {/* Tab Navigation */}
       <Card className="hover-lift">
@@ -141,6 +97,15 @@ const ProductPage: React.FC = () => {
                 <span>
                   <BookOutlined />
                   雪茄学院
+                </span>
+              ),
+            },
+            {
+              key: 'ai-recommendation',
+              label: (
+                <span>
+                  <BulbOutlined />
+                  AI推荐
                 </span>
               ),
             },

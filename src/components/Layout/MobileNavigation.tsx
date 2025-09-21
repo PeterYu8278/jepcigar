@@ -69,11 +69,6 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ className = '' }) =
       label: '分析',
     },
     {
-      key: '/recommendations',
-      icon: <BulbOutlined />,
-      label: '推荐',
-    },
-    {
       key: '/settings',
       icon: <SettingOutlined />,
       label: '设置',

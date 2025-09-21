@@ -33,6 +33,10 @@ export const DashboardPage = withSuspense(
   React.lazy(() => import('@/pages/Dashboard/DashboardPage'))
 );
 
+export const SystemManagementPage = withSuspense(
+  React.lazy(() => import('@/pages/System/SystemManagementPage'))
+);
+
 export const InventoryPage = withSuspense(
   React.lazy(() => import('@/pages/Inventory/InventoryPage'))
 );
@@ -132,6 +136,18 @@ export const QRCodeGenerator = withSuspense(
 
 export const QRCodeScanner = withSuspense(
   React.lazy(() => import('@/components/Event/QRCodeScanner'))
+);
+
+export const EnhancedQRCodeScanner = withSuspense(
+  React.lazy(() => import('@/components/Event/EnhancedQRCodeScanner'))
+);
+
+export const BatchCheckIn = withSuspense(
+  React.lazy(() => import('@/components/Event/BatchCheckIn'))
+);
+
+export const CheckInDashboard = withSuspense(
+  React.lazy(() => import('@/components/Event/CheckInDashboard'))
 );
 
 // Customer 相关组件 - 暂时注释掉不存在的组件

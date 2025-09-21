@@ -89,42 +89,6 @@ const GiftingPage: React.FC = () => {
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={8}>
-          <Card title="包装选项" className="hover-lift">
-            <div className="space-y-3">
-              <div className="p-3 border border-gray-200 rounded-lg">
-                <div className="flex justify-between items-center mb-2">
-                  <Text strong>标准包装</Text>
-                  <Tag color="green">免费</Tag>
-                </div>
-                <Text type="secondary" className="text-sm">
-                  精美礼品盒包装，适合日常礼品
-                </Text>
-              </div>
-              
-              <div className="p-3 border border-gray-200 rounded-lg">
-                <div className="flex justify-between items-center mb-2">
-                  <Text strong>高级包装</Text>
-                  <Tag color="blue">¥50</Tag>
-                </div>
-                <Text type="secondary" className="text-sm">
-                  木质礼品盒配丝带，适合商务礼品
-                </Text>
-              </div>
-              
-              <div className="p-3 border border-gray-200 rounded-lg">
-                <div className="flex justify-between items-center mb-2">
-                  <Text strong>奢华包装</Text>
-                  <Tag color="purple">¥150</Tag>
-                </div>
-                <Text type="secondary" className="text-sm">
-                  定制礼盒配证书，适合特殊场合
-                </Text>
-              </div>
-            </div>
-          </Card>
-        </Col>
-
-        <Col xs={24} lg={8}>
           <Card title="礼品推荐" className="hover-lift">
             <div className="space-y-3">
               <div className="p-3 bg-blue-50 rounded-lg">
@@ -169,24 +133,7 @@ const GiftingPage: React.FC = () => {
           </Card>
         </Col>
 
-        <Col xs={24} lg={8}>
-          <Card title="快速操作" className="hover-lift">
-            <div className="space-y-3">
-              <Button block icon={<PlusOutlined />}>
-                创建新订单
-              </Button>
-              <Button block icon={<GiftOutlined />}>
-                查看推荐模板
-              </Button>
-              <Button block>
-                批量处理订单
-              </Button>
-              <Button block>
-                导出订单报告
-              </Button>
-            </div>
-          </Card>
-        </Col>
+        
       </Row>
 
       <Card title="礼品订单" className="hover-lift">
@@ -197,40 +144,6 @@ const GiftingPage: React.FC = () => {
           pagination={false}
           size="small"
         />
-      </Card>
-
-      <Card title="礼品定制功能说明">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <div className="flex items-center space-x-2 mb-2">
-              <GiftOutlined className="text-blue-500" />
-              <h4 className="font-medium">智能推荐</h4>
-            </div>
-            <Text type="secondary">
-              基于收件人偏好和场合，智能推荐合适的雪茄和包装
-            </Text>
-          </div>
-          
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <div className="flex items-center space-x-2 mb-2">
-              <GiftOutlined className="text-green-500" />
-              <h4 className="font-medium">个性化定制</h4>
-            </div>
-            <Text type="secondary">
-              支持个性化贺卡、包装和配送时间的定制
-            </Text>
-          </div>
-          
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <div className="flex items-center space-x-2 mb-2">
-              <GiftOutlined className="text-purple-500" />
-              <h4 className="font-medium">配送跟踪</h4>
-            </div>
-            <Text type="secondary">
-              实时跟踪礼品配送状态，确保准时送达
-            </Text>
-          </div>
-        </div>
       </Card>
     </div>
   );

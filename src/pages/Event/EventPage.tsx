@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Card, Typography, Button, Tag, Row, Col, Tabs, Divider, message, List } from 'antd';
+import { Card, Typography, Button, Tag, Row, Col, Tabs, Divider, message, List, Modal } from 'antd';
 import { CalendarOutlined, PlusOutlined, QrcodeOutlined, UserOutlined, BarChartOutlined, MailOutlined, DownloadOutlined } from '@ant-design/icons';
-import { EventList, EventParticipants, EventRegistrationForm } from '@/components/LazyComponents';
+import { 
+  EventList, 
+  EventParticipants, 
+  EventRegistrationForm,
+  EnhancedQRCodeScanner,
+  BatchCheckIn,
+  CheckInDashboard
+} from '@/components/LazyComponents';
 import { Event as EventType } from '@/types';
 import { useEventStore } from '@/stores/eventStore';
 
@@ -13,6 +20,9 @@ const EventPage: React.FC = () => {
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   const [registrationMode, setRegistrationMode] = useState<'register' | 'invite'>('register');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
+  const [showBatchCheckIn, setShowBatchCheckIn] = useState(false);
+  const [showCheckInDashboard, setShowCheckInDashboard] = useState(false);
   const { upcomingEvents, fetchUpcomingEvents } = useEventStore();
 
   React.useEffect(() => {
@@ -38,6 +48,21 @@ const EventPage: React.FC = () => {
     setSelectedEvent(event);
     setRegistrationMode(mode);
     setShowRegistrationForm(true);
+  };
+
+  const handleShowScanner = (event: EventType) => {
+    setSelectedEvent(event);
+    setShowScanner(true);
+  };
+
+  const handleShowBatchCheckIn = (event: EventType) => {
+    setSelectedEvent(event);
+    setShowBatchCheckIn(true);
+  };
+
+  const handleShowCheckInDashboard = (event: EventType) => {
+    setSelectedEvent(event);
+    setShowCheckInDashboard(true);
   };
 
   const getEventTypeConfig = (type: string) => {
@@ -307,7 +332,7 @@ const EventPage: React.FC = () => {
             
             <Divider />
             
-            <Row gutter={16}>
+            <Row gutter={[8, 8]}>
               <Col span={8}>
                 <Button 
                   type="primary" 
@@ -334,6 +359,37 @@ const EventPage: React.FC = () => {
                   block
                 >
                   发送邀请
+                </Button>
+              </Col>
+            </Row>
+            
+            <Row gutter={[8, 8]}>
+              <Col span={8}>
+                <Button 
+                  type="primary"
+                  icon={<QrcodeOutlined />}
+                  onClick={() => handleShowScanner(selectedEvent)}
+                  block
+                >
+                  扫描签到
+                </Button>
+              </Col>
+              <Col span={8}>
+                <Button 
+                  icon={<UserOutlined />}
+                  onClick={() => handleShowBatchCheckIn(selectedEvent)}
+                  block
+                >
+                  批量签到
+                </Button>
+              </Col>
+              <Col span={8}>
+                <Button 
+                  icon={<BarChartOutlined />}
+                  onClick={() => handleShowCheckInDashboard(selectedEvent)}
+                  block
+                >
+                  签到统计
                 </Button>
               </Col>
             </Row>
@@ -387,6 +443,43 @@ const EventPage: React.FC = () => {
         event={selectedEvent!}
         mode={registrationMode}
       />
+
+      {/* Enhanced QR Code Scanner Modal */}
+      <EnhancedQRCodeScanner
+        visible={showScanner}
+        onCancel={() => setShowScanner(false)}
+        event={selectedEvent}
+        onScanSuccess={() => {
+          fetchUpcomingEvents();
+        }}
+      />
+
+      {/* Batch Check In Modal */}
+      <BatchCheckIn
+        visible={showBatchCheckIn}
+        onCancel={() => setShowBatchCheckIn(false)}
+        event={selectedEvent!}
+        onBatchComplete={() => {
+          fetchUpcomingEvents();
+        }}
+      />
+
+      {/* Check In Dashboard Modal */}
+      {selectedEvent && showCheckInDashboard && (
+        <Modal
+          title="签到统计面板"
+          open={showCheckInDashboard}
+          onCancel={() => setShowCheckInDashboard(false)}
+          width={1200}
+          footer={null}
+          destroyOnHidden
+        >
+          <CheckInDashboard
+            event={selectedEvent}
+            onRefresh={fetchUpcomingEvents}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

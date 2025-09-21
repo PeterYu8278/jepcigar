@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Typography, Button, Space, Tag, Row, Col, Statistic, Table } from 'antd';
+import { Card, Typography, Button, Space, Tag, Statistic, Table } from 'antd';
 import { BarChartOutlined, DownloadOutlined, PrinterOutlined, FileTextOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
@@ -71,81 +71,69 @@ const AnalyticsPage: React.FC = () => {
         </Space>
       </div>
 
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="本月销售"
-              value={125680}
-              prefix="¥"
-              precision={0}
-              valueStyle={{ color: '#52c41a' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="本月订单"
-              value={89}
-              valueStyle={{ color: '#1890ff' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="活跃客户"
-              value={1247}
-              valueStyle={{ color: '#722ed1' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={6}>
-          <Card className="hover-lift">
-            <Statistic
-              title="平均订单价值"
-              value={1412}
-              prefix="¥"
-              precision={0}
-              valueStyle={{ color: '#f16d1f' }}
-            />
-          </Card>
-        </Col>
-      </Row>
+      <div className="grid grid-cols-4 sm:grid-cols-4 gap-4">
+        <Card className="hover-lift">
+          <Statistic
+            title="本月销售"
+            value={125680}
+            prefix="¥"
+            precision={0}
+            valueStyle={{ color: '#52c41a' }}
+          />
+        </Card>
+        <Card className="hover-lift">
+          <Statistic
+            title="本月订单"
+            value={89}
+            valueStyle={{ color: '#1890ff' }}
+          />
+        </Card>
+        <Card className="hover-lift">
+          <Statistic
+            title="活跃客户"
+            value={1247}
+            valueStyle={{ color: '#722ed1' }}
+          />
+        </Card>
+        <Card className="hover-lift">
+          <Statistic
+            title="平均订单价值"
+            value={1412}
+            prefix="¥"
+            precision={0}
+            valueStyle={{ color: '#f16d1f' }}
+          />
+        </Card>
+      </div>
 
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={12}>
-          <Card title="销售趋势" className="hover-lift">
-            <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-              <div className="text-center">
-                <BarChartOutlined className="text-4xl text-gray-400 mb-2" />
-                <Text type="secondary">销售趋势图表</Text>
-                <div className="text-xs text-gray-400 mt-1">
-                  (集成Chart.js图表库)
-                </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card title="销售趋势" className="hover-lift">
+          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+            <div className="text-center">
+              <BarChartOutlined className="text-4xl text-gray-400 mb-2" />
+              <Text type="secondary">销售趋势图表</Text>
+              <div className="text-xs text-gray-400 mt-1">
+                (集成Chart.js图表库)
               </div>
             </div>
-          </Card>
-        </Col>
+          </div>
+        </Card>
 
-        <Col xs={24} lg={12}>
-          <Card title="客户分布" className="hover-lift">
-            <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-              <div className="text-center">
-                <BarChartOutlined className="text-4xl text-gray-400 mb-2" />
-                <Text type="secondary">客户分布图表</Text>
-                <div className="text-xs text-gray-400 mt-1">
-                  (集成Chart.js图表库)
-                </div>
+        <Card title="客户分布" className="hover-lift">
+          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+            <div className="text-center">
+              <BarChartOutlined className="text-4xl text-gray-400 mb-2" />
+              <Text type="secondary">客户分布图表</Text>
+              <div className="text-xs text-gray-400 mt-1">
+                (集成Chart.js图表库)
               </div>
             </div>
-          </Card>
-        </Col>
-      </Row>
+          </div>
+        </Card>
+      </div>
 
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={16}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
           <Card title="最近销售" className="hover-lift">
             <Table
               columns={columns}
@@ -155,42 +143,40 @@ const AnalyticsPage: React.FC = () => {
               size="small"
             />
           </Card>
-        </Col>
+        </div>
 
-        <Col xs={24} lg={8}>
-          <Card title="财务报表" className="hover-lift">
-            <div className="space-y-4">
-              <div className="p-3 bg-green-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <Text strong>本月收入</Text>
-                  <Text strong className="text-green-600">¥125,680</Text>
-                </div>
-              </div>
-              
-              <div className="p-3 bg-red-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <Text strong>本月成本</Text>
-                  <Text strong className="text-red-600">¥75,408</Text>
-                </div>
-              </div>
-              
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <Text strong>毛利润</Text>
-                  <Text strong className="text-blue-600">¥50,272</Text>
-                </div>
-              </div>
-              
-              <div className="p-3 bg-purple-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <Text strong>利润率</Text>
-                  <Text strong className="text-purple-600">40.0%</Text>
-                </div>
+        <Card title="财务报表" className="hover-lift">
+          <div className="space-y-4">
+            <div className="p-3 bg-green-50 rounded-lg">
+              <div className="flex justify-between items-center">
+                <Text strong>本月收入</Text>
+                <Text strong className="text-green-600">¥125,680</Text>
               </div>
             </div>
-          </Card>
-        </Col>
-      </Row>
+            
+            <div className="p-3 bg-red-50 rounded-lg">
+              <div className="flex justify-between items-center">
+                <Text strong>本月成本</Text>
+                <Text strong className="text-red-600">¥75,408</Text>
+              </div>
+            </div>
+            
+            <div className="p-3 bg-blue-50 rounded-lg">
+              <div className="flex justify-between items-center">
+                <Text strong>毛利润</Text>
+                <Text strong className="text-blue-600">¥50,272</Text>
+              </div>
+            </div>
+            
+            <div className="p-3 bg-purple-50 rounded-lg">
+              <div className="flex justify-between items-center">
+                <Text strong>利润率</Text>
+                <Text strong className="text-purple-600">40.0%</Text>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
 
       <Card title="发票管理" className="hover-lift">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

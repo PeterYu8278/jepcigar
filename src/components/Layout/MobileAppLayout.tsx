@@ -17,7 +17,8 @@ import {
   BarChartOutlined,
   ShareAltOutlined,
   BulbOutlined,
-  CrownOutlined
+  CrownOutlined,
+  ShoppingOutlined
 } from '@ant-design/icons';
 import { useAuthStore } from '@/stores/authStore';
 import useMobile from '@/hooks/useMobile';
@@ -56,7 +57,7 @@ const MobileAppLayout: React.FC<MobileAppLayoutProps> = ({ children }) => {
     { key: '/academy', label: '学院', icon: <BookOutlined />, path: '/academy' },
     { key: '/analytics', label: '数据分析', icon: <BarChartOutlined />, path: '/analytics' },
     { key: '/referrals', label: '推荐', icon: <ShareAltOutlined />, path: '/referrals' },
-    { key: '/recommendations', label: 'AI推荐', icon: <BulbOutlined />, path: '/recommendations' },
+    { key: '/products', label: '产品服务', icon: <ShoppingOutlined />, path: '/products' },
     { key: '/royal-program', label: '皇家计划', icon: <CrownOutlined />, path: '/royal-program' },
     { key: '/settings', label: '设置', icon: <SettingOutlined />, path: '/settings' },
   ];

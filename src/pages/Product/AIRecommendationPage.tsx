@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Card, Typography, Button, Space, Tag, Row, Col, Select, Tabs, Progress } from 'antd';
+import { Card, Typography, Button, Space, Tag, Select, Tabs, Progress } from 'antd';
 import { BulbOutlined, ShoppingCartOutlined, StarOutlined, HeartOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
-// Using items prop instead of TabPane
 
-const AIRecommendationsPage: React.FC = () => {
+const AIRecommendationPage: React.FC = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>('business');
   const [selectedBudget, setSelectedBudget] = useState<number>(2000);
   const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
@@ -152,76 +151,65 @@ const AIRecommendationsPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <Title level={2} className="mb-0">AI推荐引擎</Title>
-          <Text type="secondary">基于您的偏好和历史记录，为您推荐最合适的雪茄</Text>
-        </div>
-        <Button type="primary" icon={<BulbOutlined />}>
-          刷新推荐
-        </Button>
-      </div>
-
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={8}>
-          <Card title="推荐设置" className="hover-lift">
-            <div className="space-y-4">
-              <div>
-                <Text strong className="block mb-2">使用场合</Text>
-                <Select
-                  value={selectedOccasion}
-                  onChange={setSelectedOccasion}
-                  className="w-full"
-                >
-                  <Option value="business">商务礼品</Option>
-                  <Option value="personal">个人享受</Option>
-                  <Option value="celebration">庆祝活动</Option>
-                  <Option value="collection">收藏投资</Option>
-                </Select>
-              </div>
-              
-              <div>
-                <Text strong className="block mb-2">预算范围</Text>
-                <Select
-                  value={selectedBudget}
-                  onChange={setSelectedBudget}
-                  className="w-full"
-                >
-                  <Option value={500}>¥500 - ¥1000</Option>
-                  <Option value={1500}>¥1000 - ¥2000</Option>
-                  <Option value={2500}>¥2000 - ¥3000</Option>
-                  <Option value={5000}>¥3000+</Option>
-                </Select>
-              </div>
-              
-              <div>
-                <Text strong className="block mb-2">口味偏好</Text>
-                <Select
-                  mode="multiple"
-                  value={selectedPreferences}
-                  onChange={setSelectedPreferences}
-                  className="w-full"
-                  placeholder="选择您的口味偏好"
-                >
-                  <Option value="mild">轻度</Option>
-                  <Option value="medium">中度</Option>
-                  <Option value="full">强度</Option>
-                  <Option value="woody">木香</Option>
-                  <Option value="fruity">果香</Option>
-                  <Option value="spicy">香料</Option>
-                  <Option value="chocolate">巧克力</Option>
-                  <Option value="coffee">咖啡</Option>
-                </Select>
-              </div>
-              
-              <Button type="primary" block>
-                更新推荐
-              </Button>
+      {/* AI推荐设置和结果 */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card title="推荐设置" className="hover-lift">
+          <div className="space-y-4">
+            <div>
+              <Text strong className="block mb-2">使用场合</Text>
+              <Select
+                value={selectedOccasion}
+                onChange={setSelectedOccasion}
+                className="w-full"
+              >
+                <Option value="business">商务礼品</Option>
+                <Option value="personal">个人享受</Option>
+                <Option value="celebration">庆祝活动</Option>
+                <Option value="collection">收藏投资</Option>
+              </Select>
             </div>
-          </Card>
-        </Col>
+            
+            <div>
+              <Text strong className="block mb-2">预算范围</Text>
+              <Select
+                value={selectedBudget}
+                onChange={setSelectedBudget}
+                className="w-full"
+              >
+                <Option value={500}>¥500 - ¥1000</Option>
+                <Option value={1500}>¥1000 - ¥2000</Option>
+                <Option value={2500}>¥2000 - ¥3000</Option>
+                <Option value={5000}>¥3000+</Option>
+              </Select>
+            </div>
+            
+            <div>
+              <Text strong className="block mb-2">口味偏好</Text>
+              <Select
+                mode="multiple"
+                value={selectedPreferences}
+                onChange={setSelectedPreferences}
+                className="w-full"
+                placeholder="选择您的口味偏好"
+              >
+                <Option value="mild">轻度</Option>
+                <Option value="medium">中度</Option>
+                <Option value="full">强度</Option>
+                <Option value="woody">木香</Option>
+                <Option value="fruity">果香</Option>
+                <Option value="spicy">香料</Option>
+                <Option value="chocolate">巧克力</Option>
+                <Option value="coffee">咖啡</Option>
+              </Select>
+            </div>
+            
+            <Button type="primary" block icon={<BulbOutlined />}>
+              更新推荐
+            </Button>
+          </div>
+        </Card>
 
-        <Col xs={24} lg={16}>
+        <div className="lg:col-span-2">
           <Tabs 
             defaultActiveKey="business"
             items={[
@@ -229,52 +217,53 @@ const AIRecommendationsPage: React.FC = () => {
                 key: 'business',
                 label: '商务推荐',
                 children: (
-              <div className="space-y-4">
-                {businessRecommendations.map((recommendation) => (
-                  <RecommendationCard key={recommendation.id} recommendation={recommendation} />
-                ))}
-              </div>
+                  <div className="space-y-4">
+                    {businessRecommendations.map((recommendation) => (
+                      <RecommendationCard key={recommendation.id} recommendation={recommendation} />
+                    ))}
+                  </div>
                 ),
               },
               {
                 key: 'personal',
                 label: '个人享受',
                 children: (
-              <div className="space-y-4">
-                {personalRecommendations.map((recommendation) => (
-                  <RecommendationCard key={recommendation.id} recommendation={recommendation} />
-                ))}
-              </div>
+                  <div className="space-y-4">
+                    {personalRecommendations.map((recommendation) => (
+                      <RecommendationCard key={recommendation.id} recommendation={recommendation} />
+                    ))}
+                  </div>
                 ),
               },
               {
                 key: 'gift',
                 label: '礼品推荐',
                 children: (
-              <div className="space-y-4">
-                {giftRecommendations.map((recommendation) => (
-                  <RecommendationCard key={recommendation.id} recommendation={recommendation} />
-                ))}
-              </div>
+                  <div className="space-y-4">
+                    {giftRecommendations.map((recommendation) => (
+                      <RecommendationCard key={recommendation.id} recommendation={recommendation} />
+                    ))}
+                  </div>
                 ),
               },
             ]}
           />
-        </Col>
-      </Row>
+        </div>
+      </div>
 
-      <Card title="推荐历史" className="hover-lift">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="p-4 border border-gray-200 rounded-lg">
+      {/* 推荐统计 */}
+      <Card title="推荐效果统计" className="hover-lift">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
             <div className="flex items-center space-x-2 mb-2">
-              <StarOutlined className="text-yellow-500" />
+              <StarOutlined className="text-green-500" />
               <Text strong>推荐准确率</Text>
             </div>
             <div className="text-2xl font-bold text-green-600">87%</div>
             <Text type="secondary" className="text-sm">基于用户反馈统计</Text>
           </div>
           
-          <div className="p-4 border border-gray-200 rounded-lg">
+          <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
             <div className="flex items-center space-x-2 mb-2">
               <ShoppingCartOutlined className="text-blue-500" />
               <Text strong>推荐转化率</Text>
@@ -283,7 +272,7 @@ const AIRecommendationsPage: React.FC = () => {
             <Text type="secondary" className="text-sm">推荐商品购买率</Text>
           </div>
           
-          <div className="p-4 border border-gray-200 rounded-lg">
+          <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 rounded-lg">
             <div className="flex items-center space-x-2 mb-2">
               <HeartOutlined className="text-red-500" />
               <Text strong>用户满意度</Text>
@@ -297,4 +286,4 @@ const AIRecommendationsPage: React.FC = () => {
   );
 };
 
-export default AIRecommendationsPage;
+export default AIRecommendationPage;

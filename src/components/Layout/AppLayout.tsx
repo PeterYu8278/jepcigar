@@ -7,16 +7,13 @@ import {
   InboxOutlined,
   UserOutlined,
   CalendarOutlined,
-  GiftOutlined,
   TrophyOutlined,
-  BookOutlined,
   BarChartOutlined,
   SettingOutlined,
   BellOutlined,
   LogoutOutlined,
   CrownOutlined,
   ShareAltOutlined,
-  BulbOutlined,
   ShoppingOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -47,6 +44,29 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       key: '/dashboard',
       icon: <DashboardOutlined />,
       label: '仪表板',
+    },
+    {
+      key: 'system',
+      icon: <SettingOutlined />,
+      label: '系统管理',
+      children: [
+        {
+          key: '/system',
+          label: '系统概览',
+        },
+        {
+          key: '/system/customers',
+          label: '客户管理',
+        },
+        {
+          key: '/system/inventory',
+          label: '库存管理',
+        },
+        {
+          key: '/system/analytics',
+          label: '数据分析',
+        },
+      ],
     },
     {
       key: 'inventory',
@@ -137,27 +157,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           key: '/products#academy',
           label: '雪茄学院',
         },
+        {
+          key: '/products#ai-recommendation',
+          label: 'AI推荐',
+        },
       ],
-    },
-    {
-      key: 'gifting',
-      icon: <GiftOutlined />,
-      label: '礼品定制',
-    },
-    {
-      key: 'academy',
-      icon: <BookOutlined />,
-      label: '雪茄学院',
-    },
-    {
-      key: 'marketplace',
-      icon: <GiftOutlined />,
-      label: '积分商城',
-    },
-    {
-      key: 'recommendations',
-      icon: <BulbOutlined />,
-      label: 'AI推荐',
     },
     {
       key: 'analytics',

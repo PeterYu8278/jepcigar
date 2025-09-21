@@ -11,6 +11,7 @@ import { Routes } from '@/components/RoutesWithFutureFlags';
 import {
   LoginPage,
   DashboardPage,
+  SystemManagementPage,
   InventoryPage,
   StockTransactionsPage,
   PriceHistoryPage,
@@ -26,7 +27,6 @@ import {
   AnalyticsPage,
   SettingsPage,
   PointsMarketplacePage,
-  AIRecommendationsPage,
   DigitalCardTestPage,
   NotFoundPage
 } from '@/components/LazyComponents';
@@ -170,6 +170,12 @@ const App: React.FC = () => {
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
                     <Route path="/dashboard" element={<DashboardPage />} />
                     
+                    {/* System Management */}
+                    <Route path="/system" element={<SystemManagementPage />} />
+                    <Route path="/system/customers" element={<SystemManagementPage />} />
+                    <Route path="/system/inventory" element={<SystemManagementPage />} />
+                    <Route path="/system/analytics" element={<SystemManagementPage />} />
+                    
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
                     <Route path="/inventory/:id" element={<InventoryPage />} />
@@ -209,9 +215,9 @@ const App: React.FC = () => {
                     <Route path="/marketplace" element={<PointsMarketplacePage />} />
                     <Route path="/points" element={<PointsMarketplacePage />} />
                     
-                    {/* AI Recommendations */}
-                    <Route path="/recommendations" element={<AIRecommendationsPage />} />
-                    <Route path="/ai-recommendations" element={<AIRecommendationsPage />} />
+                    {/* AI Recommendations - Redirect to Products page */}
+                    <Route path="/recommendations" element={<Navigate to="/products#ai-recommendation" replace />} />
+                    <Route path="/ai-recommendations" element={<Navigate to="/products#ai-recommendation" replace />} />
                     
                     {/* Analytics & Finance */}
                     <Route path="/analytics" element={<AnalyticsPage />} />
