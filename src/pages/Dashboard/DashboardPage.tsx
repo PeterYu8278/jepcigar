@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Statistic, Table, Tag, Button, Space, Typography } from 'antd';
+import { Row, Col, Card, Statistic, Table, Tag, Button, Space, Typography, FloatButton } from 'antd';
 import {
   UserOutlined,
   ShoppingCartOutlined,
@@ -378,44 +378,6 @@ const DashboardPage: React.FC = () => {
             </div>
           </Card>
         </Col>
-        <Col xs={24} lg={12}>
-          <Card title="快速操作" className="hover-lift">
-            <div className="grid grid-cols-2 gap-4">
-              <Button 
-                type="dashed" 
-                block 
-                icon={<ShoppingCartOutlined />}
-                onClick={() => navigate('/inventory')}
-              >
-                管理库存
-              </Button>
-              <Button 
-                type="dashed" 
-                block 
-                icon={<UserOutlined />}
-                onClick={() => navigate('/customers')}
-              >
-                添加客户
-              </Button>
-              <Button 
-                type="dashed" 
-                block 
-                icon={<CalendarOutlined />}
-                onClick={() => navigate('/events')}
-              >
-                创建活动
-              </Button>
-              <Button 
-                type="dashed" 
-                block 
-                icon={<GiftOutlined />}
-                onClick={() => navigate('/gifting')}
-              >
-                礼品定制
-              </Button>
-            </div>
-          </Card>
-        </Col>
       </Row>
 
       {/* Recent Activity and Top Customers */}
@@ -445,6 +407,35 @@ const DashboardPage: React.FC = () => {
           </Card>
         </Col>
       </Row>
+
+      {/* Floating Action Buttons */}
+      <FloatButton.Group
+        trigger="hover"
+        type="primary"
+        style={{ right: 24 }}
+        icon={<PlusOutlined />}
+      >
+        <FloatButton
+          icon={<ShoppingCartOutlined />}
+          tooltip="管理库存"
+          onClick={() => navigate('/inventory')}
+        />
+        <FloatButton
+          icon={<UserOutlined />}
+          tooltip="添加客户"
+          onClick={() => navigate('/customers')}
+        />
+        <FloatButton
+          icon={<CalendarOutlined />}
+          tooltip="创建活动"
+          onClick={() => navigate('/events')}
+        />
+        <FloatButton
+          icon={<GiftOutlined />}
+          tooltip="礼品定制"
+          onClick={() => navigate('/gifting')}
+        />
+      </FloatButton.Group>
     </div>
   );
 };
