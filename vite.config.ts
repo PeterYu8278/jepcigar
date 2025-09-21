@@ -46,8 +46,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-                // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能、Ant Design和core-js一起打包，确保它们使用同一个React实例和共享对象
-                if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd') || id.includes('core-js') || id.includes('__core-js_shared__')) {
+                // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能、Ant Design、core-js和lib相关库一起打包，确保它们使用同一个React实例和正确的初始化顺序
+                if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd') || id.includes('core-js') || id.includes('__core-js_shared__') || id.includes('lib') || id.includes('util') || id.includes('helper') || id.includes('common') || id.includes('shared')) {
                   return 'vendor-react-core';
                 }
           
@@ -245,110 +245,7 @@ export default defineConfig({
             return 'vendor-minify';
           }
           
-          // 通用工具库（更细分的匹配）
-          if (id.includes('node_modules') && id.includes('util-') && !id.includes('util.js')) {
-            return 'vendor-utils-util-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-util')) {
-            return 'vendor-utils-util-suffix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('util.js')) {
-            return 'vendor-utils-util-js';
-          }
-          
-          if (id.includes('node_modules') && id.includes('util')) {
-            return 'vendor-utils-util-core';
-          }
-          
-          if (id.includes('node_modules') && id.includes('helper-')) {
-            return 'vendor-utils-helper-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-helper')) {
-            return 'vendor-utils-helper-suffix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('helper')) {
-            return 'vendor-utils-helper-core';
-          }
-          
-          if (id.includes('node_modules') && id.includes('common-')) {
-            return 'vendor-utils-common-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-common')) {
-            return 'vendor-utils-common-suffix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('common')) {
-            return 'vendor-utils-common-core';
-          }
-          
-          // core-js相关库已合并到React核心chunk，这里不再单独处理
-          
-          if (id.includes('node_modules') && id.includes('shared-')) {
-            return 'vendor-utils-shared-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-shared')) {
-            return 'vendor-utils-shared-suffix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('shared')) {
-            return 'vendor-utils-shared-core';
-          }
-          
-          if (id.includes('node_modules') && id.includes('core-')) {
-            return 'vendor-utils-core-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-core')) {
-            return 'vendor-utils-core-suffix';
-          }
-          
-          // core-js相关库已合并到React核心chunk，这里不再单独处理
-          
-          if (id.includes('node_modules') && id.includes('core')) {
-            return 'vendor-utils-core-core';
-          }
-          
-          if (id.includes('node_modules') && id.includes('base-')) {
-            return 'vendor-utils-base-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-base')) {
-            return 'vendor-utils-base-suffix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('base')) {
-            return 'vendor-utils-base-core';
-          }
-          
-          if (id.includes('node_modules') && id.includes('lib-')) {
-            return 'vendor-utils-lib-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-lib')) {
-            return 'vendor-utils-lib-suffix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('lib')) {
-            return 'vendor-utils-lib-core';
-          }
-          
-          if (id.includes('node_modules') && id.includes('utils-')) {
-            return 'vendor-utils-utils-prefix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('-utils')) {
-            return 'vendor-utils-utils-suffix';
-          }
-          
-          if (id.includes('node_modules') && id.includes('utils')) {
-            return 'vendor-utils-utils-core';
-          }
+          // 所有工具库（util、helper、common、shared、core、base、lib、utils）已合并到React核心chunk，这里不再单独处理
           
           // 其他第三方库按更细的字母分组
           if (id.includes('node_modules') && id.match(/[a-c]/)) {
