@@ -17,6 +17,7 @@ import {
   CrownOutlined,
   ShareAltOutlined,
   BulbOutlined,
+  ShoppingOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
@@ -112,6 +113,29 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         {
           key: '/referrals',
           label: '推荐系统',
+        },
+      ],
+    },
+    {
+      key: 'products',
+      icon: <ShoppingOutlined />,
+      label: '产品服务',
+      children: [
+        {
+          key: '/products',
+          label: '产品概览',
+        },
+        {
+          key: '/products#gifting',
+          label: '礼品定制',
+        },
+        {
+          key: '/products#marketplace',
+          label: '积分商城',
+        },
+        {
+          key: '/products#academy',
+          label: '雪茄学院',
         },
       ],
     },
@@ -228,11 +252,19 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   // Get selected keys based on current route
   const getSelectedKeys = () => {
     const path = location.pathname;
+    const hash = location.hash;
+    
     if (path.startsWith('/inventory')) return ['/inventory'];
     if (path.startsWith('/customers')) return ['/customers'];
     if (path.startsWith('/events')) return ['/events'];
     if (path.startsWith('/lucky-spin') || path.startsWith('/royal-program') || path.startsWith('/referrals')) {
       return [path];
+    }
+    if (path.startsWith('/products')) {
+      if (hash) {
+        return [`/products${hash}`];
+      }
+      return ['/products'];
     }
     if (path.startsWith('/marketplace') || path.startsWith('/points')) {
       return ['/marketplace'];
@@ -258,6 +290,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     if (path.startsWith('/events')) openKeys.push('events');
     if (path.startsWith('/lucky-spin') || path.startsWith('/royal-program') || path.startsWith('/referrals')) {
       openKeys.push('gamification');
+    }
+    if (path.startsWith('/products')) {
+      openKeys.push('products');
     }
     if (path.startsWith('/marketplace') || path.startsWith('/points')) {
       openKeys.push('marketplace');

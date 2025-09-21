@@ -88,7 +88,7 @@ const AcademyPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <Title level={2} className="mb-0">雪茄学院</Title>
+          <Title level={3} className="mb-0">雪茄学院</Title>
           <Text type="secondary">学习雪茄知识，获得徽章和会员升级</Text>
         </div>
         <Button type="primary" icon={<BookOutlined />}>

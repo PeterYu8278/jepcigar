@@ -42,21 +42,34 @@ export interface Cigar extends BaseEntity {
 
 export interface PriceHistory extends BaseEntity {
   cigarId: string;
+  cigarBrand: string;
+  cigarModel: string;
   price: number;
-  priceType: 'purchase' | 'retail' | 'gift';
-  effectiveDate: Date;
+  priceType: 'retail' | 'wholesale' | 'cost' | 'market';
+  date: Date;
+  source?: string;
   reason?: string;
+  notes?: string;
 }
 
 export interface StockTransaction extends BaseEntity {
   cigarId: string;
-  type: 'in' | 'out' | 'adjustment';
+  cigarBrand: string;
+  cigarModel: string;
+  type: TransactionType;
   quantity: number;
+  unitPrice?: number;
+  date: Date;
+  operator: string;
+  location?: string;
   batchNumber?: string;
   supplier?: string;
   reason?: string;
   reference?: string; // PO number, sale ID, etc.
+  notes?: string;
 }
+
+export type TransactionType = 'purchase' | 'sale' | 'transfer' | 'adjustment' | 'loss' | 'return';
 
 // ===== CUSTOMER & CRM TYPES =====
 export interface Customer extends BaseEntity {
@@ -284,6 +297,19 @@ export interface NetworkingConnection extends BaseEntity {
   notes?: string;
   followUpDate?: Date;
   isMutual: boolean;
+}
+
+export interface NetworkConnection extends BaseEntity {
+  fromCustomerId: string;
+  toCustomerId: string;
+  connectionType: 'business' | 'personal' | 'referral';
+  strength: number; // 1-5 rating
+  eventId: string;
+  notes?: string;
+  date: Date;
+  status: 'active' | 'inactive' | 'pending';
+  tags: string[];
+  interactions: number;
 }
 
 // ===== POINTS & MARKETPLACE TYPES =====

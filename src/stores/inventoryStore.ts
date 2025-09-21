@@ -1,7 +1,7 @@
 // Inventory management store using Zustand
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import { Cigar, PriceHistory, StockTransaction } from '@/types';
+import { Cigar, PriceHistory, StockTransaction, TransactionType } from '@/types';
 import { InventoryService } from '@/services/firebaseService';
 import { where, orderBy } from 'firebase/firestore';
 
@@ -35,14 +35,30 @@ interface InventoryActions {
   createCigar: (cigar: Omit<Cigar, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>) => Promise<string>;
   updateCigar: (id: string, updates: Partial<Cigar>) => Promise<void>;
   deleteCigar: (id: string) => Promise<void>;
+  fetchCigars: () => Promise<void>;
   
   // Stock management
   updateStock: (cigarId: string, quantity: number, type: 'in' | 'out', reason?: string) => Promise<void>;
   getLowStockCigars: () => Promise<Cigar[]>;
   
+  // Stock transactions
+  fetchStockTransactions: (filters?: {
+    searchTerm?: string;
+    type?: TransactionType;
+    startDate?: Date;
+    endDate?: Date;
+  }) => Promise<void>;
+  createStockTransaction: (transaction: Omit<StockTransaction, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  
   // Price management
   updatePrice: (cigarId: string, newPrice: number, priceType: 'purchase' | 'retail' | 'gift', reason?: string) => Promise<void>;
   getPriceHistory: (cigarId: string) => Promise<void>;
+  fetchPriceHistory: (filters?: {
+    searchTerm?: string;
+    cigarId?: string;
+    dateRange?: [Date, Date];
+  }) => Promise<void>;
+  createPriceHistory: (priceHistory: Omit<PriceHistory, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
   
   // UI state
   setSelectedCigar: (cigar: Cigar | null) => void;
@@ -294,6 +310,119 @@ export const useInventoryStore = create<InventoryState & InventoryActions>()(
           error: error instanceof Error ? error.message : 'Failed to get price history',
           isLoading: false
         });
+      }
+    },
+
+    fetchCigars: async () => {
+      set({ isLoading: true, error: null });
+      try {
+        const cigars = await InventoryService.getAll<Cigar>(InventoryService.COLLECTION);
+        set({ cigars, isLoading: false });
+      } catch (error) {
+        set({
+          error: error instanceof Error ? error.message : 'Failed to fetch cigars',
+          isLoading: false
+        });
+      }
+    },
+
+    fetchStockTransactions: async (filters = {}) => {
+      set({ isLoading: true, error: null });
+      try {
+        const constraints = [];
+        
+        if (filters.searchTerm) {
+          // Note: Firestore doesn't support full-text search natively
+          // This is a simplified implementation
+          constraints.push(where('cigarBrand', '>=', filters.searchTerm));
+        }
+        
+        if (filters.type) {
+          constraints.push(where('type', '==', filters.type));
+        }
+        
+        if (filters.startDate && filters.endDate) {
+          constraints.push(where('date', '>=', filters.startDate));
+          constraints.push(where('date', '<=', filters.endDate));
+        }
+        
+        constraints.push(orderBy('date', 'desc'));
+        
+        const transactions = await InventoryService.getAll<StockTransaction>(
+          InventoryService.STOCK_TRANSACTIONS_COLLECTION,
+          constraints
+        );
+        
+        set({ stockTransactions: transactions, isLoading: false });
+      } catch (error) {
+        set({
+          error: error instanceof Error ? error.message : 'Failed to fetch stock transactions',
+          isLoading: false
+        });
+      }
+    },
+
+    createStockTransaction: async (transactionData) => {
+      set({ isLoading: true, error: null });
+      try {
+        await InventoryService.create<StockTransaction>(
+          InventoryService.STOCK_TRANSACTIONS_COLLECTION,
+          transactionData
+        );
+        set({ isLoading: false });
+      } catch (error) {
+        set({
+          error: error instanceof Error ? error.message : 'Failed to create stock transaction',
+          isLoading: false
+        });
+        throw error;
+      }
+    },
+
+    fetchPriceHistory: async (filters = {}) => {
+      set({ isLoading: true, error: null });
+      try {
+        const constraints = [];
+        
+        if (filters.cigarId) {
+          constraints.push(where('cigarId', '==', filters.cigarId));
+        }
+        
+        if (filters.dateRange) {
+          constraints.push(where('date', '>=', filters.dateRange[0]));
+          constraints.push(where('date', '<=', filters.dateRange[1]));
+        }
+        
+        constraints.push(orderBy('date', 'desc'));
+        
+        const history = await InventoryService.getAll<PriceHistory>(
+          InventoryService.PRICE_HISTORY_COLLECTION,
+          constraints
+        );
+        
+        set({ priceHistory: history, isLoading: false });
+      } catch (error) {
+        set({
+          error: error instanceof Error ? error.message : 'Failed to fetch price history',
+          isLoading: false
+        });
+      }
+    },
+
+    createPriceHistory: async (priceHistoryData) => {
+      set({ isLoading: true, error: null });
+      try {
+        await InventoryService.create<PriceHistory>(
+          InventoryService.PRICE_HISTORY_COLLECTION,
+          priceHistoryData
+        );
+        set({ isLoading: false });
+      } catch (error) {
+        set({
+          error: error instanceof Error ? error.message : 'Failed to create price history',
+          isLoading: false
+        });
+        throw error;
       }
     },
 

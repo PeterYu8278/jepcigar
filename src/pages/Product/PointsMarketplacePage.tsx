@@ -266,7 +266,7 @@ const PointsMarketplacePage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <Title level={2} className="mb-0">积分商城</Title>
+          <Title level={3} className="mb-0">积分商城</Title>
           <Text type="secondary">使用积分兑换精美礼品和专属体验</Text>
         </div>
         <div className="text-right">

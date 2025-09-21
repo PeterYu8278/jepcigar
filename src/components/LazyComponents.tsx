@@ -37,6 +37,14 @@ export const InventoryPage = withSuspense(
   React.lazy(() => import('@/pages/Inventory/InventoryPage'))
 );
 
+export const StockTransactionsPage = withSuspense(
+  React.lazy(() => import('@/pages/Inventory/StockTransactionsPage'))
+);
+
+export const PriceHistoryPage = withSuspense(
+  React.lazy(() => import('@/pages/Inventory/PriceHistoryPage'))
+);
+
 export const CustomerPage = withSuspense(
   React.lazy(() => import('@/pages/Customer/CustomerPage'))
 );
@@ -49,6 +57,10 @@ export const EventPage = withSuspense(
   React.lazy(() => import('@/pages/Event/EventPage'))
 );
 
+export const NetworkingPage = withSuspense(
+  React.lazy(() => import('@/pages/Event/NetworkingPage'))
+);
+
 export const ReferralPage = withSuspense(
   React.lazy(() => import('@/pages/Referral/ReferralPage'))
 );
@@ -57,12 +69,18 @@ export const GamificationPage = withSuspense(
   React.lazy(() => import('@/pages/Gamification/GamificationPage'))
 );
 
+// New Product page that includes all product-related services
+export const ProductPage = withSuspense(
+  React.lazy(() => import('@/pages/Product/ProductPage'))
+);
+
+// Legacy pages - kept for backward compatibility
 export const GiftingPage = withSuspense(
-  React.lazy(() => import('@/pages/Gifting/GiftingPage'))
+  React.lazy(() => import('@/pages/Product/GiftingPage'))
 );
 
 export const AcademyPage = withSuspense(
-  React.lazy(() => import('@/pages/Academy/AcademyPage'))
+  React.lazy(() => import('@/pages/Product/AcademyPage'))
 );
 
 export const AnalyticsPage = withSuspense(
@@ -74,7 +92,7 @@ export const SettingsPage = withSuspense(
 );
 
 export const PointsMarketplacePage = withSuspense(
-  React.lazy(() => import('@/pages/PointsMarketplace/PointsMarketplacePage'))
+  React.lazy(() => import('@/pages/Product/PointsMarketplacePage'))
 );
 
 export const AIRecommendationsPage = withSuspense(

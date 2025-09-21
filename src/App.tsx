@@ -12,11 +12,15 @@ import {
   LoginPage,
   DashboardPage,
   InventoryPage,
+  StockTransactionsPage,
+  PriceHistoryPage,
   CustomerPage,
   DigitalCardPage,
   EventPage,
+  NetworkingPage,
   ReferralPage,
   GamificationPage,
+  ProductPage,
   GiftingPage,
   AcademyPage,
   AnalyticsPage,
@@ -169,6 +173,8 @@ const App: React.FC = () => {
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
                     <Route path="/inventory/:id" element={<InventoryPage />} />
+                    <Route path="/inventory/stock-transactions" element={<StockTransactionsPage />} />
+                    <Route path="/inventory/price-history" element={<PriceHistoryPage />} />
                     
                     {/* Customer & CRM */}
                     <Route path="/customers" element={<CustomerPage />} />
@@ -177,6 +183,7 @@ const App: React.FC = () => {
                     {/* Events & Networking */}
                     <Route path="/events" element={<EventPage />} />
                     <Route path="/events/:id" element={<EventPage />} />
+                    <Route path="/events/networking" element={<NetworkingPage />} />
                     
                     {/* Referral Program */}
                     <Route path="/referrals" element={<ReferralPage />} />
@@ -186,7 +193,11 @@ const App: React.FC = () => {
                     <Route path="/lucky-spin" element={<GamificationPage />} />
                     <Route path="/royal-program" element={<GamificationPage />} />
                     
-                    {/* Gifting Module */}
+                    {/* Product Services - New unified page */}
+                    <Route path="/products" element={<ProductPage />} />
+                    <Route path="/products/:tab" element={<ProductPage />} />
+                    
+                    {/* Legacy routes for backward compatibility */}
                     <Route path="/gifting" element={<GiftingPage />} />
                     <Route path="/gifting/:id" element={<GiftingPage />} />
                     

@@ -10,7 +10,8 @@ import {
   BookOutlined,
   BarChartOutlined,
   SettingOutlined,
-  BulbOutlined
+  BulbOutlined,
+  ShoppingOutlined
 } from '@ant-design/icons';
 import { Badge } from 'antd';
 
@@ -53,19 +54,14 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ className = '' }) =
       label: '活动',
     },
     {
+      key: '/products',
+      icon: <ShoppingOutlined />,
+      label: '产品',
+    },
+    {
       key: '/gamification',
       icon: <TrophyOutlined />,
       label: '游戏',
-    },
-    {
-      key: '/gifting',
-      icon: <GiftOutlined />,
-      label: '礼品',
-    },
-    {
-      key: '/academy',
-      icon: <BookOutlined />,
-      label: '学院',
     },
     {
       key: '/analytics',

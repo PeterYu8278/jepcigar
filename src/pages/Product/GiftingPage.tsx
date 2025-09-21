@@ -79,7 +79,7 @@ const GiftingPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <Title level={2} className="mb-0">礼品定制</Title>
+          <Title level={3} className="mb-0">礼品定制</Title>
           <Text type="secondary">为特殊场合定制专属雪茄礼品</Text>
         </div>
         <Button type="primary" icon={<PlusOutlined />}>
