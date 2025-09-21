@@ -33,8 +33,6 @@ import EnvironmentTestPage from '@/pages/Test/EnvironmentTestPage';
 import CardUrlUpdatePage from '@/pages/Test/CardUrlUpdatePage';
 import QRCodeTestPage from '@/pages/Test/QRCodeTestPage';
 import MobileUITestPage from '@/pages/Test/MobileUITestPage';
-import MobileDashboardTestPage from '@/pages/Test/MobileDashboardTestPage';
-import ResponsiveDashboard from '@/components/Dashboard/ResponsiveDashboard';
 
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';
@@ -153,9 +151,9 @@ const App: React.FC = () => {
                   element={
                     <ProtectedRoute>
                       <ResponsiveAppLayout>
-                   <Routes>
-                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                     <Route path="/dashboard" element={<ResponsiveDashboard />} />
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
                     
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
@@ -209,7 +207,6 @@ const App: React.FC = () => {
                     <Route path="/test/card-url-update" element={<CardUrlUpdatePage />} />
                     <Route path="/test/qrcode" element={<QRCodeTestPage />} />
                     <Route path="/test/mobile-ui" element={<MobileUITestPage />} />
-                    <Route path="/test/mobile-dashboard" element={<MobileDashboardTestPage />} />
                     <Route path="/pwa-test" element={<PWATestPage />} />
                     
                     {/* 404 */}

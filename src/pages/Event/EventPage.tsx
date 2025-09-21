@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Typography, Button, Tag, Row, Col, Tabs, Divider } from 'antd';
+import { Card, Typography, Button, Tag, Row, Col, Tabs, Divider, message } from 'antd';
 import { CalendarOutlined, PlusOutlined, QrcodeOutlined, UserOutlined, BarChartOutlined, MailOutlined, DownloadOutlined } from '@ant-design/icons';
 import { EventList, EventParticipants, EventRegistrationForm } from '@/components/LazyComponents';
 import { Event as EventType } from '@/types';
@@ -12,10 +12,18 @@ const EventPage: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   const [registrationMode, setRegistrationMode] = useState<'register' | 'invite'>('register');
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const { upcomingEvents, fetchUpcomingEvents } = useEventStore();
 
   React.useEffect(() => {
     fetchUpcomingEvents();
+    
+    // 添加定时刷新机制，每30秒刷新一次数据
+    const interval = setInterval(() => {
+      fetchUpcomingEvents();
+    }, 30000);
+    
+    return () => clearInterval(interval);
   }, [fetchUpcomingEvents]);
 
   const handleEventSelect = (event: EventType) => {
@@ -57,7 +65,7 @@ const EventPage: React.FC = () => {
         <Col xs={24} lg={8}>
           <Card title="即将举行的活动" className="hover-lift">
             <div className="space-y-4">
-              {upcomingEvents.slice(0, 2).map((event) => {
+              {(showAllUpcoming ? upcomingEvents : upcomingEvents.slice(0, 2)).map((event) => {
                 const typeConfig = getEventTypeConfig(event.eventType);
                 return (
                   <div key={event.id} className="p-4 bg-blue-50 rounded-lg">
@@ -86,8 +94,30 @@ const EventPage: React.FC = () => {
                 );
               })}
               {upcomingEvents.length === 0 && (
-                <div className="text-center text-gray-500 py-4">
-                  暂无即将举行的活动
+                <div className="text-center py-8">
+                  <CalendarOutlined className="text-4xl text-gray-300 mb-4" />
+                  <Text type="secondary" className="block mb-4">
+                    暂无即将举行的活动
+                  </Text>
+                  <Button 
+                    type="primary" 
+                    icon={<PlusOutlined />}
+                    onClick={() => message.info('创建活动功能开发中')}
+                  >
+                    创建新活动
+                  </Button>
+                </div>
+              )}
+              
+              {/* 查看更多按钮 */}
+              {upcomingEvents.length > 2 && (
+                <div className="text-center pt-4 border-t border-gray-100">
+                  <Button 
+                    type="link" 
+                    onClick={() => setShowAllUpcoming(!showAllUpcoming)}
+                  >
+                    {showAllUpcoming ? '收起' : `查看更多 (${upcomingEvents.length - 2})`}
+                  </Button>
                 </div>
               )}
             </div>
@@ -286,7 +316,7 @@ const EventPage: React.FC = () => {
 
       {/* Feature Description */}
       <Card title="活动功能说明">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="p-4 border border-gray-200 rounded-lg">
             <div className="flex items-center space-x-2 mb-2">
               <QrcodeOutlined className="text-blue-500" />

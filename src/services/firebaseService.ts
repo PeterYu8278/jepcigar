@@ -795,7 +795,7 @@ export class ReferralService extends FirebaseService {
       status: 'converted',
       rewardStatus: 'awarded',
       pointsAwarded: points,
-      conversionDate: new Date()
+      conversionDate: serverTimestamp()
     } as any);
   }
 }
