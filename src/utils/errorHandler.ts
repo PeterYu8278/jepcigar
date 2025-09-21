@@ -47,6 +47,11 @@ export class GlobalErrorHandler {
   }
 
   public handleError(error: Error, context?: string, metadata?: any) {
+    // 过滤浏览器扩展错误
+    if (this.isBrowserExtensionError(error)) {
+      return;
+    }
+
     const errorEntry = {
       error,
       timestamp: Date.now(),
@@ -64,6 +69,26 @@ export class GlobalErrorHandler {
 
     // 发送到错误监控服务
     this.reportError(error, context, metadata);
+  }
+
+  /**
+   * 检查是否为浏览器扩展错误
+   */
+  private isBrowserExtensionError(error: Error): boolean {
+    const message = error.message || '';
+    
+    // 常见的浏览器扩展错误模式
+    const extensionErrorPatterns = [
+      'runtime.lastError',
+      'message port closed',
+      'Extension context invalidated',
+      'Receiving end does not exist',
+      'Could not establish connection'
+    ];
+
+    return extensionErrorPatterns.some(pattern => 
+      message.toLowerCase().includes(pattern.toLowerCase())
+    );
   }
 
   private async reportError(error: Error, context?: string, metadata?: any) {
