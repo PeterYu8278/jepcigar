@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
-import { Card, Tag, Button, Space, Typography } from 'antd';
-import { 
-  CalendarOutlined, 
-  PlusOutlined, 
-  QrcodeOutlined, 
-  UserOutlined, 
-  BarChartOutlined, 
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  CalendarOutlined,
+  PlusOutlined,
+  QrcodeOutlined,
+  UserOutlined,
+  BarChartOutlined,
   MailOutlined,
-  ArrowRightOutlined
+  ClockCircleOutlined,
+  EnvironmentOutlined,
+  TeamOutlined,
+  DownloadOutlined,
+  ShareAltOutlined,
+  EditOutlined,
+  EyeOutlined
 } from '@ant-design/icons';
-import { Event as EventType } from '@/types';
-import { useEventStore } from '@/stores/eventStore';
 import {
   MobileContainer,
   MobileSpacing,
@@ -19,35 +23,34 @@ import {
   MobileText,
   MobileButton,
   MobileGrid,
-  MobileStatus
+  MobileStatus,
+  MobileLoading,
+  MobileEmpty
 } from '@/components/Common/MobileComponents';
+import { Event as EventType } from '@/types';
+import { useEventStore } from '@/stores/eventStore';
 import useMobile from '@/hooks/useMobile';
 
-const { Title, Text } = Typography;
-
 const MobileEventPage: React.FC = () => {
+  const navigate = useNavigate();
   const { isMobile } = useMobile();
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
-  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
-  const [registrationMode, setRegistrationMode] = useState<'register' | 'invite'>('register');
+  const [loading, setLoading] = useState(true);
   const { upcomingEvents, fetchUpcomingEvents } = useEventStore();
 
-  React.useEffect(() => {
-    fetchUpcomingEvents();
-  }, [fetchUpcomingEvents]);
+  useEffect(() => {
+    loadEventData();
+  }, []);
 
-  const handleEventSelect = (event: EventType) => {
-    setSelectedEvent(event);
-  };
-
-  const handleShowParticipants = (event: EventType) => {
-    setSelectedEvent(event);
-  };
-
-  const handleShowRegistrationForm = (event: EventType, mode: 'register' | 'invite') => {
-    setSelectedEvent(event);
-    setRegistrationMode(mode);
-    setShowRegistrationForm(true);
+  const loadEventData = async () => {
+    setLoading(true);
+    try {
+      await fetchUpcomingEvents();
+    } catch (error) {
+      console.error('Failed to load event data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getEventTypeConfig = (type: string) => {
@@ -59,6 +62,102 @@ const MobileEventPage: React.FC = () => {
     };
     return configs[type as keyof typeof configs] || { label: type, color: 'default', icon: '📅' };
   };
+
+  // 活动统计卡片数据
+  const eventStats = [
+    {
+      title: '本月活动',
+      value: '12',
+      icon: <CalendarOutlined className="text-blue-500" />,
+      color: '#1890ff',
+      bgColor: 'from-blue-50 to-blue-100'
+    },
+    {
+      title: '参与人数',
+      value: '156',
+      icon: <UserOutlined className="text-green-500" />,
+      color: '#52c41a',
+      bgColor: 'from-green-50 to-green-100'
+    },
+    {
+      title: '参与率',
+      value: '89%',
+      icon: <BarChartOutlined className="text-purple-500" />,
+      color: '#722ed1',
+      bgColor: 'from-purple-50 to-purple-100'
+    },
+    {
+      title: '网络连接',
+      value: '45',
+      icon: <ShareAltOutlined className="text-orange-500" />,
+      color: '#f16d1f',
+      bgColor: 'from-orange-50 to-orange-100'
+    }
+  ];
+
+  // 快速操作按钮数据
+  const quickActions = [
+    {
+      title: '创建新活动',
+      icon: <PlusOutlined />,
+      color: 'primary',
+      onClick: () => navigate('/events/new')
+    },
+    {
+      title: '生成签到码',
+      icon: <QrcodeOutlined />,
+      color: 'secondary',
+      onClick: () => console.log('生成签到码')
+    },
+    {
+      title: '查看活动日历',
+      icon: <CalendarOutlined />,
+      color: 'secondary',
+      onClick: () => console.log('查看活动日历')
+    },
+    {
+      title: '导出参与报告',
+      icon: <DownloadOutlined />,
+      color: 'secondary',
+      onClick: () => console.log('导出参与报告')
+    }
+  ];
+
+  // 活动功能说明卡片
+  const featureCards = [
+    {
+      title: '智能签到',
+      description: '使用二维码快速签到，自动统计参与人数',
+      icon: <QrcodeOutlined className="text-blue-500" />,
+      color: 'blue'
+    },
+    {
+      title: '网络连接',
+      description: '帮助参与者建立商务联系，扩大人脉网络',
+      icon: <ShareAltOutlined className="text-green-500" />,
+      color: 'green'
+    },
+    {
+      title: '数据统计',
+      description: '实时统计活动效果，生成详细分析报告',
+      icon: <BarChartOutlined className="text-purple-500" />,
+      color: 'purple'
+    },
+    {
+      title: '邮件通知',
+      description: '自动发送活动邀请和提醒邮件',
+      icon: <MailOutlined className="text-orange-500" />,
+      color: 'orange'
+    }
+  ];
+
+  if (loading) {
+    return (
+      <MobileContainer>
+        <MobileLoading size="large" text="加载活动数据中..." />
+      </MobileContainer>
+    );
+  }
 
   return (
     <MobileContainer>
@@ -73,278 +172,179 @@ const MobileEventPage: React.FC = () => {
           </div>
           <MobileButton
             variant="primary"
+            size="small"
             icon={<PlusOutlined />}
-            onClick={() => {/* TODO: 创建新活动 */}}
-            className="mobile-touch-target"
+            onClick={() => navigate('/events/new')}
           >
-            创建活动
+            创建
           </MobileButton>
         </div>
 
         {/* 即将举行的活动 */}
-        <MobileCard title="即将举行的活动" elevated>
-          <MobileSpacing size="sm">
-            {upcomingEvents.slice(0, 2).map((event) => {
-              const typeConfig = getEventTypeConfig(event.eventType);
-              return (
-                <div key={event.id} className="p-4 bg-blue-50 rounded-lg">
-                  <div className="mobile-flex-between mb-2">
-                    <MobileTitle level={4} className="mb-0">
-                      {event.title}
-                    </MobileTitle>
-                    <Tag color={typeConfig.color} icon={<span>{typeConfig.icon}</span>}>
-                      {typeConfig.label}
-                    </Tag>
-                  </div>
-                  <MobileText size="sm" color="secondary" className="block mb-2">
-                    {new Date(event.startDate).toLocaleDateString('zh-CN', {
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </MobileText>
-                  <div className="mobile-flex-start mb-2">
-                    <QrcodeOutlined className="text-blue-500 mr-2" />
-                    <MobileText size="sm" color="secondary">
-                      签到二维码已生成
-                    </MobileText>
-                  </div>
-                  <div className="mobile-flex-between">
-                    <MobileText size="sm" color="secondary">
-                      已报名: {event.currentAttendees}/{event.maxAttendees} 人
-                    </MobileText>
-                    <MobileButton
-                      size="small"
-                      type="text"
-                      icon={<ArrowRightOutlined />}
-                      onClick={() => handleEventSelect(event)}
-                    >
-                      查看详情
-                    </MobileButton>
-                  </div>
-                </div>
-              );
-            })}
-            {upcomingEvents.length === 0 && (
-              <div className="text-center text-gray-500 py-8">
-                <CalendarOutlined className="text-4xl text-gray-300 mb-2" />
-                <MobileText size="sm" color="muted">
-                  暂无即将举行的活动
-                </MobileText>
-              </div>
-            )}
-          </MobileSpacing>
-        </MobileCard>
-
-        {/* 活动统计 - 一行显示 */}
-        <MobileCard title="活动统计" elevated>
-          <MobileGrid columns={4} gap="sm">
-            {/* 本月活动 */}
-            <div className="text-center p-3 bg-blue-50 rounded-lg">
-              <CalendarOutlined className="text-2xl text-blue-500 mb-2" />
-              <div className="text-xl font-bold text-blue-600">12</div>
-              <div className="text-xs text-blue-600">本月活动</div>
-            </div>
-
-            {/* 参与人数 */}
-            <div className="text-center p-3 bg-green-50 rounded-lg">
-              <UserOutlined className="text-2xl text-green-500 mb-2" />
-              <div className="text-xl font-bold text-green-600">156</div>
-              <div className="text-xs text-green-600">参与人数</div>
-            </div>
-
-            {/* 参与率 */}
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <BarChartOutlined className="text-2xl text-purple-500 mb-2" />
-              <div className="text-xl font-bold text-purple-600">89%</div>
-              <div className="text-xs text-purple-600">参与率</div>
-            </div>
-
-            {/* 网络连接 */}
-            <div className="text-center p-3 bg-orange-50 rounded-lg">
-              <MailOutlined className="text-2xl text-orange-500 mb-2" />
-              <div className="text-xl font-bold text-orange-600">45</div>
-              <div className="text-xs text-orange-600">网络连接</div>
-            </div>
-          </MobileGrid>
-        </MobileCard>
-
-        {/* 快速操作 - 一行显示 */}
-        <MobileCard title="快速操作" elevated>
-          <MobileGrid columns={4} gap="sm">
-            <MobileButton
-              variant="outline"
-              icon={<PlusOutlined />}
-              onClick={() => {/* TODO: 创建新活动 */}}
-              className="h-16 flex-col"
-            >
-              <div className="text-sm">创建</div>
-              <div className="text-xs text-gray-500">新活动</div>
-            </MobileButton>
-
-            <MobileButton
-              variant="outline"
-              icon={<QrcodeOutlined />}
-              onClick={() => {/* TODO: 生成签到码 */}}
-              className="h-16 flex-col"
-            >
-              <div className="text-sm">生成</div>
-              <div className="text-xs text-gray-500">签到码</div>
-            </MobileButton>
-
-            <MobileButton
-              variant="outline"
+        <MobileSpacing size="md">
+          <MobileTitle level={4}>即将举行的活动</MobileTitle>
+          {upcomingEvents.length === 0 ? (
+            <MobileEmpty
               icon={<CalendarOutlined />}
-              onClick={() => {/* TODO: 查看日历 */}}
-              className="h-16 flex-col"
-            >
-              <div className="text-sm">查看</div>
-              <div className="text-xs text-gray-500">活动日历</div>
-            </MobileButton>
-
-            <MobileButton
-              variant="outline"
-              icon={<BarChartOutlined />}
-              onClick={() => {/* TODO: 导出报告 */}}
-              className="h-16 flex-col"
-            >
-              <div className="text-sm">导出</div>
-              <div className="text-xs text-gray-500">参与报告</div>
-            </MobileButton>
-          </MobileGrid>
-        </MobileCard>
-
-        {/* 活动功能说明 - 一行显示 */}
-        <MobileCard title="活动功能说明" elevated>
-          <MobileGrid columns={2} gap="sm">
-            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg text-center">
-              <QrcodeOutlined className="text-2xl text-blue-500 mb-2" />
-              <MobileTitle level={5} className="mb-1">二维码签到</MobileTitle>
-              <MobileText size="xs" color="secondary">
-                生成专属二维码，参与者扫码即可完成签到
-              </MobileText>
+              title="暂无即将举行的活动"
+              description="点击创建按钮开始创建第一个活动"
+              action={
+                <MobileButton
+                  variant="primary"
+                  icon={<PlusOutlined />}
+                  onClick={() => navigate('/events/new')}
+                >
+                  创建活动
+                </MobileButton>
+              }
+            />
+          ) : (
+            <div className="space-y-3">
+              {upcomingEvents.slice(0, 3).map((event) => {
+                const typeConfig = getEventTypeConfig(event.eventType);
+                return (
+                  <MobileCard key={event.id} elevated onClick={() => setSelectedEvent(event)}>
+                    <div className="mobile-flex-between mb-3">
+                      <div className="flex-1">
+                        <MobileText size="base" weight="bold">
+                          {event.title}
+                        </MobileText>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <MobileStatus status={typeConfig.color as any} size="small">
+                            {typeConfig.icon} {typeConfig.label}
+                          </MobileStatus>
+                        </div>
+                      </div>
+                      <EyeOutlined className="text-gray-400" />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <ClockCircleOutlined className="text-gray-400" />
+                        <MobileText size="sm" color="secondary">
+                          {new Date(event.startDate).toLocaleDateString('zh-CN', {
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </MobileText>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <EnvironmentOutlined className="text-gray-400" />
+                        <MobileText size="sm" color="secondary">
+                          {event.location}
+                        </MobileText>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <TeamOutlined className="text-gray-400" />
+                          <MobileText size="sm" color="secondary">
+                            已报名: {event.currentAttendees}/{event.maxAttendees} 人
+                          </MobileText>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <QrcodeOutlined className="text-green-500" />
+                          <MobileText size="xs" color="success">
+                            已生成签到码
+                          </MobileText>
+                        </div>
+                      </div>
+                    </div>
+                  </MobileCard>
+                );
+              })}
             </div>
+          )}
+        </MobileSpacing>
 
-            <div className="p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg text-center">
-              <UserOutlined className="text-2xl text-green-500 mb-2" />
-              <MobileTitle level={5} className="mb-1">参与者管理</MobileTitle>
-              <MobileText size="xs" color="secondary">
-                实时查看参与者信息，管理报名和签到状态
-              </MobileText>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg text-center">
-              <MailOutlined className="text-2xl text-purple-500 mb-2" />
-              <MobileTitle level={5} className="mb-1">邮件邀请</MobileTitle>
-              <MobileText size="xs" color="secondary">
-                批量发送邀请邮件，支持个性化邀请内容
-              </MobileText>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg text-center">
-              <BarChartOutlined className="text-2xl text-orange-500 mb-2" />
-              <MobileTitle level={5} className="mb-1">数据分析</MobileTitle>
-              <MobileText size="xs" color="secondary">
-                详细的活动数据统计和参与度分析报告
-              </MobileText>
-            </div>
-          </MobileGrid>
-        </MobileCard>
-
-        {/* 活动类型分布 */}
-        <MobileCard title="活动类型分布" elevated>
-          <MobileSpacing size="sm">
-            <div className="mobile-flex-between p-3 border-b border-gray-100">
-              <div className="mobile-flex-start">
-                <span className="text-lg mr-2">🍷</span>
-                <div>
-                  <MobileText size="sm" weight="medium">品鉴会</MobileText>
-                  <MobileText size="xs" color="secondary">雪茄品鉴活动</MobileText>
+        {/* 活动统计卡片 - 呈列显示 */}
+        <MobileSpacing size="md">
+          <MobileTitle level={4}>活动统计</MobileTitle>
+          <div className="space-y-3">
+            {eventStats.map((stat, index) => (
+              <MobileCard key={index} elevated>
+                <div className="mobile-flex-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${stat.bgColor} flex items-center justify-center`}>
+                      <div className="text-xl" style={{ color: stat.color }}>
+                        {stat.icon}
+                      </div>
+                    </div>
+                    <div>
+                      <MobileText size="sm" color="secondary">
+                        {stat.title}
+                      </MobileText>
+                      <MobileText size="xl" weight="bold" style={{ color: stat.color }}>
+                        {stat.value}
+                      </MobileText>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <MobileText size="xs" color="success" weight="medium">
+                      +12%
+                    </MobileText>
+                  </div>
                 </div>
-              </div>
-              <div className="text-right">
-                <MobileText size="sm" weight="medium">8</MobileText>
-                <MobileText size="xs" color="secondary" className="block">67%</MobileText>
-              </div>
-            </div>
+              </MobileCard>
+            ))}
+          </div>
+        </MobileSpacing>
 
-            <div className="mobile-flex-between p-3 border-b border-gray-100">
-              <div className="mobile-flex-start">
-                <span className="text-lg mr-2">🤝</span>
-                <div>
-                  <MobileText size="sm" weight="medium">网络聚会</MobileText>
-                  <MobileText size="xs" color="secondary">商务社交活动</MobileText>
+        {/* 快速操作卡片 - 按键呈列显示 */}
+        <MobileSpacing size="md">
+          <MobileTitle level={4}>快速操作</MobileTitle>
+          <div className="space-y-3">
+            {quickActions.map((action, index) => (
+              <MobileButton
+                key={index}
+                variant={action.color === 'primary' ? 'primary' : 'outline'}
+                icon={action.icon}
+                className="mobile-btn-full justify-start h-12"
+                onClick={action.onClick}
+              >
+                {action.title}
+              </MobileButton>
+            ))}
+          </div>
+        </MobileSpacing>
+
+        {/* 活动功能说明卡片 - 卡片呈列显示 */}
+        <MobileSpacing size="md">
+          <MobileTitle level={4}>功能说明</MobileTitle>
+          <div className="space-y-3">
+            {featureCards.map((feature, index) => (
+              <MobileCard key={index} size="small" elevated>
+                <div className="mobile-flex-start">
+                  <div className="text-xl mr-3">
+                    {feature.icon}
+                  </div>
+                  <div className="flex-1">
+                    <MobileText size="sm" weight="bold" className="block mb-1">
+                      {feature.title}
+                    </MobileText>
+                    <MobileText size="xs" color="secondary">
+                      {feature.description}
+                    </MobileText>
+                  </div>
                 </div>
-              </div>
-              <div className="text-right">
-                <MobileText size="sm" weight="medium">3</MobileText>
-                <MobileText size="xs" color="secondary" className="block">25%</MobileText>
-              </div>
-            </div>
+              </MobileCard>
+            ))}
+          </div>
+        </MobileSpacing>
 
-            <div className="mobile-flex-between p-3">
-              <div className="mobile-flex-start">
-                <span className="text-lg mr-2">📚</span>
-                <div>
-                  <MobileText size="sm" weight="medium">教育培训</MobileText>
-                  <MobileText size="xs" color="secondary">知识分享活动</MobileText>
-                </div>
-              </div>
-              <div className="text-right">
-                <MobileText size="sm" weight="medium">1</MobileText>
-                <MobileText size="xs" color="secondary" className="block">8%</MobileText>
-              </div>
-            </div>
-          </MobileSpacing>
-        </MobileCard>
-
-        {/* 最近活动 */}
-        <MobileCard title="最近活动" elevated>
-          <MobileSpacing size="sm">
-            <div className="mobile-flex-between p-3 border-b border-gray-100">
-              <div className="mobile-flex-start">
-                <div className="w-3 h-3 bg-green-500 rounded-full mr-3 mt-1"></div>
-                <div>
-                  <MobileText size="sm" weight="medium">古巴雪茄品鉴会</MobileText>
-                  <MobileText size="xs" color="secondary">2024年1月15日</MobileText>
-                </div>
-              </div>
-              <MobileStatus status="success" size="small">
-                已完成
-              </MobileStatus>
-            </div>
-
-            <div className="mobile-flex-between p-3 border-b border-gray-100">
-              <div className="mobile-flex-start">
-                <div className="w-3 h-3 bg-blue-500 rounded-full mr-3 mt-1"></div>
-                <div>
-                  <MobileText size="sm" weight="medium">商务网络聚会</MobileText>
-                  <MobileText size="xs" color="secondary">2024年1月20日</MobileText>
-                </div>
-              </div>
-              <MobileStatus status="info" size="small">
-                进行中
-              </MobileStatus>
-            </div>
-
-            <div className="mobile-flex-between p-3">
-              <div className="mobile-flex-start">
-                <div className="w-3 h-3 bg-orange-500 rounded-full mr-3 mt-1"></div>
-                <div>
-                  <MobileText size="sm" weight="medium">雪茄知识讲座</MobileText>
-                  <MobileText size="xs" color="secondary">2024年1月25日</MobileText>
-                </div>
-              </div>
-              <MobileStatus status="warning" size="small">
-                待开始
-              </MobileStatus>
-            </div>
-          </MobileSpacing>
-        </MobileCard>
-
-        {/* 底部安全区域 */}
-        <div className="mobile-safe-bottom h-4" />
+        {/* 查看更多 */}
+        <MobileSpacing size="md">
+          <MobileButton
+            variant="secondary"
+            className="mobile-btn-full"
+            onClick={() => navigate('/events/list')}
+          >
+            查看所有活动
+          </MobileButton>
+        </MobileSpacing>
       </MobileSpacing>
     </MobileContainer>
   );

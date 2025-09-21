@@ -159,13 +159,13 @@ const App: React.FC = () => {
                     <ProtectedRoute>
                       <ResponsiveAppLayout>
                   <Routes>
-                          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                          <Route path="/dashboard" element={
-                            <ResponsivePage 
-                              desktopComponent={DashboardPage}
-                              mobileComponent={MobileDashboardPage}
-                            />
-                          } />
+                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                     <Route path="/dashboard" element={
+                       <ResponsivePage 
+                         desktopComponent={DashboardPage}
+                         mobileComponent={MobileDashboardPage}
+                       />
+                     } />
                     
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
@@ -175,14 +175,14 @@ const App: React.FC = () => {
                     <Route path="/customers" element={<CustomerPage />} />
                     <Route path="/customers/:id" element={<CustomerPage />} />
                     
-                          {/* Events & Networking */}
-                          <Route path="/events" element={
-                            <ResponsivePage 
-                              desktopComponent={EventPage}
-                              mobileComponent={MobileEventPage}
-                            />
-                          } />
-                          <Route path="/events/:id" element={<EventPage />} />
+                     {/* Events & Networking */}
+                     <Route path="/events" element={
+                       <ResponsivePage 
+                         desktopComponent={EventPage}
+                         mobileComponent={MobileEventPage}
+                       />
+                     } />
+                     <Route path="/events/:id" element={<EventPage />} />
                     
                     {/* Referral Program */}
                     <Route path="/referrals" element={<ReferralPage />} />

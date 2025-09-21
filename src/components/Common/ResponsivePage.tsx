@@ -1,39 +1,29 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import useMobile from '@/hooks/useMobile';
 
 interface ResponsivePageProps {
-  desktopComponent: React.ComponentType;
-  mobileComponent: React.ComponentType;
-  forceMobile?: boolean;
+  desktopComponent: React.ComponentType<any>;
+  mobileComponent: React.ComponentType<any>;
+  [key: string]: any; // 允许传递其他props
 }
 
 /**
  * 响应式页面组件
- * 根据设备类型自动选择桌面端或移动端页面组件
+ * 根据设备类型自动切换桌面端和移动端组件
  */
 const ResponsivePage: React.FC<ResponsivePageProps> = ({
   desktopComponent: DesktopComponent,
   mobileComponent: MobileComponent,
-  forceMobile = false
+  ...props
 }) => {
   const { isMobile } = useMobile();
-  const location = useLocation();
 
-  // 对于某些页面，强制使用移动端布局
-  const forceMobilePages = [
-    '/card/',  // 数字名片页面
-  ];
-
-  const shouldUseMobileLayout = forceMobile || isMobile || forceMobilePages.some(path => 
-    location.pathname.includes(path)
-  );
-
-  if (shouldUseMobileLayout) {
-    return <MobileComponent />;
+  // 移动端优先，然后根据设备类型选择组件
+  if (isMobile) {
+    return <MobileComponent {...props} />;
   }
 
-  return <DesktopComponent />;
+  return <DesktopComponent {...props} />;
 };
 
 export default ResponsivePage;
