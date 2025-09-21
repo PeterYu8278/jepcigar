@@ -46,8 +46,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-                // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能、Ant Design、core-js和lib相关库一起打包，确保它们使用同一个React实例和正确的初始化顺序
-                if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd') || id.includes('core-js') || id.includes('__core-js_shared__') || id.includes('lib') || id.includes('util') || id.includes('helper') || id.includes('common') || id.includes('shared')) {
+                // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能、Ant Design、core-js、lib相关库和React相关库一起打包，确保它们使用同一个React实例和正确的初始化顺序
+                if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd') || id.includes('core-js') || id.includes('__core-js_shared__') || id.includes('lib') || id.includes('util') || id.includes('helper') || id.includes('common') || id.includes('shared') || id.includes('@tanstack/react-query') || id.includes('framer-motion') || id.includes('react-hook-form') || id.includes('zod') || id.includes('lodash') || id.includes('uuid') || id.includes('react-chartjs-2') || id.includes('react-window') || id.includes('@hookform/resolvers') || id.includes('react-window-infinite-loader') || id.includes('unstable_now')) {
                   return 'vendor-react-core';
                 }
           
@@ -83,86 +83,47 @@ export default defineConfig({
           }
           
           
-          // React Window Infinite Loader
-          if (id.includes('react-window-infinite-loader')) {
-            return 'vendor-window-infinite';
-          }
+          // React Window Infinite Loader已合并到React核心chunk
           
-          // 更多特定库的分离
+          // 更多特定库的分离（React相关库已合并到核心chunk）
           if (id.includes('html5-qrcode')) {
             return 'vendor-html5-qrcode';
           }
-          
+
           if (id.includes('html2canvas')) {
             return 'vendor-html2canvas';
           }
-          
+
           if (id.includes('jspdf')) {
             return 'vendor-jspdf';
           }
-          
+
           if (id.includes('chart.js')) {
             return 'vendor-chartjs';
           }
-          
-          if (id.includes('react-chartjs-2')) {
-            return 'vendor-react-chartjs';
-          }
-          
-          if (id.includes('framer-motion')) {
-            return 'vendor-framer-motion';
-          }
-          
+
           if (id.includes('lucide-react')) {
             return 'vendor-lucide';
           }
-          
+
           if (id.includes('qrcode')) {
             return 'vendor-qrcode';
           }
-          
+
           if (id.includes('react-qr-code')) {
             return 'vendor-react-qr-code';
           }
-          
+
           if (id.includes('react-pdf')) {
             return 'vendor-react-pdf';
           }
-          
-          if (id.includes('react-window')) {
-            return 'vendor-react-window';
-          }
-          
-          if (id.includes('react-hook-form')) {
-            return 'vendor-react-hook-form';
-          }
-          
-          if (id.includes('@hookform/resolvers')) {
-            return 'vendor-hookform-resolvers';
-          }
-          
-          if (id.includes('zod')) {
-            return 'vendor-zod';
-          }
-          
-          if (id.includes('@tanstack/react-query')) {
-            return 'vendor-tanstack-query';
-          }
-          
+
           if (id.includes('date-fns')) {
             return 'vendor-date-fns';
           }
-          
+
           if (id.includes('dayjs')) {
             return 'vendor-dayjs';
-          }
-          
-          if (id.includes('lodash')) {
-            return 'vendor-lodash';
-          }
-          
-          if (id.includes('uuid')) {
-            return 'vendor-uuid';
           }
           
           // 客户模块
