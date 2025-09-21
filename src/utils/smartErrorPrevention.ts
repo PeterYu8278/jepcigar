@@ -102,6 +102,14 @@ class SmartErrorPrevention {
       category: 'version-check',
       description: '版本检查错误，对象未正确初始化'
     });
+
+    // 第三方库createContext错误
+    this.errorPatterns.set('third-party-createcontext-error', {
+      pattern: /Cannot read properties of undefined \(reading 'createContext'\).*vendor-third-party/,
+      severity: 'critical',
+      category: 'third-party-react',
+      description: '第三方库中的React createContext访问错误'
+    });
   }
 
   /**
@@ -136,6 +144,14 @@ class SmartErrorPrevention {
     this.preventionStrategies.set('version-check-merge', {
       name: '版本检查库合并',
       description: '将包含版本检查的第三方库合并到React核心chunk，解决version访问错误',
+      implementation: 'vite.config.ts manualChunks',
+      effectiveness: 'high'
+    });
+
+    // 第三方库React错误预防策略
+    this.preventionStrategies.set('third-party-react-merge', {
+      name: '第三方库React合并',
+      description: '将包含React相关功能的第三方库合并到React核心chunk，解决createContext访问错误',
       implementation: 'vite.config.ts manualChunks',
       effectiveness: 'high'
     });
@@ -313,6 +329,8 @@ class SmartErrorPrevention {
       strategyId = 'third-party-merge';
     } else if (patternId === 'version-access-error') {
       strategyId = 'version-check-merge';
+    } else if (patternId === 'third-party-createcontext-error') {
+      strategyId = 'third-party-react-merge';
     }
     
     const strategy = this.preventionStrategies.get(strategyId);

@@ -188,8 +188,9 @@ export default defineConfig({
                  id.includes('@testing-library') || id.includes('vitest') ||
                  id.includes('postcss') || id.includes('tailwindcss') ||
                  id.includes('autoprefixer') || id.includes('terser') ||
-                 // 合并vendor-third-party-n-s chunk中的所有库，解决version访问错误
-                 id.includes('node_modules') && (firstChar >= 'n' && firstChar <= 's')) {
+                 // 合并vendor-third-party-n-s和t-z chunk中的所有库，解决version和createContext访问错误
+                 id.includes('node_modules') && (firstChar >= 'n' && firstChar <= 's') ||
+                 id.includes('node_modules') && (firstChar >= 't' && firstChar <= 'z')) {
                return 'vendor-react-core';
              }
             
