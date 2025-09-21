@@ -161,7 +161,8 @@
 
   /* 移动端导航 */
   .mobile-nav {
-    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 safe-area-inset-bottom;
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .mobile-nav-item {
@@ -277,30 +278,38 @@
 
   /* 移动端安全区域 */
   .mobile-safe-top {
-    @apply pt-safe-top;
+    padding-top: env(safe-area-inset-top);
   }
 
   .mobile-safe-bottom {
-    @apply pb-safe-bottom;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .mobile-safe-left {
-    @apply pl-safe-left;
+    padding-left: env(safe-area-inset-left);
   }
 
   .mobile-safe-right {
-    @apply pr-safe-right;
+    padding-right: env(safe-area-inset-right);
   }
 
   /* 移动端滚动优化 */
   .mobile-scroll {
-    @apply overflow-y-auto scrollbar-hide;
+    @apply overflow-y-auto;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .mobile-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
     scroll-behavior: smooth;
   }
 
   .mobile-scroll-x {
-    @apply overflow-x-auto scrollbar-hide;
+    @apply overflow-x-auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -340,19 +349,39 @@
 
   /* 移动端动画 */
   .mobile-animate-fade-in {
-    @apply animate-fade-in;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   .mobile-animate-slide-up {
-    @apply animate-slide-up;
+    animation: slideUp 0.3s ease-in-out;
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
   }
 
   .mobile-animate-slide-down {
-    @apply animate-slide-down;
+    animation: slideDown 0.3s ease-in-out;
+  }
+  
+  @keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
   }
 
   .mobile-animate-scale-in {
-    @apply animate-scale-in;
+    animation: scaleIn 0.3s ease-in-out;
+  }
+  
+  @keyframes scaleIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
   }
 
   /* 移动端响应式网格 */

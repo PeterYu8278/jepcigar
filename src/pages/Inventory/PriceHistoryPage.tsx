@@ -25,7 +25,7 @@ import {
   FilterOutlined,
   ReloadOutlined
 } from '@ant-design/icons';
-import { Line, Column, Area } from '@ant-design/plots';
+// import { Line, Column, Area } from '@ant-design/plots'; // 暂时注释，等待图表库安装
 import { useInventoryStore } from '@/stores/inventoryStore';
 import { PriceHistory } from '@/types';
 import dayjs from 'dayjs';
@@ -232,28 +232,28 @@ const PriceHistoryPage: React.FC = () => {
 
   const chartData = prepareChartData();
 
-  const chartConfig = {
-    data: chartData,
-    xField: 'date',
-    yField: 'price',
-    seriesField: 'name',
-    smooth: true,
-    animation: {
-      appear: {
-        animation: 'path-in',
-        duration: 1000,
-      },
-    },
-    tooltip: {
-      formatter: (datum: any) => ({
-        name: datum.name,
-        value: `¥${datum.price.toLocaleString()}`,
-      }),
-    },
-    legend: {
-      position: 'top-right' as const,
-    },
-  };
+  // const chartConfig = {
+  //   data: chartData,
+  //   xField: 'date',
+  //   yField: 'price',
+  //   seriesField: 'name',
+  //   smooth: true,
+  //   animation: {
+  //     appear: {
+  //       animation: 'path-in',
+  //       duration: 1000,
+  //     },
+  //   },
+  //   tooltip: {
+  //     formatter: (datum: any) => ({
+  //       name: datum.name,
+  //       value: `¥${datum.price.toLocaleString()}`,
+  //     }),
+  //   },
+  //   legend: {
+  //     position: 'top-right' as const,
+  //   },
+  // };
 
   // 计算统计数据
   const getStatistics = () => {
@@ -383,10 +383,14 @@ const PriceHistoryPage: React.FC = () => {
             </div>
             
             {chartData.length > 0 ? (
-              <div style={{ height: 400 }}>
-                {chartType === 'line' && <Line {...chartConfig} />}
-                {chartType === 'column' && <Column {...chartConfig} />}
-                {chartType === 'area' && <Area {...chartConfig} />}
+              <div style={{ height: 400 }} className="flex items-center justify-center bg-gray-50 rounded-lg">
+                <div className="text-center">
+                  <BarChartOutlined className="text-4xl text-gray-400 mb-2" />
+                  <Text type="secondary">价格趋势图表</Text>
+                  <div className="text-xs text-gray-400 mt-1">
+                    (集成图表库后显示 {chartType} 图表)
+                  </div>
+                </div>
               </div>
             ) : (
               <Empty 

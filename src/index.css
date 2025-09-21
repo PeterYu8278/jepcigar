@@ -1,9 +1,9 @@
+/* 导入移动端优化样式 */
+@import './styles/mobile.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* 导入移动端优化样式 */
-@import './styles/mobile.css';
 
 /* Custom CSS for JEP Cigar Business System */
 
