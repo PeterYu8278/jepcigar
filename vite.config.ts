@@ -187,7 +187,9 @@ export default defineConfig({
                  id.includes('eslint') || id.includes('@typescript-eslint') ||
                  id.includes('@testing-library') || id.includes('vitest') ||
                  id.includes('postcss') || id.includes('tailwindcss') ||
-                 id.includes('autoprefixer') || id.includes('terser')) {
+                 id.includes('autoprefixer') || id.includes('terser') ||
+                 // 合并vendor-third-party-n-s chunk中的所有库，解决version访问错误
+                 id.includes('node_modules') && (firstChar >= 'n' && firstChar <= 's')) {
                return 'vendor-react-core';
              }
             

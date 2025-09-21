@@ -94,6 +94,14 @@ class SmartErrorPrevention {
       category: 'class-inheritance',
       description: '类继承错误，父类未正确初始化'
     });
+
+    // 版本访问错误
+    this.errorPatterns.set('version-access-error', {
+      pattern: /Cannot read properties of undefined \(reading 'version'\)/,
+      severity: 'critical',
+      category: 'version-check',
+      description: '版本检查错误，对象未正确初始化'
+    });
   }
 
   /**
@@ -120,6 +128,14 @@ class SmartErrorPrevention {
     this.preventionStrategies.set('third-party-merge', {
       name: '第三方库合并',
       description: '将关键的第三方库合并到React核心chunk，确保正确的初始化顺序',
+      implementation: 'vite.config.ts manualChunks',
+      effectiveness: 'high'
+    });
+
+    // 版本检查错误预防策略
+    this.preventionStrategies.set('version-check-merge', {
+      name: '版本检查库合并',
+      description: '将包含版本检查的第三方库合并到React核心chunk，解决version访问错误',
       implementation: 'vite.config.ts manualChunks',
       effectiveness: 'high'
     });
@@ -295,6 +311,8 @@ class SmartErrorPrevention {
       strategyId = 'react-core-merge';
     } else if (patternId === 'class-extends-error') {
       strategyId = 'third-party-merge';
+    } else if (patternId === 'version-access-error') {
+      strategyId = 'version-check-merge';
     }
     
     const strategy = this.preventionStrategies.get(strategyId);
