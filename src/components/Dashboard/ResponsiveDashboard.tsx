@@ -1,7 +1,7 @@
 import React from 'react';
+import useMobile from '@/hooks/useMobile';
 import DashboardPage from '@/pages/Dashboard/DashboardPage';
 import MobileDashboardPage from '@/pages/Dashboard/MobileDashboardPage';
-import useMobile from '@/hooks/useMobile';
 
 /**
  * 响应式仪表盘组件
@@ -10,12 +10,10 @@ import useMobile from '@/hooks/useMobile';
 const ResponsiveDashboard: React.FC = () => {
   const { isMobile } = useMobile();
 
-  // 在移动设备上使用移动端优化的仪表盘
   if (isMobile) {
     return <MobileDashboardPage />;
   }
 
-  // 在桌面设备上使用标准仪表盘
   return <DashboardPage />;
 };
 
