@@ -46,205 +46,153 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-                // 核心React库、React Router、Hooks、移动端组件、状态管理、QR码库、事件模块、通用组件、PWA功能、Ant Design、core-js、lib相关库、React相关库和所有可能访问React内部API的库一起打包，确保它们使用同一个React实例和正确的初始化顺序
-                if (id.includes('react') || id.includes('hooks') || id.includes('Mobile') || id.includes('mobile') || id.includes('zustand') || id.includes('stores') || id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('Event/') || id.includes('eventStore') || id.includes('Common/') || id.includes('Layout/') || id.includes('pwa') || id.includes('notification') || id.includes('fileDownload') || id.includes('antd') || id.includes('core-js') || id.includes('__core-js_shared__') || id.includes('lib') || id.includes('util') || id.includes('helper') || id.includes('common') || id.includes('shared') || id.includes('@tanstack/react-query') || id.includes('framer-motion') || id.includes('react-hook-form') || id.includes('zod') || id.includes('lodash') || id.includes('uuid') || id.includes('react-chartjs-2') || id.includes('react-window') || id.includes('@hookform/resolvers') || id.includes('react-window-infinite-loader') || id.includes('unstable_now') || id.includes('scheduler') || id.includes('scheduler/tracing') || id.includes('react-dom') || id.includes('react-dom/client') || id.includes('react-dom/server') || id.includes('react-reconciler') || id.includes('react-is') || id.includes('prop-types') || id.includes('create-react-context') || id.includes('hoist-non-react-statics') || id.includes('invariant') || id.includes('warning') || id.includes('object-assign') || id.includes('loose-envify') || id.includes('js-tokens') || id.includes('scheduler/unstable_now') || id.includes('scheduler/unstable_scheduleCallback') || id.includes('scheduler/unstable_cancelCallback') || id.includes('scheduler/unstable_wrapCallback') || id.includes('scheduler/unstable_getCurrentPriorityLevel') || id.includes('scheduler/unstable_ImmediatePriority') || id.includes('scheduler/unstable_UserBlockingPriority') || id.includes('scheduler/unstable_NormalPriority') || id.includes('scheduler/unstable_LowPriority') || id.includes('scheduler/unstable_IdlePriority') || id.includes('scheduler/unstable_runWithPriority') || id.includes('scheduler/unstable_next') || id.includes('scheduler/unstable_shouldYield') || id.includes('scheduler/unstable_requestPaint') || id.includes('scheduler/unstable_continueExecution') || id.includes('scheduler/unstable_pauseExecution') || id.includes('scheduler/unstable_getFirstCallbackNode') || id.includes('scheduler/unstable_forceFrameRate') || id.includes('scheduler/unstable_Profiling') || id.includes('scheduler/unstable_flushAll') || id.includes('scheduler/unstable_flushAllWithoutAsserting') || id.includes('scheduler/unstable_flushExpired') || id.includes('scheduler/unstable_flushWork') || id.includes('scheduler/unstable_flushControlled') || id.includes('scheduler/unstable_now') || id.includes('scheduler/unstable_scheduleCallback') || id.includes('scheduler/unstable_cancelCallback') || id.includes('scheduler/unstable_wrapCallback') || id.includes('scheduler/unstable_getCurrentPriorityLevel') || id.includes('scheduler/unstable_ImmediatePriority') || id.includes('scheduler/unstable_UserBlockingPriority') || id.includes('scheduler/unstable_NormalPriority') || id.includes('scheduler/unstable_LowPriority') || id.includes('scheduler/unstable_IdlePriority') || id.includes('scheduler/unstable_runWithPriority') || id.includes('scheduler/unstable_next') || id.includes('scheduler/unstable_shouldYield') || id.includes('scheduler/unstable_requestPaint') || id.includes('scheduler/unstable_continueExecution') || id.includes('scheduler/unstable_pauseExecution') || id.includes('scheduler/unstable_getFirstCallbackNode') || id.includes('scheduler/unstable_forceFrameRate') || id.includes('scheduler/unstable_Profiling') || id.includes('scheduler/unstable_flushAll') || id.includes('scheduler/unstable_flushAllWithoutAsserting') || id.includes('scheduler/unstable_flushExpired') || id.includes('scheduler/unstable_flushWork') || id.includes('scheduler/unstable_flushControlled')) {
-                  return 'vendor-react-core';
-                }
-          
-          // Firebase和存储相关（包括IndexedDB、localStorage等）
+          // 🎯 优化策略1: 核心React库 - 只包含最基础的React功能
+          if (id.includes('react') && !id.includes('react-dom') && !id.includes('react-router')) {
+            return 'vendor-react-core';
+          }
+
+          // 🎯 优化策略2: React DOM - 分离DOM相关功能
+          if (id.includes('react-dom') || id.includes('react-reconciler')) {
+            return 'vendor-react-dom';
+          }
+
+          // 🎯 优化策略3: React Router - 路由功能独立
+          if (id.includes('react-router')) {
+            return 'vendor-react-router';
+          }
+
+          // 🎯 优化策略4: 状态管理 - Zustand独立
+          if (id.includes('zustand') || id.includes('stores')) {
+            return 'vendor-state';
+          }
+
+          // 🎯 优化策略5: UI库 - Ant Design独立
+          if (id.includes('antd')) {
+            return 'vendor-ui';
+          }
+
+          // 🎯 优化策略6: 数据获取 - React Query独立
+          if (id.includes('@tanstack/react-query') || id.includes('react-query')) {
+            return 'vendor-data';
+          }
+
+          // 🎯 优化策略7: 动画库 - Framer Motion独立
+          if (id.includes('framer-motion')) {
+            return 'vendor-animation';
+          }
+
+          // 🎯 优化策略8: 表单处理 - React Hook Form独立
+          if (id.includes('react-hook-form') || id.includes('@hookform/resolvers')) {
+            return 'vendor-forms';
+          }
+
+          // 🎯 优化策略9: 图表库 - Chart.js独立
+          if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+            return 'vendor-charts';
+          }
+
+          // 🎯 优化策略10: 日期处理 - 日期库独立
+          if (id.includes('dayjs') || id.includes('date-fns')) {
+            return 'vendor-dates';
+          }
+
+          // 🎯 优化策略11: 工具库 - 按功能分组
+          if (id.includes('lodash') || id.includes('uuid')) {
+            return 'vendor-utils';
+          }
+
+          // 🎯 优化策略12: 二维码库 - QR相关功能独立
+          if (id.includes('qrcode') || id.includes('html5-qrcode') || id.includes('react-qr-code')) {
+            return 'vendor-qr';
+          }
+
+          // 🎯 优化策略13: PDF处理 - PDF相关功能独立
+          if (id.includes('react-pdf') || id.includes('jspdf') || id.includes('html2canvas')) {
+            return 'vendor-pdf';
+          }
+
+          // 🎯 优化策略14: Firebase - 存储相关独立
           if (id.includes('firebase') || id.includes('localStorage') || id.includes('indexedDB') || id.includes('sessionStorage')) {
             return 'vendor-storage';
           }
-          
-          // 图表库
-          if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
-            return 'vendor-charts';
-          }
-          
-          // PDF和图片处理
-          if (id.includes('jspdf') || id.includes('html2canvas')) {
-            return 'vendor-pdf';
-          }
-          
-          
-          // 表单处理
-          if (id.includes('react-hook-form') || id.includes('@hookform')) {
-            return 'vendor-forms';
-          }
-          
-          // 数据验证
-          if (id.includes('zod')) {
-            return 'vendor-validation';
-          }
-          
-          // 图表库
-          if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
-            return 'vendor-charts';
-          }
-          
-          
-          // React Window Infinite Loader已合并到React核心chunk
-          
-          // 更多特定库的分离（React相关库已合并到核心chunk）
-          if (id.includes('html5-qrcode')) {
-            return 'vendor-html5-qrcode';
-          }
 
-          if (id.includes('html2canvas')) {
-            return 'vendor-html2canvas';
-          }
-
-          if (id.includes('jspdf')) {
-            return 'vendor-jspdf';
-          }
-
-          if (id.includes('chart.js')) {
-            return 'vendor-chartjs';
-          }
-
-          if (id.includes('lucide-react')) {
-            return 'vendor-lucide';
-          }
-
-          if (id.includes('qrcode')) {
-            return 'vendor-qrcode';
-          }
-
-          if (id.includes('react-qr-code')) {
-            return 'vendor-react-qr-code';
-          }
-
-          if (id.includes('react-pdf')) {
-            return 'vendor-react-pdf';
-          }
-
-          if (id.includes('date-fns')) {
-            return 'vendor-date-fns';
-          }
-
-          if (id.includes('dayjs')) {
-            return 'vendor-dayjs';
-          }
-          
-          // 客户模块
+          // 🎯 优化策略15: 业务模块 - 按功能分组
           if (id.includes('Customer/') || id.includes('customerStore')) {
             return 'module-customer';
           }
-          
-          // 库存模块
+
           if (id.includes('Inventory/') || id.includes('inventoryStore')) {
             return 'module-inventory';
           }
-          
-          // 分析模块
+
+          if (id.includes('Event/') || id.includes('eventStore')) {
+            return 'module-event';
+          }
+
           if (id.includes('Analytics/')) {
             return 'module-analytics';
           }
-          
-          // 游戏化模块
+
           if (id.includes('Gamification/')) {
             return 'module-gamification';
           }
-          
-          // 礼品模块
+
           if (id.includes('Gifting/')) {
             return 'module-gifting';
           }
-          
-          // 学院模块
+
           if (id.includes('Academy/')) {
             return 'module-academy';
           }
-          
-          // 推荐模块
+
           if (id.includes('AIRecommendations/')) {
             return 'module-recommendations';
           }
-          
-          // 设置模块
+
           if (id.includes('Settings/')) {
             return 'module-settings';
           }
-          
-          // 仪表板模块
+
           if (id.includes('Dashboard/')) {
             return 'module-dashboard';
           }
-          
-          // 认证模块
+
           if (id.includes('Auth/') || id.includes('authStore')) {
             return 'module-auth';
           }
-          
-          // 测试库
-          if (id.includes('@testing-library') || id.includes('vitest')) {
-            return 'vendor-testing';
-          }
-          
-          // 开发工具库
-          if (id.includes('eslint') || id.includes('@typescript-eslint')) {
-            return 'vendor-linting';
-          }
-          
-          // 构建工具库
-          if (id.includes('vite') || id.includes('@vitejs')) {
-            return 'vendor-build';
-          }
-          
-          // CSS处理库
-          if (id.includes('tailwindcss') || id.includes('postcss') || id.includes('autoprefixer')) {
-            return 'vendor-css';
-          }
-          
-          // TypeScript相关
-          if (id.includes('typescript')) {
-            return 'vendor-typescript';
-          }
-          
-          // 压缩工具
-          if (id.includes('terser')) {
-            return 'vendor-minify';
-          }
-          
-          // 所有工具库（util、helper、common、shared、core、base、lib、utils）已合并到React核心chunk，这里不再单独处理
-          
-          // 其他第三方库按更细的字母分组
-          if (id.includes('node_modules') && id.match(/[a-c]/)) {
-            return 'vendor-third-party-a-c';
-          }
-          
-          if (id.includes('node_modules') && id.match(/[d-f]/)) {
-            return 'vendor-third-party-d-f';
-          }
-          
-          if (id.includes('node_modules') && id.match(/[g-i]/)) {
-            return 'vendor-third-party-g-i';
-          }
-          
-          if (id.includes('node_modules') && id.match(/[j-m]/)) {
-            return 'vendor-third-party-j-m';
-          }
-          
-          if (id.includes('node_modules') && id.match(/[n-p]/)) {
-            return 'vendor-third-party-n-p';
-          }
-          
-          if (id.includes('node_modules') && id.match(/[q-s]/)) {
-            return 'vendor-third-party-q-s';
-          }
-          
-          if (id.includes('node_modules') && id.match(/[t-v]/)) {
-            return 'vendor-third-party-t-v';
-          }
-          
-          if (id.includes('node_modules') && id.match(/[w-z]/)) {
-            return 'vendor-third-party-w-z';
-          }
-          
-          // 如果都不匹配，强制分组到特定chunk
+
+          // 🎯 优化策略16: 第三方库 - 按字母分组（减少chunk数量）
           if (id.includes('node_modules')) {
-            return 'vendor-remaining';
+            // 按库名首字母分组，减少chunk数量
+            const libName = id.split('node_modules/')[1]?.split('/')[0] || '';
+            const firstChar = libName.charAt(0).toLowerCase();
+            
+            if (firstChar >= 'a' && firstChar <= 'f') {
+              return 'vendor-third-party-a-f';
+            } else if (firstChar >= 'g' && firstChar <= 'm') {
+              return 'vendor-third-party-g-m';
+            } else if (firstChar >= 'n' && firstChar <= 's') {
+              return 'vendor-third-party-n-s';
+            } else {
+              return 'vendor-third-party-t-z';
+            }
           }
+
+          // 🎯 优化策略17: 应用代码 - 按功能分组
+          if (id.includes('src/components')) {
+            return 'app-components';
+          }
+
+          if (id.includes('src/utils') || id.includes('src/hooks')) {
+            return 'app-utils';
+          }
+
+          if (id.includes('src/services')) {
+            return 'app-services';
+          }
+
+          // 默认分组
+          return 'app-remaining';
         },
         // 优化 chunk 文件名
         chunkFileNames: (chunkInfo) => {
@@ -279,20 +227,79 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: [
-      'react', 
-      'react-dom', 
+      // 核心React库
+      'react',
+      'react-dom',
       'react-router-dom',
       'react-router',
+      
+      // 状态管理
       'zustand',
+      
+      // UI库
+      'antd',
+      
+      // 数据获取
+      '@tanstack/react-query',
+      
+      // 表单处理
+      'react-hook-form',
+      '@hookform/resolvers',
+      'zod',
+      
+      // 动画库
+      'framer-motion',
+      
+      // 图表库
+      'chart.js',
+      'react-chartjs-2',
+      
+      // 日期处理
+      'dayjs',
+      'date-fns',
+      
+      // 工具库
+      'lodash',
+      'uuid',
+      
+      // 二维码库
       'qrcode',
       'html5-qrcode',
-      'antd', 
-      'firebase/app', 
-      'firebase/auth', 
-      'firebase/firestore', 
-      'firebase/storage', 
+      'react-qr-code',
+      
+      // PDF处理
+      'react-pdf',
+      'jspdf',
+      'html2canvas',
+      
+      // Firebase
+      'firebase/app',
+      'firebase/auth',
+      'firebase/firestore',
+      'firebase/storage',
       'firebase/analytics',
-      'dayjs'
+      
+      // 其他
+      'lucide-react',
+      'react-window',
+      'react-window-infinite-loader',
+      
+      // 开发工具
+      '@testing-library/jest-dom',
+      '@testing-library/react',
+      '@typescript-eslint/eslint-plugin',
+      '@typescript-eslint/parser',
+      '@vitejs/plugin-react',
+      'autoprefixer',
+      'eslint',
+      'eslint-plugin-react-hooks',
+      'eslint-plugin-react-refresh',
+      'postcss',
+      'tailwindcss',
+      'terser',
+      'typescript',
+      'vite',
+      'vitest'
     ]
   }
 })
