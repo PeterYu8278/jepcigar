@@ -153,9 +153,9 @@ const App: React.FC = () => {
                   element={
                     <ProtectedRoute>
                       <ResponsiveAppLayout>
-                  <Routes>
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    <Route path="/dashboard" element={<ResponsiveDashboard />} />
+                   <Routes>
+                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                     <Route path="/dashboard" element={<ResponsiveDashboard />} />
                     
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />

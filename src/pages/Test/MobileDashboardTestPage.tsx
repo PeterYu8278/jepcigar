@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
-import { Switch, Select, message } from 'antd';
-import {
-  MobileContainer,
-  MobileSpacing,
-  MobileCard,
-  MobileTitle,
-  MobileText,
-  MobileButton,
-  MobileGrid
-} from '@/components/Common/MobileComponents';
+import { Switch, Select, Space, message } from 'antd';
+import { MobileContainer, MobileCard, MobileTitle, MobileText, MobileButton, MobileSpacing } from '@/components/Common/MobileComponents';
+import MobileStatCard from '@/components/Dashboard/MobileStatCard';
 import useMobile from '@/hooks/useMobile';
 import {
   UserOutlined,
-  DollarOutlined,
   ShoppingCartOutlined,
+  TrophyOutlined,
+  GiftOutlined,
   CalendarOutlined,
+  BarChartOutlined,
   EyeOutlined
 } from '@ant-design/icons';
 
@@ -22,19 +17,21 @@ const { Option } = Select;
 
 const MobileDashboardTestPage: React.FC = () => {
   const { isMobile, screenWidth, screenHeight } = useMobile();
-  const [showDemo, setShowDemo] = useState(true);
-  const [gridColumns, setGridColumns] = useState<1 | 2 | 3 | 4>(2);
+  const [showTrends, setShowTrends] = useState(true);
+  const [showActions, setShowActions] = useState(true);
+  const [cardSize, setCardSize] = useState<'small' | 'medium' | 'large'>('medium');
 
-  const handleButtonClick = (action: string) => {
-    message.success(`${action} 功能演示`);
+  const handleStatCardClick = (title: string) => {
+    message.success(`${title} 卡片被点击`);
+  };
+
+  const handleActionClick = (action: string) => {
+    message.info(`执行操作: ${action}`);
   };
 
   return (
     <MobileContainer>
       <MobileSpacing size="lg">
-        {/* 页面标题 */}
-        <MobileTitle level={2}>移动端仪表盘测试</MobileTitle>
-
         {/* 设备信息 */}
         <MobileCard title="设备信息" elevated>
           <MobileSpacing size="md">
@@ -44,9 +41,6 @@ const MobileDashboardTestPage: React.FC = () => {
             <MobileText size="sm" color="secondary">
               设备类型: {isMobile ? '移动设备' : '桌面设备'}
             </MobileText>
-            <MobileText size="sm" color="secondary">
-              建议布局: {isMobile ? '2x2网格' : '4x1网格'}
-            </MobileText>
           </MobileSpacing>
         </MobileCard>
 
@@ -55,246 +49,251 @@ const MobileDashboardTestPage: React.FC = () => {
           <MobileSpacing size="md">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <MobileText size="sm" color="secondary">
-                  显示演示数据:
-                </MobileText>
-                <Switch
-                  checked={showDemo}
-                  onChange={setShowDemo}
-                />
+                <MobileText size="sm" color="secondary">显示趋势</MobileText>
+                <Switch checked={showTrends} onChange={setShowTrends} />
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <MobileText size="sm" color="secondary">显示操作按钮</MobileText>
+                <Switch checked={showActions} onChange={setShowActions} />
               </div>
 
               <div>
                 <MobileText size="sm" color="secondary" className="block mb-2">
-                  网格列数:
+                  卡片尺寸:
                 </MobileText>
                 <Select
-                  value={gridColumns}
-                  onChange={setGridColumns}
+                  value={cardSize}
+                  onChange={setCardSize}
                   className="w-full"
                 >
-                  <Option value={1}>1列 (单列)</Option>
-                  <Option value={2}>2列 (2x2网格)</Option>
-                  <Option value={3}>3列 (3列)</Option>
-                  <Option value={4}>4列 (4x1网格)</Option>
+                  <Option value="small">小 (Small)</Option>
+                  <Option value="medium">中 (Medium)</Option>
+                  <Option value="large">大 (Large)</Option>
                 </Select>
               </div>
             </div>
           </MobileSpacing>
         </MobileCard>
 
-        {/* 仪表盘指标演示 */}
-        <MobileCard title="仪表盘指标演示" elevated>
+        {/* 统计卡片测试 */}
+        <MobileCard title="统计卡片测试" elevated>
           <MobileSpacing size="md">
-            <MobileGrid columns={gridColumns} gap="md">
-              {/* 总客户数 */}
-              <MobileCard
-                size="small"
-                elevated
-                className="text-center cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleButtonClick('查看客户详情')}
-              >
-                <div className="mobile-flex-center mobile-spacing-sm">
-                  <div className="bg-blue-100 rounded-full p-3 mb-2">
-                    <UserOutlined className="text-2xl text-blue-600" />
-                  </div>
-                  <div>
-                    <MobileText size="xs" color="secondary" className="block mb-1">
-                      总客户数
-                    </MobileText>
-                    <MobileText size="lg" weight="bold" className="block mb-1">
-                      {showDemo ? '156' : '--'}
-                    </MobileText>
-                    <div className="mobile-flex-center">
-                      <span className="text-green-500">↗</span>
-                      <MobileText size="xs" color="success" className="ml-1">
-                        +12%
-                      </MobileText>
-                    </div>
-                  </div>
-                </div>
-              </MobileCard>
+            <MobileStatCard
+              title="总客户数"
+              value={1247}
+              icon={<UserOutlined />}
+              iconBgColor="bg-blue-100"
+              iconColor="text-blue-600"
+              valueColor="text-blue-600"
+              trend={showTrends ? { value: 12, isPositive: true } : undefined}
+              showDivider={true}
+              onClick={() => handleStatCardClick('总客户数')}
+              action={showActions ? (
+                <MobileButton
+                  variant="outline"
+                  size="small"
+                  icon={<EyeOutlined />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActionClick('查看客户');
+                  }}
+                >
+                  查看
+                </MobileButton>
+              ) : undefined}
+            />
 
-              {/* 本月销售 */}
-              <MobileCard
-                size="small"
-                elevated
-                className="text-center cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleButtonClick('查看销售详情')}
-              >
-                <div className="mobile-flex-center mobile-spacing-sm">
-                  <div className="bg-green-100 rounded-full p-3 mb-2">
-                    <ShoppingCartOutlined className="text-2xl text-green-600" />
-                  </div>
-                  <div>
-                    <MobileText size="xs" color="secondary" className="block mb-1">
-                      本月销售
-                    </MobileText>
-                    <MobileText size="lg" weight="bold" className="block mb-1">
-                      {showDemo ? '42' : '--'}
-                    </MobileText>
-                    <div className="mobile-flex-center">
-                      <span className="text-green-500">↗</span>
-                      <MobileText size="xs" color="success" className="ml-1">
-                        +8%
-                      </MobileText>
-                    </div>
-                  </div>
-                </div>
-              </MobileCard>
+            <MobileStatCard
+              title="本月销售"
+              value={89}
+              icon={<ShoppingCartOutlined />}
+              iconBgColor="bg-green-100"
+              iconColor="text-green-600"
+              valueColor="text-green-600"
+              trend={showTrends ? { value: 8, isPositive: true } : undefined}
+              showDivider={true}
+              onClick={() => handleStatCardClick('本月销售')}
+              action={showActions ? (
+                <MobileButton
+                  variant="outline"
+                  size="small"
+                  icon={<EyeOutlined />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActionClick('查看销售');
+                  }}
+                >
+                  查看
+                </MobileButton>
+              ) : undefined}
+            />
 
-              {/* 本月收入 */}
-              <MobileCard
-                size="small"
-                elevated
-                className="text-center cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleButtonClick('查看收入详情')}
-              >
-                <div className="mobile-flex-center mobile-spacing-sm">
-                  <div className="bg-yellow-100 rounded-full p-3 mb-2">
-                    <DollarOutlined className="text-2xl text-yellow-600" />
-                  </div>
-                  <div>
-                    <MobileText size="xs" color="secondary" className="block mb-1">
-                      本月收入
-                    </MobileText>
-                    <MobileText size="lg" weight="bold" className="block mb-1">
-                      {showDemo ? '¥68,420' : '--'}
-                    </MobileText>
-                    <div className="mobile-flex-center">
-                      <span className="text-green-500">↗</span>
-                      <MobileText size="xs" color="success" className="ml-1">
-                        +15%
-                      </MobileText>
-                    </div>
-                  </div>
-                </div>
-              </MobileCard>
+            <MobileStatCard
+              title="本月收入"
+              value="¥125,680"
+              icon={<BarChartOutlined />}
+              iconBgColor="bg-orange-100"
+              iconColor="text-orange-600"
+              valueColor="text-orange-600"
+              trend={showTrends ? { value: 15, isPositive: true } : undefined}
+              showDivider={true}
+              onClick={() => handleStatCardClick('本月收入')}
+              action={showActions ? (
+                <MobileButton
+                  variant="outline"
+                  size="small"
+                  icon={<EyeOutlined />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActionClick('查看收入');
+                  }}
+                >
+                  查看
+                </MobileButton>
+              ) : undefined}
+            />
 
-              {/* 活跃活动 */}
-              <MobileCard
-                size="small"
-                elevated
-                className="text-center cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleButtonClick('查看活动详情')}
-              >
-                <div className="mobile-flex-center mobile-spacing-sm">
-                  <div className="bg-purple-100 rounded-full p-3 mb-2">
-                    <CalendarOutlined className="text-2xl text-purple-600" />
-                  </div>
-                  <div>
-                    <MobileText size="xs" color="secondary" className="block mb-1">
-                      活跃活动
-                    </MobileText>
-                    <MobileText size="lg" weight="bold" className="block mb-1">
-                      {showDemo ? '7' : '--'}
-                    </MobileText>
-                    <div className="mobile-flex-center">
-                      <span className="text-green-500">↗</span>
-                      <MobileText size="xs" color="success" className="ml-1">
-                        +3%
-                      </MobileText>
-                    </div>
-                  </div>
-                </div>
-              </MobileCard>
-            </MobileGrid>
+            <MobileStatCard
+              title="活跃活动"
+              value={3}
+              icon={<CalendarOutlined />}
+              iconBgColor="bg-purple-100"
+              iconColor="text-purple-600"
+              valueColor="text-purple-600"
+              trend={showTrends ? { value: -2, isPositive: false } : undefined}
+              showDivider={false}
+              onClick={() => handleStatCardClick('活跃活动')}
+              action={showActions ? (
+                <MobileButton
+                  variant="outline"
+                  size="small"
+                  icon={<EyeOutlined />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActionClick('查看活动');
+                  }}
+                >
+                  查看
+                </MobileButton>
+              ) : undefined}
+            />
           </MobileSpacing>
         </MobileCard>
 
-        {/* 快速操作演示 */}
-        <MobileCard title="快速操作演示" elevated>
+        {/* 不同尺寸测试 */}
+        <MobileCard title="不同尺寸测试" elevated>
           <MobileSpacing size="md">
-            <MobileGrid columns={2} gap="sm">
+            <MobileText size="sm" color="secondary" className="block mb-3">
+              当前尺寸: {cardSize}
+            </MobileText>
+
+            <MobileStatCard
+              title="小尺寸测试"
+              value={42}
+              icon={<TrophyOutlined />}
+              iconBgColor="bg-yellow-100"
+              iconColor="text-yellow-600"
+              valueColor="text-yellow-600"
+              trend={{ value: 5, isPositive: true }}
+              showDivider={true}
+            />
+
+            <MobileStatCard
+              title="中等尺寸测试"
+              value={128}
+              icon={<GiftOutlined />}
+              iconBgColor="bg-pink-100"
+              iconColor="text-pink-600"
+              valueColor="text-pink-600"
+              trend={{ value: -3, isPositive: false }}
+              showDivider={false}
+            />
+          </MobileSpacing>
+        </MobileCard>
+
+        {/* 交互测试 */}
+        <MobileCard title="交互测试" elevated>
+          <MobileSpacing size="md">
+            <MobileText size="sm" color="secondary" className="block mb-3">
+              点击统计卡片测试交互效果
+            </MobileText>
+
+            <Space direction="vertical" className="w-full">
               <MobileButton
                 variant="primary"
-                icon={<UserOutlined />}
                 fullWidth
-                onClick={() => handleButtonClick('添加客户')}
+                onClick={() => message.success('主要操作按钮')}
               >
-                添加客户
+                主要操作
               </MobileButton>
-              <MobileButton
-                variant="secondary"
-                icon={<ShoppingCartOutlined />}
-                fullWidth
-                onClick={() => handleButtonClick('查看库存')}
-              >
-                查看库存
-              </MobileButton>
+
               <MobileButton
                 variant="outline"
-                icon={<CalendarOutlined />}
                 fullWidth
-                onClick={() => handleButtonClick('创建活动')}
+                onClick={() => message.info('次要操作按钮')}
               >
-                创建活动
+                次要操作
               </MobileButton>
+
               <MobileButton
                 variant="ghost"
-                icon={<EyeOutlined />}
                 fullWidth
-                onClick={() => handleButtonClick('查看报告')}
+                onClick={() => message.warning('幽灵按钮')}
               >
-                查看报告
+                幽灵按钮
               </MobileButton>
-            </MobileGrid>
+            </Space>
           </MobileSpacing>
         </MobileCard>
 
-        {/* 布局建议 */}
-        <MobileCard title="布局建议" elevated>
+        {/* 使用说明 */}
+        <MobileCard title="使用说明" elevated>
           <MobileSpacing size="md">
-            <div className="space-y-3">
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <MobileText size="sm" weight="medium" color="primary" className="block mb-1">
-                  📱 移动端推荐 (≤768px)
-                </MobileText>
-                <MobileText size="xs" color="secondary">
-                  使用2x2网格布局，每个指标卡片占据较大空间，便于触摸操作
-                </MobileText>
-              </div>
+            <MobileSpacing size="sm">
+              <MobileTitle level={4}>MobileStatCard 组件特性</MobileTitle>
               
-              <div className="p-3 bg-green-50 rounded-lg">
-                <MobileText size="sm" weight="medium" color="success" className="block mb-1">
-                  💻 桌面端推荐 (&gt;768px)
-                </MobileText>
-                <MobileText size="xs" color="secondary">
-                  使用4x1网格布局，所有指标在一行显示，节省垂直空间
-                </MobileText>
-              </div>
+              <MobileText size="sm" color="secondary" className="block">
+                • 专为移动端纵向布局设计，节省垂直空间
+              </MobileText>
+              <MobileText size="sm" color="secondary" className="block">
+                • 支持图标、数值、趋势指示器
+              </MobileText>
+              <MobileText size="sm" color="secondary" className="block">
+                • 可配置的颜色主题和尺寸
+              </MobileText>
+              <MobileText size="sm" color="secondary" className="block">
+                • 支持点击事件和右侧操作按钮
+              </MobileText>
+              <MobileText size="sm" color="secondary" className="block">
+                • 触摸友好的交互设计
+              </MobileText>
+            </MobileSpacing>
 
-              <div className="p-3 bg-yellow-50 rounded-lg">
-                <MobileText size="sm" weight="medium" color="warning" className="block mb-1">
-                  ⚠️ 注意事项
-                </MobileText>
-                <MobileText size="xs" color="secondary">
-                  确保触摸目标最小44px，文字大小不小于16px，避免iOS缩放
-                </MobileText>
-              </div>
-            </div>
+            <MobileSpacing size="sm">
+              <MobileTitle level={4}>API 属性</MobileTitle>
+              
+              <MobileText size="xs" color="muted" className="block font-mono">
+                title: string - 统计项标题
+              </MobileText>
+              <MobileText size="xs" color="muted" className="block font-mono">
+                value: number | string - 统计值
+              </MobileText>
+              <MobileText size="xs" color="muted" className="block font-mono">
+                icon?: ReactNode - 图标
+              </MobileText>
+              <MobileText size="xs" color="muted" className="block font-mono">
+                trend?: object - 变化趋势
+              </MobileText>
+              <MobileText size="xs" color="muted" className="block font-mono">
+                onClick?: () =&gt; void - 点击事件
+              </MobileText>
+              <MobileText size="xs" color="muted" className="block font-mono">
+                action?: ReactNode - 右侧操作按钮
+              </MobileText>
+            </MobileSpacing>
           </MobileSpacing>
         </MobileCard>
-
-        {/* 完整仪表盘预览 */}
-        <MobileCard title="完整仪表盘预览" elevated>
-          <MobileSpacing size="md">
-            <MobileText size="sm" color="secondary" className="block mb-4">
-              点击下方按钮查看完整的移动端仪表盘页面
-            </MobileText>
-            <MobileButton
-              variant="primary"
-              icon={<EyeOutlined />}
-              fullWidth
-              onClick={() => window.open('/dashboard', '_blank')}
-            >
-              查看完整仪表盘
-            </MobileButton>
-          </MobileSpacing>
-        </MobileCard>
-
-        {/* 底部安全区域 */}
-        <div className="mobile-safe-bottom h-4" />
       </MobileSpacing>
     </MobileContainer>
   );
