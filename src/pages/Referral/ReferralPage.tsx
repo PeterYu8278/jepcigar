@@ -18,7 +18,7 @@ const ReferralPage: React.FC = () => {
       </div>
 
       <Card title="我的推荐" className="hover-lift">
-        <div className="grid grid-cols-4 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 gap-4">
           <div className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
             <div className="flex items-center space-x-2 mb-2">
               <UserOutlined className="text-blue-500" />

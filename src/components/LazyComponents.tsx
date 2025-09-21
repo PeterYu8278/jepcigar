@@ -37,6 +37,10 @@ export const InventoryPage = withSuspense(
   React.lazy(() => import('@/pages/Inventory/InventoryPage'))
 );
 
+export const ProductPage = withSuspense(
+  React.lazy(() => import('@/pages/Product/ProductPage'))
+);
+
 export const StockTransactionsPage = withSuspense(
   React.lazy(() => import('@/pages/Inventory/StockTransactionsPage'))
 );
@@ -61,9 +65,6 @@ export const NetworkingPage = withSuspense(
   React.lazy(() => import('@/pages/Event/NetworkingPage'))
 );
 
-export const ReferralPage = withSuspense(
-  React.lazy(() => import('@/pages/Referral/ReferralPage'))
-);
 
 export const GamificationPage = withSuspense(
   React.lazy(() => import('@/pages/Gamification/GamificationPage'))
@@ -91,6 +92,10 @@ export const PointsMarketplacePage = withSuspense(
 
 export const AIRecommendationsPage = withSuspense(
   React.lazy(() => import('@/pages/AIRecommendations/AIRecommendationsPage'))
+);
+
+export const SystemManagementPage = withSuspense(
+  React.lazy(() => import('@/pages/System/SystemManagementPage'))
 );
 
 export const DigitalCardTestPage = withSuspense(

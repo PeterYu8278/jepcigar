@@ -5,8 +5,6 @@ import {
   InboxOutlined, 
   UserOutlined, 
   CalendarOutlined,
-  TrophyOutlined,
-  BarChartOutlined,
   SettingOutlined
 } from '@ant-design/icons';
 import { Badge } from 'antd';
@@ -26,23 +24,17 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ className = '' }) =
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 简化的导航项目配置（只显示主要功能）
+  // 简化的导航项目配置（只显示核心功能）
   const navItems: NavItem[] = [
     {
       key: '/dashboard',
       icon: <DashboardOutlined />,
-      label: '仪表板',
+      label: '首页',
     },
     {
-      key: '/inventory',
+      key: '/products',
       icon: <InboxOutlined />,
-      label: '库存',
-    },
-    {
-      key: '/customers',
-      icon: <UserOutlined />,
-      label: '客户',
-      badge: 3, // 示例：新客户数量
+      label: '产品',
     },
     {
       key: '/events',
@@ -50,18 +42,13 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ className = '' }) =
       label: '活动',
     },
     {
-      key: '/gamification',
-      icon: <TrophyOutlined />,
-      label: '游戏',
-    },
-    {
-      key: '/analytics',
-      icon: <BarChartOutlined />,
-      label: '分析',
+      key: '/system',
+      icon: <SettingOutlined />,
+      label: '系统',
     },
     {
       key: '/settings',
-      icon: <SettingOutlined />,
+      icon: <UserOutlined />,
       label: '设置',
     },
   ];
@@ -70,15 +57,19 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ className = '' }) =
   const getActiveKey = (): string => {
     const path = location.pathname;
     
-    // 精确匹配
-    const exactMatch = navItems.find(item => item.key === path);
-    if (exactMatch) return exactMatch.key;
-    
-    // 前缀匹配
-    const prefixMatch = navItems.find(item => 
-      path.startsWith(item.key) && item.key !== '/'
-    );
-    if (prefixMatch) return prefixMatch.key;
+    // 直接匹配主要路由
+    if (path === '/dashboard') return '/dashboard';
+    if (path.startsWith('/products') || path.startsWith('/gifting') || 
+        path.startsWith('/academy') || path.startsWith('/marketplace') || path.startsWith('/points') ||
+        path.startsWith('/recommendations') || path.startsWith('/ai-recommendations')) {
+      return '/products';
+    }
+    if (path.startsWith('/events')) return '/events';
+    if (path.startsWith('/system') || path.startsWith('/inventory') || path.startsWith('/customers') || 
+        path.startsWith('/analytics') || path.startsWith('/finance') || path.startsWith('/reports')) {
+      return '/system';
+    }
+    if (path.startsWith('/settings') || path.startsWith('/profile')) return '/settings';
     
     return '/dashboard'; // 默认
   };

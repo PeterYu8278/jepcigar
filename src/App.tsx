@@ -12,10 +12,10 @@ import {
   LoginPage,
   DashboardPage,
   InventoryPage,
+  ProductPage,
   CustomerPage,
   DigitalCardPage,
   EventPage,
-  ReferralPage,
   GamificationPage,
   GiftingPage,
   AcademyPage,
@@ -23,6 +23,7 @@ import {
   SettingsPage,
   PointsMarketplacePage,
   AIRecommendationsPage,
+  SystemManagementPage,
   DigitalCardTestPage,
   NotFoundPage
 } from '@/components/LazyComponents';
@@ -166,6 +167,13 @@ const App: React.FC = () => {
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
                     <Route path="/dashboard" element={<DashboardPage />} />
                     
+                    {/* System Management - Main Hub */}
+                    <Route path="/system" element={<SystemManagementPage />} />
+                    
+                    {/* Product Center */}
+                    <Route path="/products" element={<ProductPage />} />
+                    <Route path="/products/:category" element={<ProductPage />} />
+                    
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
                     <Route path="/inventory/:id" element={<InventoryPage />} />
@@ -178,13 +186,11 @@ const App: React.FC = () => {
                     <Route path="/events" element={<EventPage />} />
                     <Route path="/events/:id" element={<EventPage />} />
                     
-                    {/* Referral Program */}
-                    <Route path="/referrals" element={<ReferralPage />} />
                     
                     {/* Gamification */}
                     <Route path="/gamification" element={<GamificationPage />} />
-                    <Route path="/lucky-spin" element={<GamificationPage />} />
-                    <Route path="/royal-program" element={<GamificationPage />} />
+                    <Route path="/lucky-spin" element={<Navigate to="/gamification?tab=spin" replace />} />
+                    <Route path="/royal-program" element={<Navigate to="/gamification?tab=royal" replace />} />
                     
                     {/* Gifting Module */}
                     <Route path="/gifting" element={<GiftingPage />} />

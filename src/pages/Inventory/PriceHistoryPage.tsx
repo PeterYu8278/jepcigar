@@ -12,7 +12,6 @@ import {
   Col,
   Statistic,
   Tabs,
-  App,
   Tooltip,
   DatePicker,
   Empty
@@ -152,11 +151,11 @@ const PriceHistoryPage: React.FC = () => {
     {
       title: '价格变化',
       key: 'priceChange',
-      render: (record: PriceHistory, index: number, allRecords: PriceHistory[]) => {
+      render: (_: any, record: PriceHistory, index: number) => {
         if (index === 0) return '-';
         
         const currentPrice = record.price;
-        const previousRecord = allRecords.find(r => 
+        const previousRecord = priceHistory.find(r => 
           r.cigarBrand === record.cigarBrand && 
           r.cigarModel === record.cigarModel &&
           r.priceType === record.priceType &&
@@ -198,7 +197,8 @@ const PriceHistoryPage: React.FC = () => {
       if (selectedCigar && record.cigarId !== selectedCigar) return false;
       if (dateRange) {
         const recordDate = dayjs(record.date);
-        if (!recordDate.isBetween(dateRange[0], dateRange[1], 'day', '[]')) return false;
+        if (!(recordDate.isAfter(dateRange[0]) || recordDate.isSame(dateRange[0])) || 
+            !(recordDate.isBefore(dateRange[1]) || recordDate.isSame(dateRange[1]))) return false;
       }
       return true;
     });
@@ -261,7 +261,8 @@ const PriceHistoryPage: React.FC = () => {
       if (selectedCigar && record.cigarId !== selectedCigar) return false;
       if (dateRange) {
         const recordDate = dayjs(record.date);
-        if (!recordDate.isBetween(dateRange[0], dateRange[1], 'day', '[]')) return false;
+        if (!(recordDate.isAfter(dateRange[0]) || recordDate.isSame(dateRange[0])) || 
+            !(recordDate.isBefore(dateRange[1]) || recordDate.isSame(dateRange[1]))) return false;
       }
       return true;
     });
@@ -464,7 +465,7 @@ const PriceHistoryPage: React.FC = () => {
             >
               {cigars.map(cigar => (
                 <Option key={cigar.id} value={cigar.id}>
-                  {cigar.brand} {cigar.model}
+                  {cigar.brand} {cigar.name}
                 </Option>
               ))}
             </Select>

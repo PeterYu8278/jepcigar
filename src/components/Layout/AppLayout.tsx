@@ -7,16 +7,12 @@ import {
   InboxOutlined,
   UserOutlined,
   CalendarOutlined,
-  GiftOutlined,
-  TrophyOutlined,
-  BookOutlined,
   BarChartOutlined,
   SettingOutlined,
   BellOutlined,
   LogoutOutlined,
   CrownOutlined,
   ShareAltOutlined,
-  BulbOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
@@ -40,7 +36,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { referrals } = useCustomerStore();
   const { isMobile } = useMobile();
 
-  // 简化的菜单配置
+  // 简化的菜单配置 - 只保留核心功能
   const menuItems = [
     {
       key: '/dashboard',
@@ -48,9 +44,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       label: '仪表板',
     },
     {
-      key: '/inventory',
+      key: '/products',
       icon: <InboxOutlined />,
-      label: '库存管理',
+      label: '产品中心',
     },
     {
       key: '/customers',
@@ -63,39 +59,14 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       label: '活动管理',
     },
     {
-      key: '/gamification',
-      icon: <TrophyOutlined />,
-      label: '游戏化',
-    },
-    {
-      key: '/gifting',
-      icon: <GiftOutlined />,
-      label: '礼品定制',
-    },
-    {
-      key: '/academy',
-      icon: <BookOutlined />,
-      label: '雪茄学院',
-    },
-    {
-      key: '/marketplace',
-      icon: <GiftOutlined />,
-      label: '积分商城',
-    },
-    {
-      key: '/recommendations',
-      icon: <BulbOutlined />,
-      label: 'AI推荐',
-    },
-    {
       key: '/analytics',
       icon: <BarChartOutlined />,
-      label: '分析报告',
+      label: '数据分析',
     },
     {
       key: '/settings',
       icon: <SettingOutlined />,
-      label: '系统设置',
+      label: '设置',
     },
   ];
 
@@ -159,18 +130,15 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     
     // 直接匹配主要路由
     if (path === '/dashboard') return ['/dashboard'];
-    if (path.startsWith('/inventory')) return ['/inventory'];
-    if (path.startsWith('/customers')) return ['/customers'];
-    if (path.startsWith('/events')) return ['/events'];
-    if (path.startsWith('/gamification') || path.startsWith('/lucky-spin') || path.startsWith('/royal-program') || path.startsWith('/referrals')) {
-      return ['/gamification'];
+    if (path.startsWith('/system') || path.startsWith('/inventory') || path.startsWith('/customers') || 
+        path.startsWith('/analytics') || path.startsWith('/products') || path.startsWith('/gifting') || 
+        path.startsWith('/academy') || path.startsWith('/marketplace') || path.startsWith('/points') ||
+        path.startsWith('/recommendations') || path.startsWith('/ai-recommendations') || 
+        path.startsWith('/settings') || path.startsWith('/profile') || path.startsWith('/finance') || 
+        path.startsWith('/reports')) {
+      return ['/system'];
     }
-    if (path.startsWith('/gifting')) return ['/gifting'];
-    if (path.startsWith('/academy')) return ['/academy'];
-    if (path.startsWith('/marketplace') || path.startsWith('/points')) return ['/marketplace'];
-    if (path.startsWith('/recommendations') || path.startsWith('/ai-recommendations')) return ['/recommendations'];
-    if (path.startsWith('/analytics') || path.startsWith('/finance') || path.startsWith('/reports')) return ['/analytics'];
-    if (path.startsWith('/settings') || path.startsWith('/profile')) return ['/settings'];
+    if (path.startsWith('/events')) return ['/events'];
     
     return ['/dashboard']; // 默认选中仪表板
   };
@@ -321,7 +289,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   type="text" 
                   icon={<ShareAltOutlined />} 
                   className="text-white hover:bg-white/20"
-                  onClick={() => navigate('/referrals')}
+                  onClick={() => navigate('/settings?tab=referral')}
                 />
               </Badge>
               

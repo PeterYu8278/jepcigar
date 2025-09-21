@@ -49,6 +49,53 @@
   100% { transform: rotate(360deg); }
 }
 
+/* System Management Page Styles */
+.system-management-page {
+  padding: 0;
+}
+
+.system-management-page.mobile {
+  padding: 16px;
+}
+
+.system-management-page.desktop {
+  padding: 0;
+}
+
+.system-management-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+.system-tabs .ant-tabs-tab {
+  padding: 12px 24px;
+  font-weight: 500;
+}
+
+.system-tabs .ant-tabs-tab-active {
+  background: linear-gradient(135deg, #f16d1f 0%, #DAA520 100%);
+  color: white !important;
+  border-radius: 8px 8px 0 0;
+}
+
+.system-tabs .ant-tabs-content {
+  padding: 24px 0;
+}
+
+.system-management-page.mobile .system-tabs .ant-tabs-tab {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.system-management-page.mobile .system-tabs .ant-tabs-content {
+  padding: 16px 0;
+}
+
+.tab-content {
+  min-height: 400px;
+}
+
 /* Page transitions */
 .page-enter {
   opacity: 0;

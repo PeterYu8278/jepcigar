@@ -45,7 +45,7 @@ export interface PriceHistory extends BaseEntity {
   cigarBrand: string;
   cigarModel: string;
   price: number;
-  priceType: 'retail' | 'wholesale' | 'cost' | 'market';
+  priceType: 'retail' | 'wholesale' | 'cost' | 'market' | 'gift' | 'purchase';
   date: Date;
   source?: string;
   reason?: string;

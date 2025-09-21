@@ -250,7 +250,7 @@ const CheckInDashboard: React.FC<CheckInDashboardProps> = ({
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `签到统计_${event.title}_${dayjs().format('YYYY-MM-DD')}.csv`);
+    link.setAttribute('download', `签到统计_${event?.title || '未知活动'}_${dayjs().format('YYYY-MM-DD')}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();

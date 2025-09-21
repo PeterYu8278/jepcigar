@@ -12,9 +12,6 @@ import {
   Col,
   Statistic,
   Tabs,
-  message,
-  App,
-  Tooltip,
   Avatar,
   Modal,
   Form,
@@ -22,8 +19,8 @@ import {
   Rate,
   Empty,
   Badge,
-  Divider,
-  List
+  List,
+  App
 } from 'antd';
 import {
   SearchOutlined,
@@ -32,24 +29,18 @@ import {
   LinkOutlined,
   MessageOutlined,
   CalendarOutlined,
-  StarOutlined,
   PlusOutlined,
   EyeOutlined,
   EditOutlined,
-  DeleteOutlined,
-  ShareAltOutlined,
-  PhoneOutlined,
-  MailOutlined,
-  EnvironmentOutlined,
   FilterOutlined,
-  ReloadOutlined,
   TrophyOutlined,
-  HeartOutlined
+  HeartOutlined,
+  BarChartOutlined
 } from '@ant-design/icons';
-import { Graph, NetworkGraph } from '@ant-design/plots';
+// import { Graph, NetworkGraph } from '@ant-design/plots'; // 暂时注释，等待正确的图表库
 import { useEventStore } from '@/stores/eventStore';
 import { useCustomerStore } from '@/stores/customerStore';
-import { NetworkConnection, Customer, Event } from '@/types';
+import { NetworkConnection } from '@/types';
 import dayjs from 'dayjs';
 
 const { Title, Text } = Typography;
@@ -58,8 +49,8 @@ const { TextArea } = Input;
 
 const NetworkingPage: React.FC = () => {
   const { message: messageApi } = App.useApp();
-  const { events, fetchEvents } = useEventStore();
-  const { customers, fetchCustomers } = useCustomerStore();
+  const { events } = useEventStore();
+  const { customers } = useCustomerStore();
   
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEvent, setSelectedEvent] = useState<string | undefined>();
@@ -82,7 +73,11 @@ const NetworkingPage: React.FC = () => {
       date: new Date('2024-01-15'),
       status: 'active',
       tags: ['雪茄爱好者', '商务人士'],
-      interactions: 5
+      interactions: 5,
+      createdAt: new Date('2024-01-15'),
+      updatedAt: new Date('2024-01-15'),
+      createdBy: 'system',
+      updatedBy: 'system'
     },
     {
       id: '2',
@@ -95,7 +90,11 @@ const NetworkingPage: React.FC = () => {
       date: new Date('2024-01-20'),
       status: 'active',
       tags: ['推荐客户', 'VIP'],
-      interactions: 12
+      interactions: 12,
+      createdAt: new Date('2024-01-20'),
+      updatedAt: new Date('2024-01-20'),
+      createdBy: 'system',
+      updatedBy: 'system'
     },
     {
       id: '3',
@@ -108,14 +107,19 @@ const NetworkingPage: React.FC = () => {
       date: new Date('2024-02-10'),
       status: 'active',
       tags: ['私人朋友', '品鉴伙伴'],
-      interactions: 3
+      interactions: 3,
+      createdAt: new Date('2024-02-10'),
+      updatedAt: new Date('2024-02-10'),
+      createdBy: 'system',
+      updatedBy: 'system'
     }
   ]);
 
   useEffect(() => {
-    fetchEvents();
-    fetchCustomers();
-  }, [fetchEvents, fetchCustomers]);
+    // TODO: 实现数据获取逻辑
+    // fetchEvents();
+    // fetchCustomers();
+  }, []);
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
@@ -235,7 +239,7 @@ const NetworkingPage: React.FC = () => {
         { text: '个人连接', value: 'personal' },
         { text: '推荐连接', value: 'referral' },
       ],
-      onFilter: (value: string, record: NetworkConnection) => record.connectionType === value,
+      onFilter: (value: boolean | React.Key, record: NetworkConnection) => record.connectionType === value,
     },
     {
       title: '连接强度',
@@ -281,7 +285,7 @@ const NetworkingPage: React.FC = () => {
       render: (tags: string[]) => (
         <Space wrap>
           {tags.map(tag => (
-            <Tag key={tag} size="small">{tag}</Tag>
+            <Tag key={tag}>{tag}</Tag>
           ))}
         </Space>
       ),
@@ -419,25 +423,15 @@ const NetworkingPage: React.FC = () => {
             
             {networkData.nodes.length > 0 ? (
               <div style={{ height: 600, marginTop: 16 }}>
-                <Graph
-                  data={networkData}
-                  layout={{
-                    type: 'force',
-                    preventOverlap: true,
-                    nodeSize: 30,
-                  }}
-                  nodeStyle={{
-                    fill: '#1890ff',
-                    stroke: '#fff',
-                    lineWidth: 2,
-                  }}
-                  edgeStyle={{
-                    stroke: '#999',
-                    lineWidth: 1,
-                    opacity: 0.6,
-                  }}
-                  behaviors={['drag-canvas', 'zoom-canvas', 'drag-node']}
-                />
+                <div className="flex items-center justify-center bg-gray-50 rounded-lg" style={{ height: 600 }}>
+                  <div className="text-center">
+                    <BarChartOutlined className="text-4xl text-gray-400 mb-2" />
+                    <Text type="secondary">网络关系图</Text>
+                    <div className="text-xs text-gray-400 mt-1">
+                      (集成图表库后显示)
+                    </div>
+                  </div>
+                </div>
               </div>
             ) : (
               <Empty 
@@ -544,7 +538,7 @@ const NetworkingPage: React.FC = () => {
                         }
                         description={
                           <div>
-                            <Tag size="small" color={getConnectionTypeConfig(connection.connectionType).color}>
+                            <Tag color={getConnectionTypeConfig(connection.connectionType).color}>
                               {getConnectionTypeConfig(connection.connectionType).label}
                             </Tag>
                             <Text type="secondary" className="ml-2">

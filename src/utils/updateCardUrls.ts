@@ -152,7 +152,7 @@ if (import.meta.env.DEV) {
   setTimeout(() => {
     // 只在需要时输出配置检查信息
     const config = checkEnvironmentConfig();
-    if (!config.isValid) {
+    if (!config.isDevelopment) {
       console.log('🔧 开发环境自动检查数字名片URL配置');
       checkEnvironmentConfig();
     }

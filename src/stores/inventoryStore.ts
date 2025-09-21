@@ -259,6 +259,9 @@ export const useInventoryStore = create<InventoryState & InventoryActions>()(
     updatePrice: async (cigarId, newPrice, priceType, reason = 'Price update') => {
       set({ isLoading: true, error: null });
       try {
+        // Get cigar info for price history
+        const cigar = await InventoryService.getById<Cigar>(InventoryService.COLLECTION, cigarId);
+        
         // Update cigar price
         const priceField = priceType === 'purchase' ? 'purchasePrice' : 
                           priceType === 'gift' ? 'giftPrice' : 'retailPrice';
@@ -270,9 +273,11 @@ export const useInventoryStore = create<InventoryState & InventoryActions>()(
         // Record price history
         await InventoryService.create<PriceHistory>(InventoryService.PRICE_HISTORY_COLLECTION, {
           cigarId,
+          cigarBrand: cigar?.brand || 'Unknown',
+          cigarModel: cigar?.name || 'Unknown',
           price: newPrice,
           priceType,
-          effectiveDate: new Date(),
+          date: new Date(),
           reason
         });
         

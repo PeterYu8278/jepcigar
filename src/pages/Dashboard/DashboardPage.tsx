@@ -371,7 +371,7 @@ const DashboardPage: React.FC = () => {
                   <TrophyOutlined className="text-green-500" />
                   <span>3个客户即将升级会员等级</span>
                 </div>
-                <Button type="link" onClick={() => navigate('/royal-program')}>
+                <Button type="link" onClick={() => navigate('/gamification?tab=royal')}>
                   查看详情
                 </Button>
               </div>

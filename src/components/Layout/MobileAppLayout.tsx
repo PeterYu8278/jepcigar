@@ -57,7 +57,7 @@ const MobileAppLayout: React.FC<MobileAppLayoutProps> = ({ children }) => {
     { key: '/analytics', label: '数据分析', icon: <BarChartOutlined />, path: '/analytics' },
     { key: '/referrals', label: '推荐', icon: <ShareAltOutlined />, path: '/referrals' },
     { key: '/recommendations', label: 'AI推荐', icon: <BulbOutlined />, path: '/recommendations' },
-    { key: '/royal-program', label: '皇家计划', icon: <CrownOutlined />, path: '/royal-program' },
+    { key: '/gamification?tab=royal', label: '皇家计划', icon: <CrownOutlined />, path: '/gamification?tab=royal' },
     { key: '/settings', label: '设置', icon: <SettingOutlined />, path: '/settings' },
   ];
 
