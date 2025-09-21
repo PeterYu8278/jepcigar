@@ -1,6 +1,6 @@
 import React from 'react';
 import { MobileText, MobileStatus } from '@/components/Common/MobileComponents';
-import { TrendingUpOutlined, TrendingDownOutlined } from '@ant-design/icons';
+import TrendIcon from '@/components/Common/TrendIcon';
 
 interface MobileStatCardProps {
   /** 统计项标题 */
@@ -89,11 +89,12 @@ const MobileStatCard: React.FC<MobileStatCardProps> = ({
       <div className="mobile-flex-center space-x-2">
         {trend && (
           <div className="mobile-flex-center">
-            {trend.isPositive ? (
-              <TrendingUpOutlined className="text-green-500 mr-1" />
-            ) : (
-              <TrendingDownOutlined className="text-red-500 mr-1" />
-            )}
+            <TrendIcon
+              direction={trend.isPositive ? 'up' : 'down'}
+              size={14}
+              color={trend.isPositive ? '#52c41a' : '#ff4d4f'}
+              className="mr-1"
+            />
             <MobileStatus 
               status={trend.isPositive ? 'success' : 'error'} 
               size="small"

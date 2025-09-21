@@ -21,8 +21,7 @@ import {
   PlusOutlined,
   EyeOutlined,
   ArrowRightOutlined,
-  TrendingUpOutlined,
-  TrendingDownOutlined
+  TrendingUpOutlined
 } from '@ant-design/icons';
 import useMobile from '@/hooks/useMobile';
 
