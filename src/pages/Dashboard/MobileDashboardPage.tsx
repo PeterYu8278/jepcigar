@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Card, Statistic, Table, Tag, Button, Space, Typography, Row, Col } from 'antd';
 import {
   UserOutlined,
   ShoppingCartOutlined,
@@ -9,21 +9,13 @@ import {
   BarChartOutlined,
   PlusOutlined,
   EyeOutlined,
-  TrendingUpOutlined,
   DollarOutlined,
-  TeamOutlined
 } from '@ant-design/icons';
-import {
-  MobileContainer,
-  MobileSpacing,
-  MobileCard,
-  MobileTitle,
-  MobileText,
-  MobileButton,
-  MobileGrid,
-  MobileStatus
-} from '@/components/Common/MobileComponents';
+import { useNavigate } from 'react-router-dom';
 import useMobile from '@/hooks/useMobile';
+import { MobileContainer, MobileSpacing, MobileCard, MobileTitle, MobileText, MobileButton } from '@/components/Common/MobileComponents';
+
+const { Title, Text } = Typography;
 
 interface DashboardStats {
   totalCustomers: number;
@@ -75,10 +67,10 @@ const MobileDashboardPage: React.FC = () => {
       // TODO: Load real data from Firebase
       // Mock data for now
       setStats({
-        totalCustomers: 1247,
-        totalSales: 89,
-        totalRevenue: 125680,
-        activeEvents: 3,
+        totalCustomers: 12348,
+        totalSales: 2131,
+        totalRevenue: 1312,
+        activeEvents: 23,
         lowStockItems: 12,
         pendingOrders: 8,
       });
@@ -114,28 +106,28 @@ const MobileDashboardPage: React.FC = () => {
       setTopCustomers([
         {
           id: '1',
-          name: '张先生',
+          name: '张总',
           tier: 'Royal',
-          totalSpent: 45680,
+          totalSpent: 15680,
           lastPurchase: new Date(),
         },
         {
           id: '2',
-          name: '李女士',
+          name: '李经理',
           tier: 'Platinum',
-          totalSpent: 32450,
+          totalSpent: 8920,
           lastPurchase: new Date(Date.now() - 86400000),
         },
         {
           id: '3',
-          name: '王总',
+          name: '王先生',
           tier: 'Gold',
-          totalSpent: 28900,
+          totalSpent: 4560,
           lastPurchase: new Date(Date.now() - 172800000),
         },
       ]);
     } catch (error) {
-      console.error('Failed to load dashboard data:', error);
+      console.error('加载仪表盘数据失败:', error);
     } finally {
       setLoading(false);
     }
@@ -161,37 +153,12 @@ const MobileDashboardPage: React.FC = () => {
     }
   };
 
-  // 统计卡片数据
-  const statCards = [
-    {
-      title: '总客户数',
-      value: stats.totalCustomers,
-      icon: <UserOutlined className="text-blue-500" />,
-      color: '#1890ff',
-      trend: '+12%'
-    },
-    {
-      title: '本月销售',
-      value: stats.totalSales,
-      icon: <ShoppingCartOutlined className="text-green-500" />,
-      color: '#52c41a',
-      trend: '+8%'
-    },
-    {
-      title: '本月收入',
-      value: `¥${stats.totalRevenue.toLocaleString()}`,
-      icon: <DollarOutlined className="text-orange-500" />,
-      color: '#f16d1f',
-      trend: '+15%'
-    },
-    {
-      title: '活跃活动',
-      value: stats.activeEvents,
-      icon: <CalendarOutlined className="text-purple-500" />,
-      color: '#722ed1',
-      trend: '+3'
+  const formatNumber = (num: number) => {
+    if (num >= 10000) {
+      return `${(num / 10000).toFixed(1)}万`;
     }
-  ];
+    return num.toLocaleString();
+  };
 
   return (
     <MobileContainer>
@@ -206,7 +173,6 @@ const MobileDashboardPage: React.FC = () => {
           </div>
           <MobileButton
             variant="primary"
-            size="small"
             icon={<PlusOutlined />}
             onClick={() => navigate('/customers')}
           >
@@ -214,166 +180,182 @@ const MobileDashboardPage: React.FC = () => {
           </MobileButton>
         </div>
 
-        {/* 统计卡片 - 呈列显示 */}
-        <MobileSpacing size="md">
-          <MobileTitle level={4}>业务概览</MobileTitle>
-          <div className="space-y-3">
-            {statCards.map((card, index) => (
-              <MobileCard key={index} elevated onClick={() => {}}>
-                <div className="mobile-flex-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="text-2xl">
-                      {card.icon}
-                    </div>
-                    <div>
-                      <MobileText size="sm" color="secondary">
-                        {card.title}
-                      </MobileText>
-                      <div className="flex items-center space-x-2">
-                        <MobileText size="xl" weight="bold" style={{ color: card.color }}>
-                          {card.value}
-                        </MobileText>
-                        <MobileStatus status="success" size="small">
-                          {card.trend}
-                        </MobileStatus>
-                      </div>
-                    </div>
-                  </div>
-                  <TrendingUpOutlined className="text-gray-300 text-xl" />
+        {/* 关键指标 - 行显示布局 */}
+        <MobileCard title="关键指标" elevated className="mb-4">
+          <div className="grid grid-cols-2 gap-4">
+            {/* 第一行：总客户数 | 本月销售 */}
+            <div className="mobile-flex-center mobile-spacing-sm">
+              <div className="text-center flex-1">
+                <UserOutlined className="text-blue-500 text-2xl mb-2" />
+                <div className="mobile-text-xl font-bold text-blue-500">
+                  {formatNumber(stats.totalCustomers)}
                 </div>
-              </MobileCard>
-            ))}
-          </div>
-        </MobileSpacing>
+                <MobileText size="xs" color="secondary">总客户数</MobileText>
+              </div>
+            </div>
 
-        {/* 快速操作 */}
-        <MobileSpacing size="md">
-          <MobileTitle level={4}>快速操作</MobileTitle>
-          <MobileGrid columns={2} gap="md">
+            <div className="mobile-flex-center mobile-spacing-sm">
+              <div className="text-center flex-1">
+                <ShoppingCartOutlined className="text-green-500 text-2xl mb-2" />
+                <div className="mobile-text-xl font-bold text-green-500">
+                  {formatNumber(stats.totalSales)}
+                </div>
+                <MobileText size="xs" color="secondary">本月销售</MobileText>
+              </div>
+            </div>
+
+            {/* 第二行：本月收入 | 活跃活动 */}
+            <div className="mobile-flex-center mobile-spacing-sm">
+              <div className="text-center flex-1">
+                <DollarOutlined className="text-orange-500 text-2xl mb-2" />
+                <div className="mobile-text-xl font-bold text-orange-500">
+                  ¥{formatNumber(stats.totalRevenue)}
+                </div>
+                <MobileText size="xs" color="secondary">本月收入</MobileText>
+              </div>
+            </div>
+
+            <div className="mobile-flex-center mobile-spacing-sm">
+              <div className="text-center flex-1">
+                <CalendarOutlined className="text-purple-500 text-2xl mb-2" />
+                <div className="mobile-text-xl font-bold text-purple-500">
+                  {stats.activeEvents}
+                </div>
+                <MobileText size="xs" color="secondary">活跃活动</MobileText>
+              </div>
+            </div>
+          </div>
+        </MobileCard>
+
+        {/* 快捷操作 */}
+        <MobileCard title="快捷操作" elevated className="mb-4">
+          <div className="grid grid-cols-2 gap-3">
             <MobileButton
               variant="outline"
               icon={<UserOutlined />}
-              className="mobile-btn-full h-16"
+              fullWidth
               onClick={() => navigate('/customers')}
             >
-              <div className="text-center">
-                <MobileText size="sm" weight="medium">客户管理</MobileText>
-              </div>
+              客户管理
             </MobileButton>
-            
             <MobileButton
               variant="outline"
               icon={<ShoppingCartOutlined />}
-              className="mobile-btn-full h-16"
+              fullWidth
               onClick={() => navigate('/inventory')}
             >
-              <div className="text-center">
-                <MobileText size="sm" weight="medium">库存管理</MobileText>
-              </div>
+              库存管理
             </MobileButton>
-            
             <MobileButton
               variant="outline"
               icon={<CalendarOutlined />}
-              className="mobile-btn-full h-16"
+              fullWidth
               onClick={() => navigate('/events')}
             >
-              <div className="text-center">
-                <MobileText size="sm" weight="medium">活动管理</MobileText>
-              </div>
+              活动管理
             </MobileButton>
-            
             <MobileButton
               variant="outline"
               icon={<BarChartOutlined />}
-              className="mobile-btn-full h-16"
+              fullWidth
               onClick={() => navigate('/analytics')}
             >
-              <div className="text-center">
-                <MobileText size="sm" weight="medium">数据分析</MobileText>
-              </div>
+              数据分析
             </MobileButton>
-          </MobileGrid>
-        </MobileSpacing>
+          </div>
+        </MobileCard>
 
         {/* 最近活动 */}
-        <MobileSpacing size="md">
-          <MobileTitle level={4}>最近活动</MobileTitle>
-          <div className="space-y-3">
-            {recentActivities.map((activity) => (
-              <MobileCard key={activity.id} size="small">
-                <div className="mobile-flex-start">
-                  <div className="text-lg mr-3">
-                    {getActivityIcon(activity.type)}
-                  </div>
-                  <div className="flex-1">
-                    <MobileText size="sm" weight="medium">
-                      {activity.description}
+        <MobileCard title="最近活动" elevated className="mb-4">
+          <MobileSpacing size="sm">
+            {recentActivities.slice(0, 4).map((activity) => (
+              <div
+                key={activity.id}
+                className="mobile-flex-start py-3 border-b border-gray-100 last:border-b-0"
+              >
+                <div className="mr-3 mt-1">
+                  {getActivityIcon(activity.type)}
+                </div>
+                <div className="flex-1">
+                  <MobileText size="sm" className="block mb-1">
+                    {activity.description}
+                  </MobileText>
+                  <div className="mobile-flex-between">
+                    <MobileText size="xs" color="secondary">
+                      {activity.timestamp.toLocaleString('zh-CN', {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
                     </MobileText>
-                    <div className="mobile-flex-between mt-1">
-                      <MobileText size="xs" color="muted">
-                        {activity.timestamp.toLocaleString('zh-CN')}
+                    {activity.amount && (
+                      <MobileText size="xs" color="success" weight="medium">
+                        ¥{activity.amount.toLocaleString()}
                       </MobileText>
-                      {activity.amount && (
-                        <MobileText size="xs" color="success" weight="medium">
-                          ¥{activity.amount.toLocaleString()}
-                        </MobileText>
-                      )}
-                    </div>
+                    )}
                   </div>
                 </div>
-              </MobileCard>
+              </div>
             ))}
-          </div>
-        </MobileSpacing>
+          </MobileSpacing>
+        </MobileCard>
 
         {/* 顶级客户 */}
-        <MobileSpacing size="md">
-          <MobileTitle level={4}>顶级客户</MobileTitle>
-          <div className="space-y-3">
+        <MobileCard title="顶级客户" elevated className="mb-4">
+          <MobileSpacing size="sm">
             {topCustomers.map((customer) => (
-              <MobileCard key={customer.id} size="small" onClick={() => navigate(`/customers/${customer.id}`)}>
-                <div className="mobile-flex-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                      <UserOutlined className="text-primary-600" />
-                    </div>
-                    <div>
-                      <MobileText size="sm" weight="medium">
-                        {customer.name}
-                      </MobileText>
-                      <div className="flex items-center space-x-2 mt-1">
-                        <MobileStatus status="info" size="small">
-                          {customer.tier}
-                        </MobileStatus>
-                        <MobileText size="xs" color="muted">
-                          {customer.lastPurchase.toLocaleDateString('zh-CN')}
-                        </MobileText>
-                      </div>
-                    </div>
+              <div
+                key={customer.id}
+                className="mobile-flex-between py-3 border-b border-gray-100 last:border-b-0"
+              >
+                <div className="flex-1">
+                  <div className="mobile-flex-between mb-1">
+                    <MobileText weight="medium">{customer.name}</MobileText>
+                    <Tag color={getTierColor(customer.tier)} size="small">
+                      {customer.tier}
+                    </Tag>
                   </div>
-                  <div className="text-right">
-                    <MobileText size="sm" weight="bold" color="success">
-                      ¥{customer.totalSpent.toLocaleString()}
+                  <div className="mobile-flex-between">
+                    <MobileText size="xs" color="secondary">
+                      消费: ¥{customer.totalSpent.toLocaleString()}
                     </MobileText>
-                    <EyeOutlined className="text-gray-400 ml-2" />
+                    <MobileButton
+                      type="text"
+                      size="small"
+                      icon={<EyeOutlined />}
+                      onClick={() => navigate(`/customers/${customer.id}`)}
+                    >
+                      查看
+                    </MobileButton>
                   </div>
                 </div>
-              </MobileCard>
+              </div>
             ))}
-          </div>
-        </MobileSpacing>
+          </MobileSpacing>
+        </MobileCard>
 
-        {/* 查看更多 */}
-        <MobileSpacing size="md">
-          <MobileButton
-            variant="secondary"
-            className="mobile-btn-full"
-            onClick={() => navigate('/analytics')}
-          >
-            查看详细报告
-          </MobileButton>
-        </MobileSpacing>
+        {/* 业务概览图表 */}
+        <MobileCard title="业务概览" elevated className="mb-4">
+          <div className="space-y-4">
+            {/* 销售趋势 */}
+            <div className="text-center py-8 bg-gray-50 rounded-lg">
+              <BarChartOutlined className="text-3xl text-gray-400 mb-2" />
+              <MobileText size="sm" color="secondary">销售趋势图表</MobileText>
+              <MobileText size="xs" color="muted">(集成Chart.js图表库)</MobileText>
+            </div>
+
+            {/* 会员分布 */}
+            <div className="text-center py-8 bg-gray-50 rounded-lg">
+              <TrophyOutlined className="text-3xl text-gray-400 mb-2" />
+              <MobileText size="sm" color="secondary">会员等级分布</MobileText>
+              <MobileText size="xs" color="muted">(集成Chart.js图表库)</MobileText>
+            </div>
+          </div>
+        </MobileCard>
+
+        {/* 底部安全区域 */}
+        <div className="h-4" />
       </MobileSpacing>
     </MobileContainer>
   );

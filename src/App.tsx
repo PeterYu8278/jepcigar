@@ -27,19 +27,16 @@ import {
   NotFoundPage
 } from '@/components/LazyComponents';
 
+// Responsive Components
+import ResponsiveDashboard from '@/components/Dashboard/ResponsiveDashboard';
+
 // PWA Test Page (非懒加载，因为测试页面需要快速访问)
 import PWATestPage from '@/pages/Test/PWATestPage';
 import EnvironmentTestPage from '@/pages/Test/EnvironmentTestPage';
 import CardUrlUpdatePage from '@/pages/Test/CardUrlUpdatePage';
 import QRCodeTestPage from '@/pages/Test/QRCodeTestPage';
 import MobileUITestPage from '@/pages/Test/MobileUITestPage';
-
-// 移动端专用页面
-import MobileDashboardPage from '@/pages/Dashboard/MobileDashboardPage';
-import MobileEventPage from '@/pages/Event/MobileEventPage';
-
-// 响应式页面组件
-import ResponsivePage from '@/components/Common/ResponsivePage';
+import MobileDashboardTestPage from '@/pages/Test/MobileDashboardTestPage';
 
 // Hooks
 import { useAuthStore, useAuthActions } from '@/stores/authStore';
@@ -159,13 +156,8 @@ const App: React.FC = () => {
                     <ProtectedRoute>
                       <ResponsiveAppLayout>
                   <Routes>
-                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                     <Route path="/dashboard" element={
-                       <ResponsivePage 
-                         desktopComponent={DashboardPage}
-                         mobileComponent={MobileDashboardPage}
-                       />
-                     } />
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="/dashboard" element={<ResponsiveDashboard />} />
                     
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
@@ -175,14 +167,9 @@ const App: React.FC = () => {
                     <Route path="/customers" element={<CustomerPage />} />
                     <Route path="/customers/:id" element={<CustomerPage />} />
                     
-                     {/* Events & Networking */}
-                     <Route path="/events" element={
-                       <ResponsivePage 
-                         desktopComponent={EventPage}
-                         mobileComponent={MobileEventPage}
-                       />
-                     } />
-                     <Route path="/events/:id" element={<EventPage />} />
+                    {/* Events & Networking */}
+                    <Route path="/events" element={<EventPage />} />
+                    <Route path="/events/:id" element={<EventPage />} />
                     
                     {/* Referral Program */}
                     <Route path="/referrals" element={<ReferralPage />} />
@@ -224,6 +211,7 @@ const App: React.FC = () => {
                     <Route path="/test/card-url-update" element={<CardUrlUpdatePage />} />
                     <Route path="/test/qrcode" element={<QRCodeTestPage />} />
                     <Route path="/test/mobile-ui" element={<MobileUITestPage />} />
+                    <Route path="/test/mobile-dashboard" element={<MobileDashboardTestPage />} />
                     <Route path="/pwa-test" element={<PWATestPage />} />
                     
                     {/* 404 */}
