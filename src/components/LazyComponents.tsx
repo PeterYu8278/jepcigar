@@ -33,10 +33,6 @@ export const DashboardPage = withSuspense(
   React.lazy(() => import('@/pages/Dashboard/DashboardPage'))
 );
 
-export const SystemManagementPage = withSuspense(
-  React.lazy(() => import('@/pages/System/SystemManagementPage'))
-);
-
 export const InventoryPage = withSuspense(
   React.lazy(() => import('@/pages/Inventory/InventoryPage'))
 );
@@ -73,18 +69,12 @@ export const GamificationPage = withSuspense(
   React.lazy(() => import('@/pages/Gamification/GamificationPage'))
 );
 
-// New Product page that includes all product-related services
-export const ProductPage = withSuspense(
-  React.lazy(() => import('@/pages/Product/ProductPage'))
-);
-
-// Legacy pages - kept for backward compatibility
 export const GiftingPage = withSuspense(
-  React.lazy(() => import('@/pages/Product/GiftingPage'))
+  React.lazy(() => import('@/pages/Gifting/GiftingPage'))
 );
 
 export const AcademyPage = withSuspense(
-  React.lazy(() => import('@/pages/Product/AcademyPage'))
+  React.lazy(() => import('@/pages/Academy/AcademyPage'))
 );
 
 export const AnalyticsPage = withSuspense(
@@ -96,7 +86,7 @@ export const SettingsPage = withSuspense(
 );
 
 export const PointsMarketplacePage = withSuspense(
-  React.lazy(() => import('@/pages/Product/PointsMarketplacePage'))
+  React.lazy(() => import('@/pages/PointsMarketplace/PointsMarketplacePage'))
 );
 
 export const AIRecommendationsPage = withSuspense(
@@ -138,16 +128,16 @@ export const QRCodeScanner = withSuspense(
   React.lazy(() => import('@/components/Event/QRCodeScanner'))
 );
 
-export const EnhancedQRCodeScanner = withSuspense(
-  React.lazy(() => import('@/components/Event/EnhancedQRCodeScanner'))
-);
-
 export const BatchCheckIn = withSuspense(
   React.lazy(() => import('@/components/Event/BatchCheckIn'))
 );
 
 export const CheckInDashboard = withSuspense(
   React.lazy(() => import('@/components/Event/CheckInDashboard'))
+);
+
+export const EnhancedQRCodeScanner = withSuspense(
+  React.lazy(() => import('@/components/Event/EnhancedQRCodeScanner'))
 );
 
 // Customer 相关组件 - 暂时注释掉不存在的组件

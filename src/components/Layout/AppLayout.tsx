@@ -7,14 +7,16 @@ import {
   InboxOutlined,
   UserOutlined,
   CalendarOutlined,
+  GiftOutlined,
   TrophyOutlined,
+  BookOutlined,
   BarChartOutlined,
   SettingOutlined,
   BellOutlined,
   LogoutOutlined,
   CrownOutlined,
   ShareAltOutlined,
-  ShoppingOutlined,
+  BulbOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
@@ -38,7 +40,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { referrals } = useCustomerStore();
   const { isMobile } = useMobile();
 
-  // Menu items configuration
+  // 简化的菜单配置
   const menuItems = [
     {
       key: '/dashboard',
@@ -46,156 +48,54 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       label: '仪表板',
     },
     {
-      key: 'system',
-      icon: <SettingOutlined />,
-      label: '系统管理',
-      children: [
-        {
-          key: '/system',
-          label: '系统概览',
-        },
-        {
-          key: '/system/customers',
-          label: '客户管理',
-        },
-        {
-          key: '/system/inventory',
-          label: '库存管理',
-        },
-        {
-          key: '/system/analytics',
-          label: '数据分析',
-        },
-      ],
-    },
-    {
-      key: 'inventory',
+      key: '/inventory',
       icon: <InboxOutlined />,
       label: '库存管理',
-      children: [
-        {
-          key: '/inventory',
-          label: '雪茄库存',
-        },
-        {
-          key: '/inventory/price-history',
-          label: '价格历史',
-        },
-        {
-          key: '/inventory/stock-transactions',
-          label: '库存交易',
-        },
-      ],
     },
     {
-      key: 'customers',
+      key: '/customers',
       icon: <UserOutlined />,
       label: '客户管理',
-      children: [
-        {
-          key: '/customers',
-          label: '客户列表',
-        },
-        {
-          key: '/customers/digital-cards',
-          label: '数字名片',
-        },
-      ],
     },
     {
-      key: 'events',
+      key: '/events',
       icon: <CalendarOutlined />,
       label: '活动管理',
-      children: [
-        {
-          key: '/events',
-          label: '活动列表',
-        },
-        {
-          key: '/events/networking',
-          label: '网络连接',
-        },
-      ],
     },
     {
-      key: 'gamification',
+      key: '/gamification',
       icon: <TrophyOutlined />,
       label: '游戏化',
-      children: [
-        {
-          key: '/lucky-spin',
-          label: '幸运转盘',
-        },
-        {
-          key: '/royal-program',
-          label: '皇家会员',
-        },
-        {
-          key: '/referrals',
-          label: '推荐系统',
-        },
-      ],
     },
     {
-      key: 'products',
-      icon: <ShoppingOutlined />,
-      label: '产品服务',
-      children: [
-        {
-          key: '/products',
-          label: '产品概览',
-        },
-        {
-          key: '/products#gifting',
-          label: '礼品定制',
-        },
-        {
-          key: '/products#marketplace',
-          label: '积分商城',
-        },
-        {
-          key: '/products#academy',
-          label: '雪茄学院',
-        },
-        {
-          key: '/products#ai-recommendation',
-          label: 'AI推荐',
-        },
-      ],
+      key: '/gifting',
+      icon: <GiftOutlined />,
+      label: '礼品定制',
     },
     {
-      key: 'analytics',
+      key: '/academy',
+      icon: <BookOutlined />,
+      label: '雪茄学院',
+    },
+    {
+      key: '/marketplace',
+      icon: <GiftOutlined />,
+      label: '积分商城',
+    },
+    {
+      key: '/recommendations',
+      icon: <BulbOutlined />,
+      label: 'AI推荐',
+    },
+    {
+      key: '/analytics',
       icon: <BarChartOutlined />,
       label: '分析报告',
-      children: [
-        {
-          key: '/analytics',
-          label: '业务分析',
-        },
-        {
-          key: '/finance',
-          label: '财务报告',
-        },
-        {
-          key: '/reports',
-          label: '销售报告',
-        },
-      ],
     },
     {
-      key: 'settings',
+      key: '/settings',
       icon: <SettingOutlined />,
       label: '系统设置',
-      children: [
-        {
-          key: '/settings',
-          label: '系统配置',
-        },
-        {
-          key: '/profile',
-          label: '个人资料',
-        },
-      ],
     },
   ];
 
@@ -253,65 +153,26 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     }
   };
 
-  // Get selected keys based on current route
+  // 简化的路由选择逻辑
   const getSelectedKeys = () => {
     const path = location.pathname;
-    const hash = location.hash;
     
+    // 直接匹配主要路由
+    if (path === '/dashboard') return ['/dashboard'];
     if (path.startsWith('/inventory')) return ['/inventory'];
     if (path.startsWith('/customers')) return ['/customers'];
     if (path.startsWith('/events')) return ['/events'];
-    if (path.startsWith('/lucky-spin') || path.startsWith('/royal-program') || path.startsWith('/referrals')) {
-      return [path];
+    if (path.startsWith('/gamification') || path.startsWith('/lucky-spin') || path.startsWith('/royal-program') || path.startsWith('/referrals')) {
+      return ['/gamification'];
     }
-    if (path.startsWith('/products')) {
-      if (hash) {
-        return [`/products${hash}`];
-      }
-      return ['/products'];
-    }
-    if (path.startsWith('/marketplace') || path.startsWith('/points')) {
-      return ['/marketplace'];
-    }
-    if (path.startsWith('/recommendations') || path.startsWith('/ai-recommendations')) {
-      return ['/recommendations'];
-    }
-    if (path.startsWith('/analytics') || path.startsWith('/finance') || path.startsWith('/reports')) {
-      return ['/analytics'];
-    }
-    if (path.startsWith('/settings') || path.startsWith('/profile')) {
-      return ['/settings'];
-    }
-    return [path];
-  };
-
-  const getOpenKeys = () => {
-    const path = location.pathname;
-    const openKeys = [];
+    if (path.startsWith('/gifting')) return ['/gifting'];
+    if (path.startsWith('/academy')) return ['/academy'];
+    if (path.startsWith('/marketplace') || path.startsWith('/points')) return ['/marketplace'];
+    if (path.startsWith('/recommendations') || path.startsWith('/ai-recommendations')) return ['/recommendations'];
+    if (path.startsWith('/analytics') || path.startsWith('/finance') || path.startsWith('/reports')) return ['/analytics'];
+    if (path.startsWith('/settings') || path.startsWith('/profile')) return ['/settings'];
     
-    if (path.startsWith('/inventory')) openKeys.push('inventory');
-    if (path.startsWith('/customers')) openKeys.push('customers');
-    if (path.startsWith('/events')) openKeys.push('events');
-    if (path.startsWith('/lucky-spin') || path.startsWith('/royal-program') || path.startsWith('/referrals')) {
-      openKeys.push('gamification');
-    }
-    if (path.startsWith('/products')) {
-      openKeys.push('products');
-    }
-    if (path.startsWith('/marketplace') || path.startsWith('/points')) {
-      openKeys.push('marketplace');
-    }
-    if (path.startsWith('/recommendations') || path.startsWith('/ai-recommendations')) {
-      openKeys.push('recommendations');
-    }
-    if (path.startsWith('/analytics') || path.startsWith('/finance') || path.startsWith('/reports')) {
-      openKeys.push('analytics');
-    }
-    if (path.startsWith('/settings') || path.startsWith('/profile')) {
-      openKeys.push('settings');
-    }
-    
-    return openKeys;
+    return ['/dashboard']; // 默认选中仪表板
   };
 
   // 移动端渲染
@@ -390,7 +251,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           <Menu
             mode="inline"
             selectedKeys={getSelectedKeys()}
-            defaultOpenKeys={getOpenKeys()}
             items={menuItems}
             onClick={handleMenuClick}
             className="border-r-0"
@@ -425,7 +285,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         <Menu
           mode="inline"
           selectedKeys={getSelectedKeys()}
-          defaultOpenKeys={getOpenKeys()}
           items={menuItems}
           onClick={handleMenuClick}
           className="border-r-0"

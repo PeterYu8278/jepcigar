@@ -6,12 +6,8 @@ import {
   UserOutlined, 
   CalendarOutlined,
   TrophyOutlined,
-  GiftOutlined,
-  BookOutlined,
   BarChartOutlined,
-  SettingOutlined,
-  BulbOutlined,
-  ShoppingOutlined
+  SettingOutlined
 } from '@ant-design/icons';
 import { Badge } from 'antd';
 
@@ -30,7 +26,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ className = '' }) =
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 导航项目配置
+  // 简化的导航项目配置（只显示主要功能）
   const navItems: NavItem[] = [
     {
       key: '/dashboard',
@@ -52,11 +48,6 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ className = '' }) =
       key: '/events',
       icon: <CalendarOutlined />,
       label: '活动',
-    },
-    {
-      key: '/products',
-      icon: <ShoppingOutlined />,
-      label: '产品',
     },
     {
       key: '/gamification',

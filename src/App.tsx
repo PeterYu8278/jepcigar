@@ -11,22 +11,18 @@ import { Routes } from '@/components/RoutesWithFutureFlags';
 import {
   LoginPage,
   DashboardPage,
-  SystemManagementPage,
   InventoryPage,
-  StockTransactionsPage,
-  PriceHistoryPage,
   CustomerPage,
   DigitalCardPage,
   EventPage,
-  NetworkingPage,
   ReferralPage,
   GamificationPage,
-  ProductPage,
   GiftingPage,
   AcademyPage,
   AnalyticsPage,
   SettingsPage,
   PointsMarketplacePage,
+  AIRecommendationsPage,
   DigitalCardTestPage,
   NotFoundPage
 } from '@/components/LazyComponents';
@@ -170,17 +166,9 @@ const App: React.FC = () => {
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
                     <Route path="/dashboard" element={<DashboardPage />} />
                     
-                    {/* System Management */}
-                    <Route path="/system" element={<SystemManagementPage />} />
-                    <Route path="/system/customers" element={<SystemManagementPage />} />
-                    <Route path="/system/inventory" element={<SystemManagementPage />} />
-                    <Route path="/system/analytics" element={<SystemManagementPage />} />
-                    
                     {/* Inventory Management */}
                     <Route path="/inventory" element={<InventoryPage />} />
                     <Route path="/inventory/:id" element={<InventoryPage />} />
-                    <Route path="/inventory/stock-transactions" element={<StockTransactionsPage />} />
-                    <Route path="/inventory/price-history" element={<PriceHistoryPage />} />
                     
                     {/* Customer & CRM */}
                     <Route path="/customers" element={<CustomerPage />} />
@@ -189,7 +177,6 @@ const App: React.FC = () => {
                     {/* Events & Networking */}
                     <Route path="/events" element={<EventPage />} />
                     <Route path="/events/:id" element={<EventPage />} />
-                    <Route path="/events/networking" element={<NetworkingPage />} />
                     
                     {/* Referral Program */}
                     <Route path="/referrals" element={<ReferralPage />} />
@@ -199,11 +186,7 @@ const App: React.FC = () => {
                     <Route path="/lucky-spin" element={<GamificationPage />} />
                     <Route path="/royal-program" element={<GamificationPage />} />
                     
-                    {/* Product Services - New unified page */}
-                    <Route path="/products" element={<ProductPage />} />
-                    <Route path="/products/:tab" element={<ProductPage />} />
-                    
-                    {/* Legacy routes for backward compatibility */}
+                    {/* Gifting Module */}
                     <Route path="/gifting" element={<GiftingPage />} />
                     <Route path="/gifting/:id" element={<GiftingPage />} />
                     
@@ -215,9 +198,9 @@ const App: React.FC = () => {
                     <Route path="/marketplace" element={<PointsMarketplacePage />} />
                     <Route path="/points" element={<PointsMarketplacePage />} />
                     
-                    {/* AI Recommendations - Redirect to Products page */}
-                    <Route path="/recommendations" element={<Navigate to="/products#ai-recommendation" replace />} />
-                    <Route path="/ai-recommendations" element={<Navigate to="/products#ai-recommendation" replace />} />
+                    {/* AI Recommendations */}
+                    <Route path="/recommendations" element={<AIRecommendationsPage />} />
+                    <Route path="/ai-recommendations" element={<AIRecommendationsPage />} />
                     
                     {/* Analytics & Finance */}
                     <Route path="/analytics" element={<AnalyticsPage />} />

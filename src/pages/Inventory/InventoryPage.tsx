@@ -16,7 +16,8 @@ import {
   Upload,
   App,
   Tooltip,
-  Badge
+  Badge,
+  Tabs
 } from 'antd';
 import {
   PlusOutlined,
@@ -27,10 +28,13 @@ import {
   UploadOutlined,
   StockOutlined,
   HistoryOutlined,
+  SwapOutlined,
 } from '@ant-design/icons';
 import { useInventory, useInventoryActions } from '@/stores/inventoryStore';
 import { Cigar } from '@/types';
 import { CIGAR_CATEGORIES } from '@/config/constants';
+import PriceHistoryPage from './PriceHistoryPage';
+import StockTransactionsPage from './StockTransactionsPage';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -54,6 +58,7 @@ const InventoryPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingCigar, setEditingCigar] = useState<Cigar | null>(null);
   const [form] = Form.useForm();
+  const [activeTab, setActiveTab] = useState('cigars');
 
   useEffect(() => {
     loadCigars();
@@ -304,23 +309,9 @@ const InventoryPage: React.FC = () => {
     },
   ];
 
-  return (
+  // 雪茄库存标签内容
+  const CigarInventoryContent = () => (
     <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <Title level={2} className="mb-0">库存管理</Title>
-          <Text type="secondary">管理您的雪茄库存和价格信息</Text>
-        </div>
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />}
-          onClick={handleCreateCigar}
-        >
-          添加雪茄
-        </Button>
-      </div>
-
       {/* Filters */}
       <Card>
         <Row gutter={[16, 16]} align="middle">
@@ -389,6 +380,71 @@ const InventoryPage: React.FC = () => {
             },
           }}
           scroll={{ x: 1200 }}
+        />
+      </Card>
+    </div>
+  );
+
+  // 标签配置
+  const tabItems = [
+    {
+      key: 'cigars',
+      label: (
+        <span>
+          <StockOutlined />
+          雪茄库存
+        </span>
+      ),
+      children: <CigarInventoryContent />,
+    },
+    {
+      key: 'price-history',
+      label: (
+        <span>
+          <HistoryOutlined />
+          价格历史
+        </span>
+      ),
+      children: <PriceHistoryPage />,
+    },
+    {
+      key: 'stock-transactions',
+      label: (
+        <span>
+          <SwapOutlined />
+          库存交易
+        </span>
+      ),
+      children: <StockTransactionsPage />,
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <Title level={2} className="mb-0">库存管理</Title>
+          <Text type="secondary">管理您的雪茄库存和价格信息</Text>
+        </div>
+        {activeTab === 'cigars' && (
+          <Button 
+            type="primary" 
+            icon={<PlusOutlined />}
+            onClick={handleCreateCigar}
+          >
+            添加雪茄
+          </Button>
+        )}
+      </div>
+
+      {/* Tabs */}
+      <Card>
+        <Tabs
+          activeKey={activeTab}
+          onChange={setActiveTab}
+          items={tabItems}
+          size="large"
         />
       </Card>
 
