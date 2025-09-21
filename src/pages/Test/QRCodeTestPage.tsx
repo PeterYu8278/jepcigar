@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Input, Space, Typography, Row, Col, Alert, Select, message } from 'antd';
-import { ReloadOutlined, EyeOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Card, Button, Input, Typography, Row, Col, Alert, Select, message } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 import QRCodeDisplay from '@/components/Common/QRCodeDisplay';
 import { useCustomers } from '@/stores/customerStore';
 import { generateCardUrl } from '@/config/environment';

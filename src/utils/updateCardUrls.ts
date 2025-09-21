@@ -54,8 +54,9 @@ export async function updateAllCardUrls(): Promise<UpdateResult> {
         // 更新客户数字名片URL
         await CustomerService.update<Customer>(CustomerService.COLLECTION, customer.id, {
           digitalCard: {
-            ...customer.digitalCard,
-            cardUrl: newCardUrl
+            qrCode: customer.digitalCard?.qrCode || '',
+            cardUrl: newCardUrl,
+            isActive: customer.digitalCard?.isActive ?? true
           }
         });
 

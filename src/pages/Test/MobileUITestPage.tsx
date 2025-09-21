@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Space, Switch, Select, Input, Slider, message } from 'antd';
+import { Space, Switch, Select, message, Divider } from 'antd';
 import {
   MobileButton,
   MobileInput,
@@ -19,8 +19,8 @@ import {
   SettingOutlined,
   HeartOutlined,
   StarOutlined,
-  DownloadOutlined,
-  ShareAltOutlined
+  // DownloadOutlined,
+  // ShareAltOutlined
 } from '@ant-design/icons';
 
 const { Option } = Select;
@@ -198,7 +198,6 @@ const MobileUITestPage: React.FC = () => {
                 size={inputSize}
                 placeholder="多行文本"
                 type="textarea"
-                rows={3}
                 fullWidth
               />
             </MobileSpacing>
@@ -366,7 +365,7 @@ const MobileUITestPage: React.FC = () => {
               <MobileText color="success" weight="medium">成功文本</MobileText>
               <MobileText color="warning" weight="medium">警告文本</MobileText>
               <MobileText color="error" weight="medium">错误文本</MobileText>
-              <MobileText color="info" weight="medium">信息文本</MobileText>
+              <MobileText color="primary" weight="medium">信息文本</MobileText>
             </MobileSpacing>
           </MobileSpacing>
         </MobileCard>

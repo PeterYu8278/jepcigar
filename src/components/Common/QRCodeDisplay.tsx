@@ -3,7 +3,7 @@ import { Card, Button, Space, Typography, Alert, Spin, message } from 'antd';
 import { DownloadOutlined, ReloadOutlined, QrcodeOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { generateQRCodeData } from '@/utils';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface QRCodeDisplayProps {
   /** 二维码数据内容 */

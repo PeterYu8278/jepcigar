@@ -130,6 +130,7 @@ export const PACKAGING_OPTIONS = [
 // ===== SYSTEM SETTINGS =====
 export const SYSTEM_SETTINGS = {
   COMPANY_NAME: 'JEP Cigar',
+  COMPANY_DESCRIPTION: 'JEP Cigar - 高端雪茄与商务社交的完美结合',
   COMPANY_LOGO: '/logo.png',
   DEFAULT_CURRENCY: 'CNY',
   DEFAULT_LANGUAGE: 'zh-CN',

@@ -68,6 +68,7 @@ export interface Customer extends BaseEntity {
   company?: string;
   title?: string;
   avatar?: string;
+  address?: string;
   
   // Preferences
   tastePreferences: TastePreference[];

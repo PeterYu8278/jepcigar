@@ -3,15 +3,11 @@ import {
   Card, 
   Button, 
   Input, 
-  Space, 
   Typography, 
   Avatar,
   Tag,
   Drawer,
-  List,
-  Empty,
   Spin,
-  message,
   App
 } from 'antd';
 import {
@@ -26,14 +22,14 @@ import {
 } from '@ant-design/icons';
 import { useCustomers, useCustomerActions } from '@/stores/customerStore';
 import { Customer } from '@/types';
-import useMobile from '@/hooks/useMobile';
+// import useMobile from '@/hooks/useMobile';
 
 const { Title, Text } = Typography;
 const { Search } = Input;
 
 const MobileCustomerPage: React.FC = () => {
   const { message: messageApi } = App.useApp();
-  const { isMobile } = useMobile();
+  // const { isMobile } = useMobile();
   const { 
     customers, 
     isLoading, 

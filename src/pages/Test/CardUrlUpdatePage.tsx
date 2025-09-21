@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Alert, List, Typography, Space, Tag, Progress, message } from 'antd';
-import { ReloadOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Card, Button, Alert, List, Typography, Tag, Progress, message } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 import { updateAllCardUrls, checkEnvironmentConfig, getCustomersNeedingUpdate, validateCustomerCardUrl } from '@/utils/updateCardUrls';
-import { CustomerService } from '@/services/firebaseService';
+// import { CustomerService } from '@/services/firebaseService';
 import { Customer } from '@/types';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
 interface UpdateStatus {
   isRunning: boolean;

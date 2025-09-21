@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Input, Card, Typography, Space, Avatar, Tag, Spin, Empty, Alert } from 'antd';
+import { Button, Input, Card, Typography, Tag, Spin } from 'antd';
 import { ButtonProps, InputProps } from 'antd';
 import useMobile from '@/hooks/useMobile';
 
-const { Text, Title, Paragraph } = Typography;
+const { Text, Title } = Typography;
 
 // 移动端优化的按钮组件
-interface MobileButtonProps extends ButtonProps {
+interface MobileButtonProps extends Omit<ButtonProps, 'variant' | 'size'> {
   fullWidth?: boolean;
   size?: 'small' | 'medium' | 'large';
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -46,6 +46,7 @@ export const MobileButton: React.FC<MobileButtonProps> = ({
   return (
     <Button
       {...props}
+      size={size === 'medium' ? undefined : size}
       className={classes}
     >
       {children}
@@ -54,7 +55,7 @@ export const MobileButton: React.FC<MobileButtonProps> = ({
 };
 
 // 移动端优化的输入框组件
-interface MobileInputProps extends InputProps {
+interface MobileInputProps extends Omit<InputProps, 'size'> {
   fullWidth?: boolean;
   size?: 'small' | 'medium' | 'large';
 }
@@ -83,6 +84,7 @@ export const MobileInput: React.FC<MobileInputProps> = ({
   return (
     <Input
       {...props}
+      size={size === 'medium' ? undefined : size}
       className={classes}
     />
   );
@@ -247,7 +249,7 @@ export const MobileLoading: React.FC<MobileLoadingProps> = ({
 
   return (
     <div className={containerClasses}>
-      <Spin size={size} className={sizeClasses[size]} />
+      <Spin size={size === 'medium' ? 'default' : size} className={sizeClasses[size]} />
       {text && (
         <Text className="mobile-loading-text mt-3">
           {text}

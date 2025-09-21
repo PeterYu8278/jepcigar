@@ -6,11 +6,11 @@ import {
   Space, 
   Typography, 
   Avatar, 
-  Divider, 
   Tag, 
-  Alert,
   Spin,
-  message,
+  message
+} from 'antd';
+import {
   ShareAltOutlined,
   DownloadOutlined,
   ArrowLeftOutlined,
@@ -19,11 +19,11 @@ import {
   PhoneOutlined,
   MailOutlined,
   EnvironmentOutlined
-} from 'antd';
+} from '@ant-design/icons';
 import { Customer } from '@/types';
 import { CustomerService } from '@/services/firebaseService';
 import { SYSTEM_SETTINGS } from '@/config/constants';
-import useMobile from '@/hooks/useMobile';
+// import useMobile from '@/hooks/useMobile';
 import QRCodeDisplay from '@/components/Common/QRCodeDisplay';
 
 const { Title, Text, Paragraph } = Typography;
@@ -31,7 +31,7 @@ const { Title, Text, Paragraph } = Typography;
 const MobileDigitalCardPage: React.FC = () => {
   const { customerId } = useParams<{ customerId: string }>();
   const navigate = useNavigate();
-  const { isMobile } = useMobile();
+  // const { isMobile } = useMobile();
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
