@@ -129,28 +129,31 @@ export const CUSTOMER_PERMISSIONS: Record<string, CustomerPermission> = {
   }
 };
 
+// 基础顾客权限
+const BASE_CUSTOMER_PERMISSIONS = [
+  CUSTOMER_PERMISSIONS['profile:view'],
+  CUSTOMER_PERMISSIONS['profile:edit'],
+  CUSTOMER_PERMISSIONS['events:view'],
+  CUSTOMER_PERMISSIONS['events:register'],
+  CUSTOMER_PERMISSIONS['events:cancel'],
+  CUSTOMER_PERMISSIONS['events:rate'],
+  CUSTOMER_PERMISSIONS['marketplace:view'],
+  CUSTOMER_PERMISSIONS['marketplace:purchase'],
+  CUSTOMER_PERMISSIONS['marketplace:redeem'],
+  CUSTOMER_PERMISSIONS['social:view'],
+  CUSTOMER_PERMISSIONS['social:connect'],
+  CUSTOMER_PERMISSIONS['social:share'],
+  CUSTOMER_PERMISSIONS['social:refer'],
+  CUSTOMER_PERMISSIONS['system:notifications'],
+  CUSTOMER_PERMISSIONS['system:feedback'],
+  CUSTOMER_PERMISSIONS['system:help']
+];
+
 // 角色权限配置
 export const CUSTOMER_ROLE_PERMISSIONS: Record<string, CustomerRolePermissions> = {
   customer: {
     role: 'customer',
-    permissions: [
-      CUSTOMER_PERMISSIONS['profile:view'],
-      CUSTOMER_PERMISSIONS['profile:edit'],
-      CUSTOMER_PERMISSIONS['events:view'],
-      CUSTOMER_PERMISSIONS['events:register'],
-      CUSTOMER_PERMISSIONS['events:cancel'],
-      CUSTOMER_PERMISSIONS['events:rate'],
-      CUSTOMER_PERMISSIONS['marketplace:view'],
-      CUSTOMER_PERMISSIONS['marketplace:purchase'],
-      CUSTOMER_PERMISSIONS['marketplace:redeem'],
-      CUSTOMER_PERMISSIONS['social:view'],
-      CUSTOMER_PERMISSIONS['social:connect'],
-      CUSTOMER_PERMISSIONS['social:share'],
-      CUSTOMER_PERMISSIONS['social:refer'],
-      CUSTOMER_PERMISSIONS['system:notifications'],
-      CUSTOMER_PERMISSIONS['system:feedback'],
-      CUSTOMER_PERMISSIONS['system:help']
-    ],
+    permissions: BASE_CUSTOMER_PERMISSIONS,
     restrictions: [
       'profile:delete' // 普通顾客不能删除账户，需要联系客服
     ]
@@ -158,7 +161,7 @@ export const CUSTOMER_ROLE_PERMISSIONS: Record<string, CustomerRolePermissions> 
   vip: {
     role: 'vip',
     permissions: [
-      ...CUSTOMER_ROLE_PERMISSIONS.customer.permissions,
+      ...BASE_CUSTOMER_PERMISSIONS,
       // VIP额外权限可以在这里添加
     ],
     restrictions: []
@@ -166,7 +169,7 @@ export const CUSTOMER_ROLE_PERMISSIONS: Record<string, CustomerRolePermissions> 
   staff: {
     role: 'staff',
     permissions: [
-      ...CUSTOMER_ROLE_PERMISSIONS.customer.permissions,
+      ...BASE_CUSTOMER_PERMISSIONS,
       // 员工权限可以在这里添加
     ],
     restrictions: []
@@ -174,7 +177,7 @@ export const CUSTOMER_ROLE_PERMISSIONS: Record<string, CustomerRolePermissions> 
   manager: {
     role: 'manager',
     permissions: [
-      ...CUSTOMER_ROLE_PERMISSIONS.customer.permissions,
+      ...BASE_CUSTOMER_PERMISSIONS,
       // 管理员权限可以在这里添加
     ],
     restrictions: []
@@ -280,7 +283,9 @@ export class CustomerPermissionManager {
    * 检查用户是否为VIP
    */
   static isVIP(user: User): boolean {
-    return user?.role === 'vip' || user?.role === 'manager' || user?.role === 'admin';
+    // 在我们的系统中，VIP是通过客户等级而不是角色来确定的
+    // 这里我们检查用户是否为管理员级别的角色
+    return user?.role === 'manager' || user?.role === 'admin';
   }
 
   /**

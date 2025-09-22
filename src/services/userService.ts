@@ -27,7 +27,7 @@ export class UserService {
     firebaseUid: string;
     email: string;
     displayName: string;
-    role?: 'admin' | 'manager' | 'staff';
+    role?: 'admin' | 'manager' | 'staff' | 'customer';
     permissions?: string[];
   }): Promise<string> {
     try {
@@ -35,7 +35,7 @@ export class UserService {
         firebaseUid: userData.firebaseUid,
         email: userData.email,
         displayName: userData.displayName,
-        role: userData.role || 'staff',
+        role: userData.role || 'customer',
         permissions: userData.permissions || ['read'],
         isActive: true,
         lastLogin: new Date(),

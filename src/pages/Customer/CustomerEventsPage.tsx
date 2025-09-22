@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Card, Button, Tabs, Badge, Space, Typography, Tag, Avatar, Divider } from 'antd';
+import { Row, Col, Card, Button, Tabs, Badge, Space, Typography, Tag, Divider } from 'antd';
 import { 
   CalendarOutlined, 
   EnvironmentOutlined, 

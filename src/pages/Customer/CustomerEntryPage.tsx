@@ -9,7 +9,7 @@ import {
   StarOutlined,
   FireOutlined
 } from '@ant-design/icons';
-import { customerColors, customerClasses } from '@/config/customerTheme';
+import { customerClasses } from '@/config/customerTheme';
 import './CustomerEntryPage.css';
 
 const { Title, Text } = Typography;

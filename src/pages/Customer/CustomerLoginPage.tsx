@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Card, Typography, Space, Divider, Row, Col, message } from 'antd';
+import { Form, Input, Button, Card, Typography, Space, Divider, message } from 'antd';
 import { 
   UserOutlined, 
   LockOutlined, 
@@ -7,11 +7,11 @@ import {
   PhoneOutlined,
   GiftOutlined,
   CrownOutlined,
-  StarOutlined
+  CalendarOutlined
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
-import { customerColors, customerClasses } from '@/config/customerTheme';
+import { customerClasses } from '@/config/customerTheme';
 import './CustomerLoginPage.css';
 
 const { Title, Text } = Typography;

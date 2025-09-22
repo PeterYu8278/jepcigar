@@ -1,7 +1,7 @@
 // 顾客端专用服务层
 import { FirebaseService } from './firebaseService';
 import { Customer, CustomerProfile, CustomerPreferences, Event, EventRegistration, PointsTransaction, MarketplaceItem } from '@/types';
-import { where, orderBy, limit, query } from 'firebase/firestore';
+import { where, orderBy, limit } from 'firebase/firestore';
 
 export class CustomerService extends FirebaseService {
   static readonly COLLECTION = 'customers';
@@ -50,7 +50,7 @@ export class CustomerService extends FirebaseService {
     try {
       await this.update(this.PROFILES_COLLECTION, customerId, {
         preferences
-      });
+      } as any);
     } catch (error) {
       console.error('Error updating customer preferences:', error);
       throw error;
@@ -133,7 +133,7 @@ export class CustomerService extends FirebaseService {
       await this.update(this.EVENTS_COLLECTION, eventId, {
         currentAttendees: event.currentAttendees + 1,
         updatedAt: new Date()
-      });
+      } as any);
 
       return registrationId;
     } catch (error) {
@@ -156,7 +156,7 @@ export class CustomerService extends FirebaseService {
       await this.update(this.REGISTRATIONS_COLLECTION, registrationId, {
         status: 'cancelled',
         updatedAt: new Date()
-      });
+      } as any);
 
       // 更新活动参与人数
       const event = await this.getEventDetails(registration.eventId);
@@ -164,7 +164,7 @@ export class CustomerService extends FirebaseService {
         await this.update(this.EVENTS_COLLECTION, registration.eventId, {
           currentAttendees: Math.max(0, event.currentAttendees - 1),
           updatedAt: new Date()
-        });
+        } as any);
       }
     } catch (error) {
       console.error('Error cancelling event registration:', error);
@@ -245,7 +245,7 @@ export class CustomerService extends FirebaseService {
       await this.update(this.PROFILES_COLLECTION, customerId, {
         totalPoints: newTotal,
         updatedAt: new Date()
-      });
+      } as any);
     } catch (error) {
       console.error('Error adding points:', error);
       throw error;
@@ -283,7 +283,7 @@ export class CustomerService extends FirebaseService {
       await this.update(this.PROFILES_COLLECTION, customerId, {
         totalPoints: newTotal,
         updatedAt: new Date()
-      });
+      } as any);
     } catch (error) {
       console.error('Error spending points:', error);
       throw error;
@@ -297,15 +297,15 @@ export class CustomerService extends FirebaseService {
    */
   static async getMarketplaceItems(category?: string): Promise<MarketplaceItem[]> {
     try {
-      let constraints = [where('isActive', '==', true)];
+      let whereConstraints = [where('isActive', '==', true)];
       
       if (category) {
-        constraints.push(where('category', '==', category));
+        whereConstraints.push(where('category', '==', category));
       }
       
-      constraints.push(orderBy('pointsCost', 'asc'));
+      const allConstraints = [...whereConstraints, orderBy('pointsCost', 'asc')];
       
-      return this.getAll(this.MARKETPLACE_COLLECTION, constraints) as Promise<MarketplaceItem[]>;
+      return this.getAll(this.MARKETPLACE_COLLECTION, allConstraints) as Promise<MarketplaceItem[]>;
     } catch (error) {
       console.error('Error getting marketplace items:', error);
       throw error;
@@ -345,7 +345,7 @@ export class CustomerService extends FirebaseService {
         await this.update(this.MARKETPLACE_COLLECTION, itemId, {
           stockQuantity: item.stockQuantity - 1,
           updatedAt: new Date()
-        });
+        } as any);
       }
 
       // 这里可以添加兑换记录到另一个集合
@@ -378,7 +378,7 @@ export class CustomerService extends FirebaseService {
       await this.update(this.PROFILES_COLLECTION, customerId, {
         referralCode,
         updatedAt: new Date()
-      });
+      } as any);
 
       return referralCode;
     } catch (error) {
@@ -461,7 +461,7 @@ export class CustomerService extends FirebaseService {
           isActive: true
         },
         updatedAt: new Date()
-      });
+      } as any);
 
       return { qrCode, cardUrl };
     } catch (error) {
@@ -473,7 +473,7 @@ export class CustomerService extends FirebaseService {
   /**
    * 生成二维码
    */
-  private static async generateQRCode(text: string): Promise<string> {
+  private static async generateQRCode(_text: string): Promise<string> {
     // 这里应该集成二维码生成库，暂时返回空字符串
     return '';
   }

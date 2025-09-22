@@ -14,7 +14,6 @@ import App from './App.tsx'
 import './index.css'
 import { pwaService } from './utils/pwaService'
 import { performanceService } from './services/performanceService'
-import { customerTheme } from './config/customerTheme'
 
 // Configure dayjs with plugins
 dayjs.extend(utc)

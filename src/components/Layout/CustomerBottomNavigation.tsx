@@ -8,7 +8,6 @@ import {
   UserOutlined,
   CrownOutlined
 } from '@ant-design/icons';
-import { customerColors } from '@/config/customerTheme';
 import './CustomerBottomNavigation.css';
 
 interface CustomerBottomNavigationProps {
