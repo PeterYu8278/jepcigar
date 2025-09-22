@@ -14,16 +14,76 @@ export class CustomerService extends FirebaseService {
   // ===== 顾客资料管理 =====
 
   /**
+   * 从User创建Customer记录（用户注册时调用）
+   */
+  static async createCustomerFromUser(userId: string, firebaseUid: string, userData: {
+    email: string;
+    displayName: string;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+  }): Promise<string> {
+    try {
+      const customerData: Partial<Customer> = {
+        userId,
+        firebaseUid,
+        email: userData.email,
+        firstName: userData.firstName || userData.displayName.split(' ')[0] || 'Customer',
+        lastName: userData.lastName || userData.displayName.split(' ').slice(1).join(' ') || '',
+        phone: userData.phone,
+        
+        // Default customer business data
+        tastePreferences: [],
+        budgetRange: { min: 0, max: 1000 },
+        giftOccasions: [],
+        relationshipNotes: '',
+        
+        // Default loyalty data
+        loyaltyTier: 'Silver',
+        totalSpent: 0,
+        totalPoints: 0,
+        availablePoints: 0,
+        memberSince: new Date(),
+        
+        // Status
+        isActive: true,
+        tags: ['new-customer']
+      };
+
+      return await this.create(this.COLLECTION, customerData);
+    } catch (error) {
+      console.error('Error creating customer from user:', error);
+      throw error;
+    }
+  }
+
+  /**
    * 获取顾客完整资料
+   * @param customerId - Customer ID or User ID (for backward compatibility)
    */
   static async getCustomerProfile(customerId: string): Promise<Customer & { profile?: CustomerProfile } | null> {
     try {
-      const customer = await this.getById(this.COLLECTION, customerId) as Customer;
+      // First try to get customer by ID
+      let customer = await this.getById(this.COLLECTION, customerId) as Customer;
+      
+      // If not found, try to find by userId (in case customerId is actually userId)
+      if (!customer) {
+        const customers = await this.getAll(this.COLLECTION, [
+          where('userId', '==', customerId)
+        ]) as Customer[];
+        customer = customers[0] || null;
+      }
+
       if (!customer) {
         return null;
       }
 
-      const profile = await this.getById(this.PROFILES_COLLECTION, customerId) as CustomerProfile;
+      // Get additional profile data if exists
+      const profiles = await this.getAll(this.PROFILES_COLLECTION, [
+        where('customerId', '==', customer.id)
+      ]) as CustomerProfile[];
+      const profile = profiles[0] || null;
+
       return { ...customer, profile };
     } catch (error) {
       console.error('Error getting customer profile:', error);
@@ -194,8 +254,9 @@ export class CustomerService extends FirebaseService {
    */
   static async getCustomerPoints(customerId: string): Promise<number> {
     try {
-      const profile = await this.getById(this.PROFILES_COLLECTION, customerId) as CustomerProfile;
-      return profile?.totalPoints || 0;
+      // totalPoints is now in Customer, not CustomerProfile
+      const customer = await this.getById(this.COLLECTION, customerId) as Customer;
+      return customer?.totalPoints || 0;
     } catch (error) {
       console.error('Error getting customer points:', error);
       return 0;
@@ -404,8 +465,9 @@ export class CustomerService extends FirebaseService {
       const referrerProfile = profiles[0] as CustomerProfile;
       
       // 检查是否已经使用过推荐码
-      const customerProfile = await this.getById(this.PROFILES_COLLECTION, customerId) as CustomerProfile;
-      if (customerProfile?.referralCode) {
+      // referralCode is now in Customer, not CustomerProfile
+      const customer = await this.getById(this.COLLECTION, customerId) as Customer;
+      if (customer?.referralCode) {
         throw new Error('您已经使用过推荐码');
       }
 
@@ -491,18 +553,19 @@ export class CustomerService extends FirebaseService {
     memberSince: Date;
   }> {
     try {
-      const profile = await this.getById(this.PROFILES_COLLECTION, customerId) as CustomerProfile;
+      const customer = await this.getById(this.COLLECTION, customerId) as Customer;
       const registrations = await this.getCustomerRegistrations(customerId);
       const referrals = await this.getAll('referrals', [
         where('referrerId', '==', customerId)
       ]);
 
       return {
-        totalPoints: profile?.totalPoints || 0,
+        // These properties are now in Customer, not CustomerProfile
+        totalPoints: customer?.totalPoints || 0,
         eventsAttended: registrations.filter(r => r.status === 'checked-out').length,
         referrals: referrals.length,
-        totalSpent: profile?.totalSpent || 0,
-        memberSince: profile?.memberSince || profile?.createdAt || new Date()
+        totalSpent: customer?.totalSpent || 0,
+        memberSince: customer?.memberSince || customer?.createdAt || new Date()
       };
     } catch (error) {
       console.error('Error getting customer stats:', error);

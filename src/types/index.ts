@@ -73,16 +73,21 @@ export type TransactionType = 'purchase' | 'sale' | 'transfer' | 'adjustment' | 
 
 // ===== CUSTOMER & CRM TYPES =====
 export interface Customer extends BaseEntity {
-  // Basic Info
+  // User Reference - Links to users collection
+  userId: string; // References User.id
+  firebaseUid: string; // References User.firebaseUid for direct Firebase Auth integration
+  
+  // Basic Info (extended from User)
   firstName: string;
   lastName: string;
-  email: string;
+  email: string; // Synced with User.email
   phone?: string;
   company?: string;
   title?: string;
-  avatar?: string;
+  avatar?: string; // Synced with User.avatar
   address?: string;
   
+  // Customer-specific Business Data
   // Preferences
   tastePreferences: TastePreference[];
   budgetRange: {
@@ -91,11 +96,18 @@ export interface Customer extends BaseEntity {
   };
   giftOccasions: GiftOccasion[];
   
-  // Relationship
+  // Business Relationship
   referralSource?: string;
-  referredBy?: string;
+  referredBy?: string; // References another Customer.id
   relationshipNotes: string;
   lastContactDate?: Date;
+  
+  // Loyalty & Points
+  loyaltyTier: 'Silver' | 'Gold' | 'Platinum' | 'Royal';
+  totalSpent: number;
+  totalPoints: number;
+  availablePoints: number;
+  memberSince: Date;
   
   // Digital Business Card
   digitalCard?: {
@@ -103,6 +115,9 @@ export interface Customer extends BaseEntity {
     cardUrl: string;
     isActive: boolean;
   };
+  
+  // Referral System
+  referralCode?: string;
   
   // Status
   isActive: boolean;
@@ -523,19 +538,11 @@ export interface UserPreferences {
 
 export interface CustomerProfile extends BaseEntity {
   userId: string; // References User.id
-  phone?: string;
+  customerId: string; // References Customer.id
   birthday?: Date;
   preferences: CustomerPreferences;
-  loyaltyInfo: CustomerLoyalty;
-  digitalCard?: {
-    qrCode: string;
-    cardUrl: string;
-    isActive: boolean;
-  };
-  referralCode?: string;
-  totalSpent: number;
-  totalPoints: number;
-  memberSince: Date;
+  // Note: loyaltyInfo, digitalCard, referralCode, totalSpent, totalPoints, memberSince 
+  // are now part of Customer interface to avoid duplication
 }
 
 export interface CustomerPreferences {

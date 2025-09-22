@@ -10,6 +10,8 @@ export const createTestCustomerWithDigitalCard = async () => {
     
     // 创建测试客户数据
     const testCustomerData: Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'> = {
+      userId: 'test-user-001',
+      firebaseUid: 'test-firebase-001',
       firstName: '测试',
       lastName: '客户',
       email: 'test@example.com',
@@ -29,6 +31,11 @@ export const createTestCustomerWithDigitalCard = async () => {
       referralSource: '测试创建',
       relationshipNotes: '这是一个测试客户，用于验证数字名片功能',
       lastContactDate: new Date(),
+      loyaltyTier: 'Silver',
+      totalSpent: 0,
+      totalPoints: 0,
+      availablePoints: 0,
+      memberSince: new Date(),
       isActive: true,
       tags: ['测试', '数字名片'],
     };

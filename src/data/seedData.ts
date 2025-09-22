@@ -88,6 +88,8 @@ export const sampleCigars: Omit<Cigar, 'id' | 'createdAt' | 'updatedAt' | 'creat
 // Sample customers data
 export const sampleCustomers: Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>[] = [
   {
+    userId: 'user-zhang-001',
+    firebaseUid: 'firebase-zhang-001',
     firstName: '张',
     lastName: '先生',
     email: 'zhang@example.com',
@@ -107,10 +109,17 @@ export const sampleCustomers: Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 
     referralSource: '朋友推荐',
     relationshipNotes: 'VIP客户，偏好古巴雪茄，商务场合较多',
     lastContactDate: new Date(),
+    loyaltyTier: 'Gold',
+    totalSpent: 15000,
+    totalPoints: 1500,
+    availablePoints: 800,
+    memberSince: new Date('2023-01-15'),
     isActive: true,
     tags: ['VIP', '商务', '古巴'],
   },
   {
+    userId: 'user-li-002',
+    firebaseUid: 'firebase-li-002',
     firstName: '李',
     lastName: '女士',
     email: 'li@example.com',
@@ -130,6 +139,11 @@ export const sampleCustomers: Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 
     referralSource: '线上广告',
     relationshipNotes: '新客户，偏好轻度雪茄，注重包装',
     lastContactDate: new Date(),
+    loyaltyTier: 'Silver',
+    totalSpent: 800,
+    totalPoints: 80,
+    availablePoints: 50,
+    memberSince: new Date('2024-01-10'),
     isActive: true,
     tags: ['新客户', '轻度', '礼品'],
   },

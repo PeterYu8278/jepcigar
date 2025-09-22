@@ -175,6 +175,18 @@ export const useAuthStore = create<AuthState & AuthActions>()(
               role: 'customer', // Default role for new users (customer)
               permissions: ['read']
             });
+
+            // For customer users, also create a Customer record
+            try {
+              const { CustomerService } = await import('@/services/customerService');
+              await CustomerService.createCustomerFromUser(userId, userCredential.user.uid, {
+                email: userData.email,
+                displayName: userData.displayName || userData.email.split('@')[0]
+              });
+            } catch (customerError: any) {
+              console.warn('Failed to create customer record:', customerError);
+              // Don't fail registration if customer creation fails
+            }
         } catch (firestoreError: any) {
           console.warn('Failed to create user in Firestore:', firestoreError);
           // Continue with authentication even if Firestore creation fails
