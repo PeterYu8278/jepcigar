@@ -485,7 +485,7 @@ export interface Address {
 export interface User extends BaseEntity {
   email: string;
   displayName: string;
-  role: 'admin' | 'manager' | 'staff';
+  role: 'admin' | 'manager' | 'staff' | 'customer';
   permissions: string[];
   isActive: boolean;
   lastLogin?: Date;
@@ -494,6 +494,8 @@ export interface User extends BaseEntity {
   firebaseUid: string;
   // Extended profile
   profile?: UserProfile;
+  // Customer specific fields
+  customerProfile?: CustomerProfile;
 }
 
 export interface UserProfile extends BaseEntity {
@@ -517,6 +519,47 @@ export interface UserPreferences {
   emailNotifications: boolean;
   smsNotifications: boolean;
   pushNotifications: boolean;
+}
+
+export interface CustomerProfile extends BaseEntity {
+  userId: string; // References User.id
+  phone?: string;
+  birthday?: Date;
+  preferences: CustomerPreferences;
+  loyaltyInfo: CustomerLoyalty;
+  digitalCard?: {
+    qrCode: string;
+    cardUrl: string;
+    isActive: boolean;
+  };
+  referralCode?: string;
+  totalSpent: number;
+  totalPoints: number;
+  memberSince: Date;
+}
+
+export interface CustomerPreferences {
+  favoriteBrands: string[];
+  tasteProfile: {
+    strength: 'light' | 'medium' | 'strong';
+    flavor: string[];
+    origin: string[];
+  };
+  budgetRange: {
+    min: number;
+    max: number;
+  };
+  notificationSettings: {
+    events: boolean;
+    promotions: boolean;
+    recommendations: boolean;
+    social: boolean;
+  };
+  privacySettings: {
+    showProfile: boolean;
+    allowRecommendations: boolean;
+    shareActivity: boolean;
+  };
 }
 
 export interface DashboardSettings {

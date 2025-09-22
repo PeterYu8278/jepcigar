@@ -45,22 +45,22 @@ const getUserFromFirestore = async (firebaseUser: FirebaseUser): Promise<User | 
       return user;
     }
     
-    // If user doesn't exist in Firestore, create a default one
-    console.warn('User not found in Firestore, creating default user');
-    return {
-      id: firebaseUser.uid,
-      firebaseUid: firebaseUser.uid,
-      email: firebaseUser.email || '',
-      displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
-      role: 'staff', // Default role for new users
-      permissions: ['read'], // Default permissions
-      isActive: true,
-      lastLogin: new Date(),
-      createdAt: new Date(firebaseUser.metadata.creationTime || Date.now()),
-      updatedAt: new Date(firebaseUser.metadata.lastSignInTime || Date.now()),
-      createdBy: 'system',
-      updatedBy: 'system'
-    };
+        // If user doesn't exist in Firestore, create a default one
+        console.warn('User not found in Firestore, creating default user');
+        return {
+          id: firebaseUser.uid,
+          firebaseUid: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
+          role: 'customer', // Default role for new users (customer)
+          permissions: ['read'], // Default permissions
+          isActive: true,
+          lastLogin: new Date(),
+          createdAt: new Date(firebaseUser.metadata.creationTime || Date.now()),
+          updatedAt: new Date(firebaseUser.metadata.lastSignInTime || Date.now()),
+          createdBy: 'system',
+          updatedBy: 'system'
+        };
   } catch (error: any) {
     console.error('Error getting user from Firestore:', error);
     
@@ -72,7 +72,7 @@ const getUserFromFirestore = async (firebaseUser: FirebaseUser): Promise<User | 
         firebaseUid: firebaseUser.uid,
         email: firebaseUser.email || '',
         displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
-        role: 'staff',
+        role: 'customer',
         permissions: ['read'],
         isActive: true,
         lastLogin: new Date(),
@@ -168,13 +168,13 @@ export const useAuthStore = create<AuthState & AuthActions>()(
         // Try to create user in Firestore, but don't fail if it doesn't work
         let userId: string;
         try {
-          userId = await UserService.createUser({
-            firebaseUid: userCredential.user.uid,
-            email: userData.email,
-            displayName: userData.displayName || userData.email.split('@')[0],
-            role: 'staff', // Default role for new users
-            permissions: ['read']
-          });
+            userId = await UserService.createUser({
+              firebaseUid: userCredential.user.uid,
+              email: userData.email,
+              displayName: userData.displayName || userData.email.split('@')[0],
+              role: 'customer', // Default role for new users (customer)
+              permissions: ['read']
+            });
         } catch (firestoreError: any) {
           console.warn('Failed to create user in Firestore:', firestoreError);
           // Continue with authentication even if Firestore creation fails
@@ -191,7 +191,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
             firebaseUid: userCredential.user.uid,
             email: userData.email,
             displayName: userData.displayName || userData.email.split('@')[0],
-            role: 'staff',
+            role: 'customer',
             permissions: ['read'],
             isActive: true,
             lastLogin: new Date(),

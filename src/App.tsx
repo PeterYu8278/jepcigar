@@ -28,6 +28,13 @@ import {
   NotFoundPage
 } from '@/components/LazyComponents';
 
+// Customer Pages
+import CustomerHomePage from '@/pages/Customer/CustomerHomePage';
+import CustomerEventsPage from '@/pages/Customer/CustomerEventsPage';
+import CustomerLoginPage from '@/pages/Customer/CustomerLoginPage';
+import CustomerEntryPage from '@/pages/Customer/CustomerEntryPage';
+import CustomerAppLayout from '@/components/Layout/CustomerAppLayout';
+
 // PWA Test Page (非懒加载，因为测试页面需要快速访问)
 import PWATestPage from '@/pages/Test/PWATestPage';
 import EnvironmentTestPage from '@/pages/Test/EnvironmentTestPage';
@@ -154,15 +161,47 @@ const App: React.FC = () => {
             } 
           />
           
+          {/* Customer Entry - Public Access */}
+          <Route path="/customer-entry" element={<CustomerEntryPage />} />
+          
+          {/* Customer Login - Public Access */}
+          <Route 
+            path="/customer/login" 
+            element={
+              isAuthenticated ? <Navigate to="/customer" replace /> : <CustomerLoginPage />
+            } 
+          />
+          
           {/* Digital Business Card - Public Access (No Auth Required) */}
           <Route path="/card/:customerId" element={<DigitalCardPage />} />
           
-          {/* Protected routes */}
-                <Route
-                  path="/*"
-                  element={
-                    <ProtectedRoute>
-                      <ResponsiveAppLayout>
+          {/* Customer routes - 顾客端路由 */}
+          <Route
+            path="/customer/*"
+            element={
+              <ProtectedRoute allowedRoles={['customer', 'admin', 'manager', 'staff']}>
+                <CustomerAppLayout>
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/customer/home" replace />} />
+                    <Route path="/home" element={<CustomerHomePage />} />
+                    <Route path="/events" element={<CustomerEventsPage />} />
+                    <Route path="/marketplace" element={<PointsMarketplacePage />} />
+                    <Route path="/profile" element={<SettingsPage />} />
+                    <Route path="/vip" element={<GamificationPage />} />
+                    <Route path="/card/:customerId" element={<DigitalCardPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </CustomerAppLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Protected routes - 管理端路由 */}
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute allowedRoles={['admin', 'manager', 'staff']}>
+                <ResponsiveAppLayout>
                   <Routes>
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
                     <Route path="/dashboard" element={<DashboardPage />} />

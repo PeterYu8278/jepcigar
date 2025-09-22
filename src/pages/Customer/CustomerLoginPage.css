@@ -1,0 +1,400 @@
+/* 顾客端登录页面样式 */
+.customer-login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  width: 100%;
+  align-items: center;
+}
+
+/* 左侧品牌展示 */
+.brand-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.brand-content {
+  max-width: 500px;
+  text-align: center;
+}
+
+.brand-logo {
+  margin-bottom: 30px;
+}
+
+.logo-icon {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.brand-title {
+  color: #D4AF37 !important;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0 !important;
+  font-size: 48px;
+}
+
+.brand-subtitle {
+  color: #333333 !important;
+  font-weight: 600;
+  margin: 0 0 20px 0 !important;
+}
+
+.brand-description {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #666666;
+  margin-bottom: 40px;
+  display: block;
+}
+
+.features-list {
+  text-align: left;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+}
+
+.feature-icon {
+  font-size: 24px;
+  color: #D4AF37;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* 右侧表单区域 */
+.form-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.login-card .ant-card-body {
+  padding: 40px;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.form-title {
+  color: #333333 !important;
+  font-weight: 600;
+  margin: 0 0 8px 0 !important;
+}
+
+.form-subtitle {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* 表单样式 */
+.login-card .ant-form-item-label > label {
+  font-weight: 500;
+  color: #333333;
+}
+
+.login-card .ant-input,
+.login-card .ant-input-password {
+  border-radius: 12px;
+  border: 2px solid #e8e8e8;
+  padding: 12px 16px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.login-card .ant-input:focus,
+.login-card .ant-input-password:focus,
+.login-card .ant-input-focused,
+.login-card .ant-input-password-focused {
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.login-card .ant-input-prefix {
+  color: #666666;
+  margin-right: 12px;
+}
+
+.submit-button {
+  height: 48px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+  border: none;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background: linear-gradient(135deg, #B8941F 0%, #D4AF37 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+/* 分割线 */
+.login-card .ant-divider {
+  margin: 24px 0;
+  color: #666666;
+}
+
+/* 社交登录 */
+.social-login {
+  margin-bottom: 24px;
+}
+
+.social-button {
+  height: 44px;
+  border-radius: 12px;
+  border: 2px solid #e8e8e8;
+  background: #ffffff;
+  color: #333333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* 表单底部 */
+.form-footer {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.toggle-button {
+  padding: 0;
+  height: auto;
+  font-weight: 600;
+  color: #D4AF37 !important;
+}
+
+.toggle-button:hover {
+  color: #B8941F !important;
+}
+
+.guest-access {
+  text-align: center;
+}
+
+.guest-link {
+  color: #D4AF37 !important;
+  font-weight: 500;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.guest-link:hover {
+  color: #B8941F !important;
+  text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .login-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 500px;
+  }
+  
+  .brand-section {
+    order: 2;
+    padding: 20px;
+  }
+  
+  .form-section {
+    order: 1;
+  }
+  
+  .brand-title {
+    font-size: 36px;
+  }
+  
+  .logo-icon {
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-login-page {
+    padding: 16px;
+  }
+  
+  .login-container {
+    gap: 32px;
+  }
+  
+  .brand-section {
+    padding: 16px;
+  }
+  
+  .login-card .ant-card-body {
+    padding: 32px 24px;
+  }
+  
+  .brand-title {
+    font-size: 32px;
+  }
+  
+  .logo-icon {
+    font-size: 48px;
+  }
+  
+  .brand-description {
+    font-size: 16px;
+  }
+  
+  .feature-item {
+    padding: 12px;
+  }
+  
+  .feature-icon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    gap: 24px;
+  }
+  
+  .login-card .ant-card-body {
+    padding: 24px 20px;
+  }
+  
+  .brand-title {
+    font-size: 28px;
+  }
+  
+  .logo-icon {
+    font-size: 40px;
+  }
+  
+  .brand-description {
+    font-size: 14px;
+  }
+  
+  .form-title {
+    font-size: 20px !important;
+  }
+  
+  .form-subtitle {
+    font-size: 14px;
+  }
+  
+  .submit-button {
+    height: 44px;
+    font-size: 15px;
+  }
+}
+
+/* 动画效果 */
+.brand-content,
+.login-card {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.brand-content {
+  animation-delay: 0.2s;
+}
+
+.login-card {
+  animation-delay: 0.4s;
+}
+
+.feature-item {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.feature-item:nth-child(1) { animation-delay: 0.6s; }
+.feature-item:nth-child(2) { animation-delay: 0.8s; }
+.feature-item:nth-child(3) { animation-delay: 1.0s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 加载状态 */
+.submit-button.ant-btn-loading {
+  opacity: 0.8;
+}
+
+/* 表单验证样式 */
+.login-card .ant-form-item-explain-error {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.login-card .ant-form-item-has-error .ant-input,
+.login-card .ant-form-item-has-error .ant-input-password {
+  border-color: #ff4d4f;
+}
+
+.login-card .ant-form-item-has-error .ant-input:focus,
+.login-card .ant-form-item-has-error .ant-input-password:focus {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}

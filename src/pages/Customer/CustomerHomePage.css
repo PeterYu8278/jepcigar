@@ -1,0 +1,307 @@
+/* 顾客端首页样式 */
+.customer-home-page {
+  padding: 16px;
+  padding-bottom: 80px; /* 为底部导航留出空间 */
+}
+
+/* 欢迎区域 */
+.welcome-section {
+  margin-bottom: 20px;
+}
+
+.welcome-card {
+  background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+}
+
+.welcome-card .ant-card-body {
+  padding: 24px;
+}
+
+.welcome-card .ant-typography {
+  color: #ffffff !important;
+}
+
+.welcome-card .ant-typography-caption {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 会员信息卡片 */
+.member-info-section {
+  margin-bottom: 24px;
+}
+
+.member-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
+}
+
+.member-card .ant-statistic-title {
+  color: #666666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.member-card .ant-statistic-content {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* 快捷功能 */
+.quick-actions-section {
+  margin-bottom: 24px;
+}
+
+.quick-actions-section .ant-typography {
+  margin-bottom: 16px;
+  color: #333333;
+  font-weight: 600;
+}
+
+.action-button {
+  height: 60px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2px solid #e8e8e8;
+  background: #ffffff;
+  color: #333333;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.action-button.ant-btn-primary {
+  background: #D4AF37;
+  border-color: #D4AF37;
+  color: #ffffff;
+}
+
+.action-button.ant-btn-primary:hover {
+  background: #B8941F;
+  border-color: #B8941F;
+  color: #ffffff;
+}
+
+/* 活动区域 */
+.events-section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header .ant-typography {
+  margin: 0;
+  color: #333333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.event-card {
+  border-radius: 16px;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s ease;
+}
+
+.event-card:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
+}
+
+.event-card .ant-card-body {
+  padding: 20px;
+}
+
+.event-card .ant-typography {
+  margin: 0;
+}
+
+/* 商品区域 */
+.products-section {
+  margin-bottom: 24px;
+}
+
+.product-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
+  transform: translateY(-2px);
+}
+
+.product-image {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.product-emoji {
+  font-size: 48px;
+}
+
+.product-actions {
+  margin-top: 12px;
+}
+
+.product-actions .ant-btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* VIP区域 */
+.vip-section {
+  margin-bottom: 24px;
+}
+
+.vip-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.vip-card .ant-card-body {
+  padding: 24px;
+}
+
+.vip-card .ant-typography {
+  color: #ffffff !important;
+}
+
+.vip-card .ant-typography-caption {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.vip-card .ant-btn {
+  background: #D4AF37;
+  border-color: #D4AF37;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.vip-card .ant-btn:hover {
+  background: #B8941F;
+  border-color: #B8941F;
+  color: #ffffff;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .customer-home-page {
+    padding: 12px;
+    padding-bottom: 80px;
+  }
+  
+  .welcome-card .ant-card-body,
+  .vip-card .ant-card-body {
+    padding: 20px;
+  }
+  
+  .action-button {
+    height: 50px;
+    font-size: 14px;
+  }
+  
+  .product-image {
+    height: 100px;
+  }
+  
+  .product-emoji {
+    font-size: 36px;
+  }
+  
+  .member-card .ant-statistic-content {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-home-page {
+    padding: 8px;
+    padding-bottom: 80px;
+  }
+  
+  .welcome-card .ant-card-body,
+  .vip-card .ant-card-body,
+  .member-card .ant-card-body,
+  .event-card .ant-card-body {
+    padding: 16px;
+  }
+  
+  .action-button {
+    height: 48px;
+    font-size: 13px;
+  }
+  
+  .product-image {
+    height: 80px;
+  }
+  
+  .product-emoji {
+    font-size: 28px;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .section-header .ant-btn {
+    align-self: flex-end;
+  }
+}
+
+/* 动画效果 */
+.welcome-card,
+.member-card,
+.event-card,
+.product-card,
+.vip-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 延迟动画 */
+.welcome-section { animation-delay: 0.1s; }
+.member-info-section { animation-delay: 0.2s; }
+.quick-actions-section { animation-delay: 0.3s; }
+.events-section { animation-delay: 0.4s; }
+.products-section { animation-delay: 0.5s; }
+.vip-section { animation-delay: 0.6s; }

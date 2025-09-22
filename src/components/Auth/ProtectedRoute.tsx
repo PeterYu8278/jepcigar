@@ -7,12 +7,14 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
   requiredPermissions?: string[];
   requiredRole?: string;
+  allowedRoles?: string[];
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
   children, 
   requiredPermissions = [], 
-  requiredRole 
+  requiredRole,
+  allowedRoles = []
 }) => {
   const location = useLocation();
   const { isAuthenticated, isLoading, user } = useAuthStore();
@@ -42,6 +44,31 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           extra={
             <Button type="primary" onClick={() => window.history.back()}>
               返回上一页
+            </Button>
+          }
+        />
+      </div>
+    );
+  }
+
+  // Check allowed roles (for multiple role access)
+  if (allowedRoles.length > 0 && user?.role && !allowedRoles.includes(user.role)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Result
+          status="403"
+          title="403"
+          subTitle="抱歉，您没有权限访问此页面。"
+          extra={
+            <Button type="primary" onClick={() => {
+              // 根据用户角色重定向到合适的页面
+              if (user.role === 'customer') {
+                window.location.href = '/customer';
+              } else {
+                window.location.href = '/dashboard';
+              }
+            }}>
+              返回首页
             </Button>
           }
         />

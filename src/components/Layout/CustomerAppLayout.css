@@ -1,0 +1,253 @@
+/* 顾客端专用布局样式 */
+.customer-layout {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+}
+
+/* 顶部导航栏样式 */
+.customer-header {
+  background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 0 16px;
+  height: 60px;
+  line-height: 60px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+.logo-icon {
+  font-size: 24px;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.menu-trigger {
+  color: #ffffff;
+  border: none;
+  background: transparent;
+}
+
+.menu-trigger:hover {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.notification-btn {
+  color: #ffffff;
+  border: none;
+  background: transparent;
+}
+
+.notification-btn:hover {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.user-btn {
+  color: #ffffff;
+  border: none;
+  background: transparent;
+  height: auto;
+  padding: 4px 8px;
+}
+
+.user-btn:hover {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.user-name {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* 主内容区域样式 */
+.customer-content {
+  padding: 0;
+  margin: 0;
+  min-height: calc(100vh - 120px);
+  background: transparent;
+}
+
+/* 底部导航栏样式 */
+.customer-footer {
+  background: #ffffff;
+  padding: 0;
+  height: 60px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.bottom-navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 60px;
+  border: none;
+  background: transparent;
+  color: #666666;
+  font-size: 12px;
+  gap: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.nav-item.active {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.nav-item .anticon {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .customer-header {
+    padding: 0 12px;
+  }
+  
+  .logo-text {
+    display: none;
+  }
+  
+  .header-left {
+    gap: 8px;
+  }
+  
+  .user-name {
+    display: none;
+  }
+  
+  .bottom-navigation {
+    padding: 0 8px;
+  }
+  
+  .nav-item {
+    min-width: 50px;
+    font-size: 10px;
+  }
+  
+  .nav-item .anticon {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-content {
+    min-height: calc(100vh - 100px);
+  }
+  
+  .customer-footer {
+    height: 50px;
+  }
+  
+  .customer-header {
+    height: 50px;
+    line-height: 50px;
+  }
+  
+  .nav-item {
+    min-width: 45px;
+    font-size: 9px;
+  }
+  
+  .nav-item .anticon {
+    font-size: 16px;
+  }
+}
+
+/* 卡片样式增强 */
+.customer-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  transition: all 0.3s ease;
+}
+
+.customer-card:hover {
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+  transform: translateY(-2px);
+}
+
+/* 按钮样式增强 */
+.customer-button {
+  border-radius: 12px;
+  font-weight: 500;
+  height: 44px;
+  padding: 0 24px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.customer-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+/* 输入框样式增强 */
+.customer-input {
+  border-radius: 12px;
+  height: 44px;
+  font-size: 16px;
+  border: 2px solid #e8e8e8;
+  transition: all 0.3s ease;
+}
+
+.customer-input:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
